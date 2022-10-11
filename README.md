@@ -5,6 +5,6 @@ Authors:
 
 - Raúl Barba Rojas
 - Diego Guerrero Del Pozo
-- Miguel Medina Torres
+- Miguel Torres Medina
 - Mario Martín Alonso
 - Álvaro Ramos Cobacho
