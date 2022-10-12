@@ -2,8 +2,14 @@
     PYTHON MODULE TO IMPLEMENT THE LEXICAL ANALYZER OF OUR LANGUAGE: ADL
 """
 
-import ply.lex as lex
+import logging
 import sys
+import ply.lex as lex
+
+logging.basicConfig(
+    format = '%(asctime)s - %(filename)s - %(levelname)s - %(message)s',
+    level = logging.INFO
+)
 
 tokens = [
     'ID',
@@ -157,7 +163,7 @@ def t_newline(token):
     r'\n+'
 
 def t_error(token):
-    print(f'Illegal Character: {token}')
+    logging.error('Illegal Character: %s', token)
     token.lexer.skip(1)
 
 def main():
@@ -167,7 +173,8 @@ def main():
 
     lexer = lex.lex()
 
-
+    if(len(sys.argv) == 1):
+        logging.error('No file was provided. Try to provide a text file for the lexer to work.')
 
     with open(sys.argv[1], 'r+', encoding = 'utf-8') as file:
         lexer.input(file.read())
@@ -176,7 +183,7 @@ def main():
         token = lexer.token()
         if not token:
             break
-        print(f'Token found: {token}')
+        logging.info('Token found: %s', token)
 
 
 if __name__ == '__main__':
