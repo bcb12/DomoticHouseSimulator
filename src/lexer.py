@@ -161,6 +161,7 @@ def t_OPL(token):
 
 def t_newline(token):
     r'\n+'
+    token.lexer.lineno += len(token.value)
 
 def t_error(token):
     logging.error('Illegal Character: %s', token)
