@@ -175,6 +175,7 @@ def main():
 
     if(len(sys.argv) == 1):
         logging.error('No file was provided. Try to provide a text file for the lexer to work.')
+        return
 
     with open(sys.argv[1], 'r+', encoding = 'utf-8') as file:
         lexer.input(file.read())
