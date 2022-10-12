@@ -3,6 +3,7 @@
 """
 
 import ply.lex as lex
+import sys
 
 tokens = [
     'ID',
@@ -32,7 +33,8 @@ tokens = [
     'SEMICOLON',
     'LBRACKET',
     'RBRACKET',
-    'OPL'
+    'OPL',
+    'COMMA'
 ]
 
 """
@@ -40,7 +42,16 @@ tokens = [
 """
 
 t_ID = r'[a-zA-Z][a-zA-Z0-9]*'
-t_SEQ = r'\:\:\='
+t_COMBINATION = r'(0|1)+'
+t_DOUBLE = r'\-?(0|[1-9][0-9]*)\.([0-9]+)'
+t_TIME = r'((0|1)[0-9] | 2[0-3])\:[0-5][0-9]'
+t_SEQ = r'\:\='
+t_SEMICOLON = r';'
+t_LBRACKET = r'{'
+t_RBRACKET = r'}'
+t_COMMA = r','
+
+t_ignore = r' '
 
 def t_SPRESENCIA(token):
     r'sensor_presence'
@@ -107,10 +118,47 @@ def t_BOOL(token):
     token.type = 'BOOL'
     return token
 
-def t_error(token):
-    print('Illegal Character!')
-    token.lexer.skip(1)
+def t_HOUSE(token):
+    r'house'
+    token.type = 'HOUSE'
+    return token
 
+def t_ROOM(token):
+    r'room'
+    token.type = 'ROOM'
+    return token
+
+def t_CORRIDOR(token):
+    r'corridor'
+    token.type = 'CORRIDOR'
+    return token
+
+def t_GLOBAL(token):
+    r'global'
+    token.type = 'GLOBAL'
+    return token
+
+def t_STATE(token):
+    r'state'
+    token.type = 'STATE'
+    return token
+
+def t_INIT(token):
+    r'init'
+    token.type = 'INIT'
+    return token
+
+def t_OPL(token):
+    r'eqlow|equp|eq|low|up'
+    token.type = 'OPL'
+    return token
+
+def t_newline(token):
+    r'\n+'
+
+def t_error(token):
+    print(f'Illegal Character: {token}')
+    token.lexer.skip(1)
 
 def main():
     """
@@ -118,10 +166,12 @@ def main():
     """
 
     lexer = lex.lex()
-    #input = 'vA1 ::= sensor_presence sensor_rain sensor_light sensor_temperature'
-    #input = 'sensor_time sensor_smoke actuator_door actuator_heat actuator_wblind'
-    input = 'actuator_light actuator_window actuator_cold true false'
-    lexer.input(input)
+
+
+
+    with open(sys.argv[1], 'r+', encoding = 'utf-8') as file:
+        lexer.input(file.read())
+
     while True:
         token = lexer.token()
         if not token:
