@@ -163,30 +163,35 @@ def t_newline(token):
     r'\n+'
     token.lexer.lineno += len(token.value)
 
+def find_column(text, token):
+    line_start = text.rfind('\n', 0, token.lexpos) + 1
+    return (token.lexpos - line_start) + 1
+
 def t_error(token):
-    logging.error('Illegal Character: %s', token)
+    logging.error('Illegal Character for the chain: %s , Error Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
     token.lexer.skip(1)
 
 def main():
     """
         MAIN METHOD DECLARATION
     """
-
+    global INPUT_CHAIN
     lexer = lex.lex()
 
-    if(len(sys.argv) == 1):
+    if len(sys.argv) == 1:
         logging.error('No file was provided. Try to provide a text file for the lexer to work.')
         return
 
     with open(sys.argv[1], 'r+', encoding = 'utf-8') as file:
         lexer.input(file.read())
+        
+    INPUT_CHAIN = lexer.lexdata
 
     while True:
         token = lexer.token()
         if not token:
             break
-        logging.info('Token found: %s', token)
-
+        logging.info('Token found :- Type: %s , Value: %s , Line: %s , Column: %s', token.type, token.value, token.lineno, find_column(INPUT_CHAIN, token))
 
 if __name__ == '__main__':
     main()
