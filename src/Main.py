@@ -20,7 +20,7 @@ def main():
     MAIN METHOD DECLARATION
     """
 
-    COMBINACION_PRUEBA = "110"
+    COMBINACION_PRUEBA = "001"
 
     # TEST AUTOMATON
     # Actions
