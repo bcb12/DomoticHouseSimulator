@@ -11,112 +11,66 @@ logging.basicConfig(
     level = logging.INFO
 )
 
+def print_token(token):
+    ''' METHOD FOR PRINTING A TOKEN '''
+    logging.info('Token found :- Type: %s , Value: %s , Line: %s , Column: %s', token.type, token.value, token.lineno, find_column(INPUT_CHAIN, token))
+
+
+keywords = {
+    'sensor_presence' : 'SPRESENCIA' ,
+    'sensor_rain' : 'SLLUVIA',
+    'sensor_light' : 'SILUMINACION',
+    'sensor_temperature' : 'STEMPERATURA',
+    'sensor_time' : 'SRELOJ',
+    'sensor_smoke' : 'SHUMO',
+    'actuator_door' : 'APUERTA',
+    'actuator_heat' : 'ACALEFACCION',
+    'actuator_wblind' : 'APERSIANA',
+    'actuator_light' : 'ALUZ',
+    'actuator_window' : 'AVENTANA',
+    'actuator_cold' : 'AFRIO',
+    'room' : 'ROOM',
+    'house' : 'HOUSE',
+    'corridor' : 'CORRIDOR',
+    'global' : 'GLOBAL',
+    'state' : 'STATE',
+    'init' : 'INIT',
+    'eqlow' : 'OPL',
+    'eq' : 'OPL',
+    'equp' : 'OPL',
+    'up' : 'OPL',
+    'low' : 'OPL',
+    'true' : 'BOOL',
+    'false' : 'BOOL',
+}
+
 tokens = [
     'ID',
     'SEQ',
-    'SPRESENCIA',
-    'SLLUVIA',
-    'SILUMINACION',
-    'STEMPERATURA',
-    'SRELOJ',
-    'SHUMO',
-    'APUERTA',
-    'ACALEFACCION',
-    'APERSIANA',
-    'ALUZ',
-    'AVENTANA',
-    'AFRIO',
-    'BOOL',
     'DOUBLE',
     'TIME',
     'COMBINATION',
-    'HOUSE',
-    'ROOM',
-    'CORRIDOR',
-    'GLOBAL',
-    'STATE',
-    'INIT',
     'SEMICOLON',
     'LBRACKET',
     'RBRACKET',
-    'OPL',
     'COMMA'
-]
+] + list(set(keywords.values()))
 
 """
     REGULAR EXPRESSIONS THAT DEFINE THE PATTERNS OF THE TOKENS
 """
 
-t_ID = r'[a-zA-Z][a-zA-Z0-9]*'
 t_COMBINATION = r'(0|1)+'
-t_DOUBLE = r'\-?(0|[1-9][0-9]*)\.([0-9]+)'
-t_TIME = r'((0|1)[0-9] | 2[0-3])\:[0-5][0-9]'
 t_SEQ = r'\:\='
 t_SEMICOLON = r';'
 t_LBRACKET = r'{'
 t_RBRACKET = r'}'
 t_COMMA = r','
-
 t_ignore = r' '
 
-def t_SPRESENCIA(token):
-    r'sensor_presence'
-    token.type = 'SPRESENCIA'
-    return token
-
-def t_SLLUVIA(token):
-    r'sensor_rain'
-    token.type = 'SLLUVIA'
-    return token
-
-def t_SILUMINACION(token):
-    r'sensor_light'
-    token.type = 'SILUMINACION'
-    return token
-
-def t_STEMPERATURA(token):
-    r'sensor_temperature'
-    token.type = 'STEMPERATURA'
-    return token
-
-def t_SRELOJ(token):
-    r'sensor_time'
-    token.type = 'SRELOJ'
-    return token
-
-def t_SHUMO(token):
-    r'sensor_smoke'
-    token.type = 'SHUMO'
-    return token
-
-def t_APUERTA(token):
-    r'actuator_door'
-    token.type = 'APUERTA'
-    return token
-
-def t_ACALEFACCION(token):
-    r'actuator_heat'
-    token.type = 'ACALEFACCION'
-    return token
-
-def t_APERSIANA(token):
-    r'actuator_wblind'
-    token.type = 'APERSIANA'
-    return token
-
-def t_ALUZ(token):
-    r'actuator_light'
-    token.type = 'ALUZ'
-    return token
-
-def t_AVENTANA(token):
-    r'actuator_window'
-    token.type = 'AVENTANA'
-    return token
-
-def t_AFRIO(token):
-    r'actuator_cold'
-    token.type = 'AFRIO'
+def t_ID(token):
+    r'[a-zA-Z][a-zA-Z0-9_]*'
+    token.type = keywords.get(token.value, 'ID')
     return token
 
 def t_BOOL(token):
@@ -124,52 +78,41 @@ def t_BOOL(token):
     token.type = 'BOOL'
     return token
 
-def t_HOUSE(token):
-    r'house'
-    token.type = 'HOUSE'
+def t_DOUBLE(token):
+    r'\-?[0-9]([0-9]*)\.([0-9]+)'
+    token.type = 'DOUBLE'
     return token
 
-def t_ROOM(token):
-    r'room'
-    token.type = 'ROOM'
-    return token
-
-def t_CORRIDOR(token):
-    r'corridor'
-    token.type = 'CORRIDOR'
-    return token
-
-def t_GLOBAL(token):
-    r'global'
-    token.type = 'GLOBAL'
-    return token
-
-def t_STATE(token):
-    r'state'
-    token.type = 'STATE'
-    return token
-
-def t_INIT(token):
-    r'init'
-    token.type = 'INIT'
-    return token
-
-def t_OPL(token):
-    r'eqlow|equp|eq|low|up'
-    token.type = 'OPL'
+def t_TIME(token):
+    r'((0|1)[0-9] | 2[0-3])\:[0-5][0-9]'
+    token.type = 'TIME'
     return token
 
 def t_newline(token):
     r'\n+'
     token.lexer.lineno += len(token.value)
 
+def t_ignore_COMMENT(token):
+    r'/\*(.|\n)*\*/'
+    print_token(token)
+
+def t_error_date(token):
+    r'[0-9][0-9]\:[0-9][0-9]'
+    logging.error('Illegal date in: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
+
+
+def t_error_comment_open(token):
+    r'/\*(.|\n)*'
+    logging.error('Paranthesis not closed in: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
+    token.lexer.skip(1)
+
+def t_error(token):
+    logging.error('Illegal Character for the chain: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
+    token.lexer.skip(1)
+
 def find_column(text, token):
     line_start = text.rfind('\n', 0, token.lexpos) + 1
     return (token.lexpos - line_start) + 1
-
-def t_error(token):
-    logging.error('Illegal Character for the chain: %s , Error Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
-    token.lexer.skip(1)
 
 def main():
     """
@@ -191,7 +134,7 @@ def main():
         token = lexer.token()
         if not token:
             break
-        logging.info('Token found :- Type: %s , Value: %s , Line: %s , Column: %s', token.type, token.value, token.lineno, find_column(INPUT_CHAIN, token))
+        print_token(token)
 
 if __name__ == '__main__':
     main()
