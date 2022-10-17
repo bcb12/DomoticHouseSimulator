@@ -60,12 +60,6 @@ tokens = [
     REGULAR EXPRESSIONS THAT DEFINE THE PATTERNS OF THE TOKENS
 """
 
-t_COMBINATION = r'(0|1)+'
-t_SEQ = r'\:\='
-t_SEMICOLON = r';'
-t_LBRACKET = r'{'
-t_RBRACKET = r'}'
-t_COMMA = r','
 t_ignore = r' '
 
 def t_ID(token):
@@ -88,6 +82,36 @@ def t_TIME(token):
     token.type = 'TIME'
     return token
 
+def t_COMBINATION(token):
+    r'(0|1)+'
+    token.type = 'COMBINATION'
+    return token
+
+def t_SEQ(token):
+    r'\:\='
+    token.type = 'SEQ'
+    return token
+
+def t_SEMICOLON(token):
+    r';'
+    token.type = 'SEMICOLON'
+    return token
+
+def t_LBRACKET(token):
+    r'{'
+    token.type = 'LBRACKET'
+    return token
+
+def t_RBRACKET(token):
+    r'}'
+    token.type = 'RBRACKET'
+    return token
+
+def t_COMMA(token):
+    r','
+    token.type = 'COMMA'
+    return token
+
 def t_newline(token):
     r'\n+'
     token.lexer.lineno += len(token.value)
@@ -96,15 +120,31 @@ def t_ignore_COMMENT(token):
     r'/\*(.|\n)*\*/'
     print_token(token)
 
-def t_error_date(token):
-    r'[0-9][0-9]\:[0-9][0-9]'
-    logging.error('Illegal date in: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
+def t_error_date_wrong_format(token):
+    r'[0-9]\:([0-5][0-9]|[0-9])|((0|1)[0-9] | 2[0-3])\:[0-9]'
+    logging.error('Wrong date format (correct format: hh:mm) in: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
 
+def t_error_date(token):
+    r'([0-9][0-9]+\:[0-9][0-9]+)|([0-9]+\:[0-9]+)'
+    logging.error('Illegal date: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
 
 def t_error_comment_open(token):
     r'/\*(.|\n)*'
-    logging.error('Paranthesis not closed in: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
+    logging.error('Opened comment not closed: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
     token.lexer.skip(1)
+
+def t_error_comment_closed(token):
+    r'(.|\n)*\*/'
+    logging.error('Closed comment not opened: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
+    token.lexer.skip(1)
+
+def t_error_double_right(token):
+    r'[0-9]+\.'
+    logging.error('Double with no fractional part: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
+
+def t_error_double_left(token):
+    r'\.[0-9]+'
+    logging.error('Double with no integer part: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
 
 def t_error(token):
     logging.error('Illegal Character for the chain: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
