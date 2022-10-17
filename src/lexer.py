@@ -120,13 +120,13 @@ def t_ignore_COMMENT(token):
     r'/\*(.|\n)*\*/'
     print_token(token)
 
+def t_error_date(token):
+    r'([0-9][0-9]+\:[0-9][0-9]+)|([0-9]+\:[0-9][0-9][0-9]+)|([0-9][0-9][0-9]+\:[0-9]+)'
+    logging.error('Illegal date: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
+
 def t_error_date_wrong_format(token):
     r'[0-9]\:([0-5][0-9]|[0-9])|((0|1)[0-9] | 2[0-3])\:[0-9]'
     logging.error('Wrong date format (correct format: hh:mm) in: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
-
-def t_error_date(token):
-    r'([0-9][0-9]+\:[0-9][0-9]+)|([0-9]+\:[0-9]+)'
-    logging.error('Illegal date: %s , Line: %s , Column: %s', token.value, token.lineno, find_column(INPUT_CHAIN, token))
 
 def t_error_comment_open(token):
     r'/\*(.|\n)*'
