@@ -20,6 +20,13 @@ def main():
     MAIN METHOD DECLARATION
     """
 
+    # AUTOMATON GENERATION READ METHOD
+
+
+    # OUTPUT AUTOMATON GENERATION
+
+
+
     COMBINACION_PRUEBA = "001"
 
     # TEST AUTOMATON
@@ -53,7 +60,7 @@ def main():
     # END OF TEST AUTOMATON
 
     print("Current state: " + room_01.automaton.current_state.id)
-    make_transition(automaton_01, COMBINACION_PRUEBA)
+    prueba = make_transition(automaton_01, COMBINACION_PRUEBA)
     print("Current state: " + room_01.automaton.current_state.id)
 
 
@@ -61,6 +68,8 @@ def make_transition(automaton, combination):
     """
     TRANSITION METHOD DECLARATION
     """
+    result = automaton.current_state
+
     transition_index = transition_exists(automaton.transitions, combination)
     if transition_index != -1:
         transition = automaton.transitions[transition_index]
@@ -70,14 +79,19 @@ def make_transition(automaton, combination):
 
             # Ejecutar acciones
             target_state = transition.target_state
+            result = target_state
             actions = target_state.actions
             
             # Mostrar acciones ejecutadas
             for action in actions:
                 print("Executing action: Setting " + action.id + " to " + str(action.value))
+        else:
+            print("Error, the current state does not match the source state of the transition.")
     else:
         # Output error
         print("Error, the given combination does not exist.")
+    
+    return result
 
 
 def transition_exists(transitions, combination):
