@@ -24,6 +24,8 @@ class Simulation(object):
         self.viewing = {}
         self.presence = {}
 
+        self.edges = edges
+
         for i in range(len(names)):
             self.name_type.update({names[i]:types[i]})
             self.presence.update({names[i]:False})
@@ -96,8 +98,14 @@ class Simulation(object):
                                 position[1] >= selected_coords[1] + OFFSET_ICON_Y and \
                                 position[1] <= selected_coords[1] + ROOM_FULL_SIZE:
 
-                                self.reset_view()
-                                self.viewing[desired_name] = True
+                                current_name = None
+                                for name_it, current_bool in self.viewing.items():
+                                    if current_bool:
+                                        current_name = name_it
+
+                                if self.is_possible_move(self.node_coords[current_name],[actual_x,actual_y]):
+                                    self.reset_view()
+                                    self.viewing[desired_name] = True
 
                             # Presence cell
                             if position[0] >= selected_coords[0] and \
@@ -209,6 +217,19 @@ class Simulation(object):
 
         for name in self.viewing.keys():
             self.viewing[name] = False
+
+
+    def is_possible_move(self, current, target):
+        '''Checks if a move is possible to do'''
+
+        coords = []
+        for value in self.node_coords.values():
+            coords.append(value)
+
+        ind_1 = coords.index(current)
+        ind_2 = coords.index(target)
+
+        return [ind_1,ind_2] in self.edges or [ind_2,ind_1] in self.edges
 
 
 if __name__ == "__main__":
