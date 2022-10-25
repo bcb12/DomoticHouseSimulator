@@ -1,8 +1,9 @@
 vA1 := sensor_presence sensor_rain sensor_light sensor_temperature
-    sensor_time     sensor_smoke     actuator_door   actuator_heat    actuator_wblind
-actuator_light actuator_window actuator_cold true false
+    sensor_time     sensor_smoke     sensor_gas sensor_wind sensor_intruder sensor_flood actuator_door   actuator_heat    actuator_wblind
+actuator_light actuator_window actuator_cold actuator_gas actuator_wind   actuator_alarm  actuator_emergency true false
 house room corridor global state init
 , ; { } low up eqlow equp eq
-0 1 001 110
+0 1 001                         110
 100 0 1 100.0 0.0 1.0 3.2
-  22:23 23:59 00:00 24:00
+  22:23 23:59 00:00 24:00 9:54 6:6 23:6 9999:1 9. .8 2:9999
+001.2 -0.3
