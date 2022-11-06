@@ -2,6 +2,7 @@
 PYTHON MODULE TO IMPLEMENT THE AUTOMATON AND ITS FUNCTIONALITY
 """
 
+from datetime import datetime
 import logging
 
 import Room
@@ -56,7 +57,8 @@ def main():
     automaton_01 = Automaton.Automaton("autom_01", state_01, [transition_01, transition_02])
 
     # Rooms
-    room_01 = Room.Room("room_01", automaton_01)
+    room_01 = Room.Room("room_01", automaton_01, False, False, 3.0, str(datetime.now().month),
+        22.1, False, 12.0, False, False, False)
     # END OF TEST AUTOMATON
 
     print("Current state: " + room_01.automaton.current_state.id)

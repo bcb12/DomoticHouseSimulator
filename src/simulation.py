@@ -4,22 +4,25 @@ from constants import IMG_NAME, OFFSET_ICON_Y, OFFSET_LABEL_X_NAME, OFFSET_LABEL
     OFFSET_LABEL_Y_TYPE, OFFSET_LABEL_Y_NAME, OFFSET_VIEW_X, ROOM_FULL_SIZE, WIDTH_DISPLAY,\
     IMG_SIZE, DEVIATION_FACTOR, WHITE_COLOR, BLACK_COLOR, CAPTION, HEIGHT_DISPLAY,\
     HELVETICA_FONT_SIZE_TYPE, HELVETICA_FONT_SIZE_NAME, ROOM_OFFSET, MARGIN_DISPLAY
+from ExampleRooms import ROOMS, NAMES
 
 
 NUM_VERT = 8
 EDGES = [[0, 1], [2, 3], [1, 2], [1, 3], [4, 2], [4, 5], [6, 7], [7, 5]]
 TYPES = ["H", "H", "P", "H", "H", "P", "H", "H"]
-NAMES = ["hab1", "hab2", "pas1", "hab3", "hab4", "aaaaaaa2", "hab5", "hab6"]
+ROOMS_USED = ROOMS
+NAMES_USED = NAMES
 
 
 class Simulation(object):
     '''Class for the house simulation'''
 
-    def __init__(self, num_vert, edges, types, names):
+    def __init__(self, num_vert, edges, types, names, rooms):
         node_coords = preprocess_graph(IMG_NAME, num_vert, edges, types, names)
 
         self.node_coords = node_coords
         self.name_type = {}
+        self.name_room = {}
         self.room_coords = {}
         self.viewing = {}
         self.presence = {}
@@ -28,12 +31,14 @@ class Simulation(object):
 
         for i in range(len(names)):
             self.name_type.update({names[i]:types[i]})
-            self.presence.update({names[i]:False})
+            self.name_room.update({names[i]:rooms[i]})
 
             if i == 0:
                 self.viewing.update({names[i]:True})
+                self.presence.update({names[i]:True})
             else:
                 self.viewing.update({names[i]:False})
+                self.presence.update({names[i]:False})
 
 
     def run(self):
@@ -55,6 +60,10 @@ class Simulation(object):
         display_surface.blit(house_img, (0, 0))
         pygame.draw.line(display_surface, BLACK_COLOR, (HEIGHT_DISPLAY,0),
             (HEIGHT_DISPLAY,HEIGHT_DISPLAY), 5)
+        pygame.draw.line(display_surface, BLACK_COLOR, (WIDTH_DISPLAY/2, HEIGHT_DISPLAY/3),
+            (WIDTH_DISPLAY, HEIGHT_DISPLAY/3), 5)
+        pygame.draw.line(display_surface, BLACK_COLOR, (WIDTH_DISPLAY/2, HEIGHT_DISPLAY/3*2),
+            (WIDTH_DISPLAY, HEIGHT_DISPLAY/3*2), 5)
 
         # Preprocess display
         self.mark_centers(display_surface, center_img)
@@ -98,14 +107,8 @@ class Simulation(object):
                                 position[1] >= selected_coords[1] + OFFSET_ICON_Y and \
                                 position[1] <= selected_coords[1] + ROOM_FULL_SIZE:
 
-                                current_name = None
-                                for name_it, current_bool in self.viewing.items():
-                                    if current_bool:
-                                        current_name = name_it
-
-                                if self.is_possible_move(self.node_coords[current_name],[actual_x,actual_y]):
-                                    self.reset_view()
-                                    self.viewing[desired_name] = True
+                                self.reset_view()
+                                self.viewing[desired_name] = True
 
                             # Presence cell
                             if position[0] >= selected_coords[0] and \
@@ -113,9 +116,14 @@ class Simulation(object):
                                 position[1] >= selected_coords[1] + OFFSET_ICON_Y and \
                                 position[1] <= selected_coords[1] + ROOM_FULL_SIZE:
 
-                                if self.presence[desired_name] is True:
-                                    self.presence[desired_name] = False
-                                else:
+                                current_presence = None
+                                for name_it, current_bool in self.presence.items():
+                                    if current_bool:
+                                        current_presence = name_it
+
+                                if self.is_possible_move(
+                                        self.node_coords[current_presence],[actual_x,actual_y]):
+                                    self.reset_presence()
                                     self.presence[desired_name] = True
 
 
@@ -219,6 +227,13 @@ class Simulation(object):
             self.viewing[name] = False
 
 
+    def reset_presence(self):
+        '''Sets every value in the presence dictionaire to false'''
+
+        for name in self.presence.keys():
+            self.presence[name] = False
+
+
     def is_possible_move(self, current, target):
         '''Checks if a move is possible to do'''
 
@@ -233,5 +248,5 @@ class Simulation(object):
 
 
 if __name__ == "__main__":
-    sim = Simulation(NUM_VERT, EDGES, TYPES, NAMES)
+    sim = Simulation(NUM_VERT, EDGES, TYPES, NAMES_USED, ROOMS_USED)
     sim.run()
