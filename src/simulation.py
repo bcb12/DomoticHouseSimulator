@@ -17,7 +17,7 @@ NAMES_USED = NAMES
 class Simulation(object):
     '''Class for the house simulation'''
 
-    def __init__(self, num_vert, edges, types, names, rooms):
+    def __init__(self, num_vert, edges, types, names, rooms, global_sensors, global_actuators):
         node_coords = preprocess_graph(IMG_NAME, num_vert, edges, types, names)
 
         self.node_coords = node_coords
@@ -29,6 +29,9 @@ class Simulation(object):
 
         self.names = names
         self.edges = edges
+
+        self.global_sensors = global_sensors
+        self.global_actuators = global_actuators
 
         for i in range(len(names)):
             self.name_type.update({names[i]:types[i]})
@@ -68,6 +71,7 @@ class Simulation(object):
 
         # Preprocess display
         self.name_room[self.names[0]].presence = True
+        self.update_sensors()
         self.mark_centers(display_surface, center_img)
         self.add_labels(display_surface)
         self.print_info(display_surface)
@@ -234,6 +238,12 @@ class Simulation(object):
     def print_info(self, display_surface):
         '''Prints in the right part of the screen the necessary info'''
 
+        empty_img = pygame.image.load(r'images/Empty.jpg')
+
+        display_surface.blit(empty_img, (605, 0))
+        display_surface.blit(empty_img, (605, 205))
+        display_surface.blit(empty_img, (605, 405))
+
         helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE, bold = True)
 
         variables_label = helvetica_font.render('Variables', HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
@@ -331,13 +341,13 @@ class Simulation(object):
                 current_room = name
 
         room = self.name_room[current_room]
-        sensors = GLOBAL_SENSORS + room.sensors
+        sensors = self.global_sensors + room.sensors
 
         if len(sensors) > 10:
             helvetica_font = pygame.font.SysFont('helvetica',
-                int(HELVETICA_FONT_SIZE_TYPE-5-((len(sensors)-6)/2)))
+                int(HELVETICA_FONT_SIZE_TYPE-7-((len(sensors)-6)/2)))
         else:
-            helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE-5)
+            helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE-7)
 
         for i in range(len(sensors)):
             actuator_label = helvetica_font.render(str(sensors[i]), HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
@@ -363,13 +373,13 @@ class Simulation(object):
                 current_room = name
 
         room = self.name_room[current_room]
-        actuators = GLOBAL_ACTUATORS + room.actuators
+        actuators = self.global_actuators + room.actuators
 
         if len(actuators) > 10:
             helvetica_font = pygame.font.SysFont('helvetica',
-                int(HELVETICA_FONT_SIZE_TYPE-5-((len(actuators)-6)/2)))
+                int(HELVETICA_FONT_SIZE_TYPE-7-((len(actuators)-6)/2)))
         else:
-            helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE-5)
+            helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE-7)
 
         for i in range(len(actuators)):
             actuator_label = helvetica_font.render(str(actuators[i]), HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
@@ -416,6 +426,13 @@ class Simulation(object):
         return [ind_1,ind_2] in self.edges or [ind_2,ind_1] in self.edges
 
 
+    def update_sensors(self):
+        '''Updates every sensor according to the variables'''
+
+        for room in self.name_room.values():
+            room.update_sensors()
+
+
 if __name__ == "__main__":
-    sim = Simulation(NUM_VERT, EDGES, TYPES, NAMES_USED, ROOMS_USED)
+    sim = Simulation(NUM_VERT, EDGES, TYPES, NAMES_USED, ROOMS_USED, GLOBAL_SENSORS, GLOBAL_ACTUATORS)
     sim.run()

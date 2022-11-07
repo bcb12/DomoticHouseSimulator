@@ -15,7 +15,7 @@ GLOBAL_ACTUATORS = []
 sensor_G_01 = sensors.SensorPresence("globalpres1", True)
 GLOBAL_SENSORS.append(sensor_G_01)
 
-actuator_G_01 = actuators.ActuatorAlarm("GlobalAlarm")
+actuator_G_01 = actuators.ActuatorAlarm("GlobalAlarm", False)
 GLOBAL_ACTUATORS.append(actuator_G_01)
 
 action_1_01 = Action.Action("act_window_01",True)
@@ -39,12 +39,12 @@ sensor_1_01 = sensors.SensorPresence("spres1", True)
 sensor_1_02 = sensors.SensorLight("slight1", 25.0, 25.0, 'eq')
 sensor_1_03 = sensors.SensorSmoke("ssmoke1", False)
 
-actuator_1_01 = actuators.ActuatorDoor("adoor1")
-actuator_1_02 = actuators.ActuatorCold("acold1")
+actuator_1_01 = actuators.ActuatorDoor("adoor1", False)
+actuator_1_02 = actuators.ActuatorCold("acold1", False)
 
 room_1 = Room.Room("room", automaton_1, False, False, 3.0, "12:43",
     22.1, False, 12.0, False, False, False, [sensor_1_01, sensor_1_02, sensor_1_03],
-    [actuator_1_01, actuator_1_02, actuator_1_01, actuator_1_02, actuator_1_01, actuator_1_02, actuator_1_01])
+    [actuator_1_01, actuator_1_02])
 
 
 room_2 = copy.deepcopy(room_1)

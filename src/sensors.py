@@ -10,7 +10,10 @@ class SensorPresence:
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'SPRESENCIA {self.identifier}: {self.value}'
+        if self.value:
+            return f'Sensor de presencia {self.identifier}: 1'
+        else:
+            return f'Sensor de presencia {self.identifier}: 0'
 
 
 class SensorRain:
@@ -23,7 +26,10 @@ class SensorRain:
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'SLLUVIA {self.identifier}: {self.value}'
+        if self.value:
+            return f'Sensor de lluvia {self.identifier}: 1'
+        else:
+            return f'Sensor de lluvia {self.identifier}: 0'
 
 
 class SensorLight:
@@ -32,6 +38,7 @@ class SensorLight:
     def __init__(self, identifier, compare_value, real_value, operator):
         ''' CONSTRUCTOR METHOD '''
         self.identifier = identifier
+        self.real_value = real_value
 
         if operator == 'eq':
             self.value = real_value == compare_value
@@ -46,7 +53,10 @@ class SensorLight:
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'SILUMINACION {self.identifier}: {self.value}'
+        if self.value:
+            return f'Sensor de int. luminosa {self.identifier}: 1'
+        else:
+            return f'Sensor de int. luminosa {self.identifier}: 0'
 
 
 class SensorTemperature:
@@ -55,6 +65,7 @@ class SensorTemperature:
     def __init__(self, identifier, compare_value, real_value, operator):
         ''' CONSTRUCTOR METHOD '''
         self.identifier = identifier
+        self.real_value = real_value
 
         if operator == 'eq':
             self.value = real_value == compare_value
@@ -69,7 +80,10 @@ class SensorTemperature:
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'STEMPERATURE {self.identifier}: {self.value}'
+        if self.value:
+            return f'Sensor de temperatura {self.identifier}: 1'
+        else:
+            return f'Sensor de temperatura {self.identifier}: 0'
 
 
 class SensorTime:
@@ -92,7 +106,10 @@ class SensorTime:
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'SRELOJ {self.identifier}: {self.value}'
+        if self.value:
+            return f'Sensor de hora {self.identifier}: 1'
+        else:
+            return f'Sensor de hora {self.identifier}: 0'
 
 
 class SensorSmoke:
@@ -105,7 +122,10 @@ class SensorSmoke:
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'SHUMO {self.identifier}: {self.value}'
+        if self.value:
+            return f'Sensor de humo {self.identifier}: 1'
+        else:
+            return f'Sensor de humo {self.identifier}: 0'
 
 
 class SensorWind:
@@ -128,7 +148,10 @@ class SensorWind:
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'SVIENTO {self.identifier}: {self.value}'
+        if self.value:
+            return f'Sensor de viento {self.identifier}: 1'
+        else:
+            return f'Sensor de viento {self.identifier}: 0'
 
 
 class SensorIntruders:
@@ -141,7 +164,10 @@ class SensorIntruders:
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'SINTRUSOS {self.identifier}: {self.value}'
+        if self.value:
+            return f'Sensor de intrusos {self.identifier}: 1'
+        else:
+            return f'Sensor de intrusos {self.identifier}: 0'
 
 
 class SensorFlood:
@@ -154,7 +180,10 @@ class SensorFlood:
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'SINUNDACION {self.identifier}: {self.value}'
+        if self.value:
+            return f'Sensor de inundación {self.identifier}: 1'
+        else:
+            return f'Sensor de inundación {self.identifier}: 0'
 
 
 class SensorGas:
@@ -167,4 +196,7 @@ class SensorGas:
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'SGAS {self.identifier}: {self.value}'
+        if self.value:
+            return f'Sensor de gas {self.identifier}: 1'
+        else:
+            return f'Sensor de gas {self.identifier}: 0'

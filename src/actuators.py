@@ -2,8 +2,9 @@
 
 class Actuator:
     ''' THIS CLASS REPRESENTS A GENERIC ACTUATOR '''
-    def __init__(self, identifier):
+    def __init__(self, identifier, value):
         self.identifier = identifier
+        self.value = value
 
 
 class ActuatorDoor(Actuator):
@@ -11,7 +12,11 @@ class ActuatorDoor(Actuator):
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'APUERTA {self.identifier}'
+
+        if self.value:
+            return f'Puerta {self.identifier}: on'
+        else:
+            return f'Puerta {self.identifier}: off'
 
 
 class ActuatorHeat(Actuator):
@@ -19,7 +24,11 @@ class ActuatorHeat(Actuator):
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'ACALEFACCION {self.identifier}'
+
+        if self.value:
+            return f'Calefacción {self.identifier}: on'
+        else:
+            return f'Calefacción {self.identifier}: off'
 
 
 class ActuatorWindowBlind(Actuator):
@@ -27,7 +36,11 @@ class ActuatorWindowBlind(Actuator):
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'APERSIANA {self.identifier}'
+
+        if self.value:
+            return f'Persiana {self.identifier}: on'
+        else:
+            return f'Persiana {self.identifier}: off'
 
 
 class ActuatorLight(Actuator):
@@ -35,7 +48,11 @@ class ActuatorLight(Actuator):
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'ALUZ {self.identifier}'
+
+        if self.value:
+            return f'Luz {self.identifier}: on'
+        else:
+            return f'Luz {self.identifier}: off'
 
 
 class ActuatorWINDOW(Actuator):
@@ -43,7 +60,11 @@ class ActuatorWINDOW(Actuator):
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'AVENTANA {self.identifier}'
+
+        if self.value:
+            return f'Ventana {self.identifier}: on'
+        else:
+            return f'Ventana {self.identifier}: off'
 
 
 class ActuatorCold(Actuator):
@@ -51,7 +72,11 @@ class ActuatorCold(Actuator):
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'AFRIO {self.identifier}'
+
+        if self.value:
+            return f'Aire acondicionado {self.identifier}: on'
+        else:
+            return f'Aire acondicionado {self.identifier}: off'
 
 
 class ActuatorGas(Actuator):
@@ -59,7 +84,11 @@ class ActuatorGas(Actuator):
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'AGAS {self.identifier}'
+
+        if self.value:
+            return f'Gas {self.identifier}: on'
+        else:
+            return f'Gas {self.identifier}: off'
 
 
 class ActuatorSunBlind(Actuator):
@@ -67,7 +96,11 @@ class ActuatorSunBlind(Actuator):
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'ATOLDO {self.identifier}'
+
+        if self.value:
+            return f'Toldo {self.identifier}: on'
+        else:
+            return f'Toldo {self.identifier}: off'
 
 
 class ActuatorAlarm(Actuator):
@@ -75,7 +108,11 @@ class ActuatorAlarm(Actuator):
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'AALARM {self.identifier}'
+
+        if self.value:
+            return f'Alarma {self.identifier}: on'
+        else:
+            return f'Alarma {self.identifier}: off'
 
 
 class ActuatorEmergency(Actuator):
@@ -83,4 +120,8 @@ class ActuatorEmergency(Actuator):
 
     def __str__(self):
         ''' TO STRING METHOD '''
-        return f'AEMERGENCIA {self.identifier}'
+
+        if self.value:
+            return f'Llamada de emergencia {self.identifier}: on'
+        else:
+            return f'Llamada de emergencia {self.identifier}: off'
