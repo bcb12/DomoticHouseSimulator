@@ -6,6 +6,17 @@ import Room
 import sensors
 import actuators
 import datetime
+import copy
+
+GLOBAL_SENSORS = []
+GLOBAL_ACTUATORS = []
+
+
+sensor_G_01 = sensors.SensorPresence("globalpres1", True)
+GLOBAL_SENSORS.append(sensor_G_01)
+
+actuator_G_01 = actuators.ActuatorAlarm("GlobalAlarm")
+GLOBAL_ACTUATORS.append(actuator_G_01)
 
 action_1_01 = Action.Action("act_window_01",True)
 action_1_02 = Action.Action("act_window_01",False)
@@ -31,13 +42,21 @@ sensor_1_03 = sensors.SensorSmoke("ssmoke1", False)
 actuator_1_01 = actuators.ActuatorDoor("adoor1")
 actuator_1_02 = actuators.ActuatorCold("acold1")
 
-room_1 = Room.Room("room1", automaton_1, False, False, 3.0, "12:43",
+room_1 = Room.Room("room", automaton_1, False, False, 3.0, "12:43",
     22.1, False, 12.0, False, False, False, [sensor_1_01, sensor_1_02, sensor_1_03],
-    [actuator_1_01, actuator_1_02])
+    [actuator_1_01, actuator_1_02, actuator_1_01, actuator_1_02, actuator_1_01, actuator_1_02, actuator_1_01])
 
 
-ROOMS = [room_1, room_1, room_1, room_1, room_1, room_1, room_1, room_1]
+room_2 = copy.deepcopy(room_1)
+room_2.temperature = 19.7
+room_2.id = 'alt'
+
+
+ROOMS = [room_1, copy.deepcopy(room_1), copy.deepcopy(room_1), copy.deepcopy(room_1),
+    copy.deepcopy(room_1), copy.deepcopy(room_1), copy.deepcopy(room_1), room_2]
 
 NAMES = []
+
 for i in range(len(ROOMS)):
-    NAMES.append(ROOMS[i].id + '_' + str(i))
+    ROOMS[i].id += '_' + str(i)
+    NAMES.append(ROOMS[i].id)
