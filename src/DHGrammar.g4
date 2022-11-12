@@ -8,8 +8,8 @@ lp : (p COMMA)* p SEMICOLON ;
 h : ROOM ID LBRACKET lsl? lal? c? RBRACKET ;
 p : CORRIDOR ID LBRACKET l2id lsl? lal? c? RBRACKET ;
 l2id : (ID COMMA)* ID COMMA ID SEMICOLON ;
-lsl : (s COMMA) s ;
-lal : (a COMMA) a ;
+lsl : (s COMMA)* s SEMICOLON ;
+lal : (a COMMA)* a SEMICOLON ;
 lsg : GLOBAL LBRACKET (s COMMA)* s RBRACKET SEMICOLON ;
 lag : GLOBAL LBRACKET (a COMMA)* a RBRACKET SEMICOLON ;
 s : spresencia
@@ -36,7 +36,7 @@ a : apuerta
   ;
 c  : LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON ;
 lest : (STATE ID LBRACKET lactions? RBRACKET COMMA)* STATE ID LBRACKET lactions? RBRACKET ;
-lactions : (action COMMA) action SEMICOLON ;
+lactions : (action COMMA)* action SEMICOLON ;
 action : ID SEQ BOOL ;
 init : INIT ID ;
 trans : t+ ;
