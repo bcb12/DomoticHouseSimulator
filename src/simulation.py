@@ -4,34 +4,45 @@ from constants import IMG_NAME, OFFSET_ICON_Y, OFFSET_LABEL_X_NAME, OFFSET_LABEL
     OFFSET_LABEL_Y_TYPE, OFFSET_LABEL_Y_NAME, OFFSET_VIEW_X, ROOM_FULL_SIZE, WIDTH_DISPLAY,\
     IMG_SIZE, DEVIATION_FACTOR, WHITE_COLOR, BLACK_COLOR, CAPTION, HEIGHT_DISPLAY,\
     HELVETICA_FONT_SIZE_TYPE, HELVETICA_FONT_SIZE_NAME, ROOM_OFFSET, MARGIN_DISPLAY
+from ExampleRooms import ROOMS, NAMES, GLOBAL_SENSORS, GLOBAL_ACTUATORS
 
 
 NUM_VERT = 8
 EDGES = [[0, 1], [2, 3], [1, 2], [1, 3], [4, 2], [4, 5], [6, 7], [7, 5]]
 TYPES = ["H", "H", "P", "H", "H", "P", "H", "H"]
-NAMES = ["hab1", "hab2", "pas1", "hab3", "hab4", "aaaaaaa2", "hab5", "hab6"]
+ROOMS_USED = ROOMS
+NAMES_USED = NAMES
 
 
 class Simulation(object):
     '''Class for the house simulation'''
 
-    def __init__(self, num_vert, edges, types, names):
+    def __init__(self, num_vert, edges, types, names, rooms, global_sensors, global_actuators):
         node_coords = preprocess_graph(IMG_NAME, num_vert, edges, types, names)
 
         self.node_coords = node_coords
         self.name_type = {}
+        self.name_room = {}
         self.room_coords = {}
         self.viewing = {}
         self.presence = {}
 
+        self.names = names
+        self.edges = edges
+
+        self.global_sensors = global_sensors
+        self.global_actuators = global_actuators
+
         for i in range(len(names)):
             self.name_type.update({names[i]:types[i]})
-            self.presence.update({names[i]:False})
+            self.name_room.update({names[i]:rooms[i]})
 
             if i == 0:
                 self.viewing.update({names[i]:True})
+                self.presence.update({names[i]:True})
             else:
                 self.viewing.update({names[i]:False})
+                self.presence.update({names[i]:False})
 
 
     def run(self):
@@ -53,10 +64,17 @@ class Simulation(object):
         display_surface.blit(house_img, (0, 0))
         pygame.draw.line(display_surface, BLACK_COLOR, (HEIGHT_DISPLAY,0),
             (HEIGHT_DISPLAY,HEIGHT_DISPLAY), 5)
+        pygame.draw.line(display_surface, BLACK_COLOR, (WIDTH_DISPLAY/2, HEIGHT_DISPLAY/3),
+            (WIDTH_DISPLAY, HEIGHT_DISPLAY/3), 5)
+        pygame.draw.line(display_surface, BLACK_COLOR, (WIDTH_DISPLAY/2, HEIGHT_DISPLAY/3*2),
+            (WIDTH_DISPLAY, HEIGHT_DISPLAY/3*2), 5)
 
         # Preprocess display
+        self.name_room[self.names[0]].presence = True
+        self.update_sensors()
         self.mark_centers(display_surface, center_img)
         self.add_labels(display_surface)
+        self.print_info(display_surface)
 
         running = True
 
@@ -99,16 +117,29 @@ class Simulation(object):
                                 self.reset_view()
                                 self.viewing[desired_name] = True
 
+                                #TODO: remove info
+                                self.print_info(display_surface)
+
                             # Presence cell
                             if position[0] >= selected_coords[0] and \
                                 position[0] <= selected_coords[0] + OFFSET_VIEW_X and \
                                 position[1] >= selected_coords[1] + OFFSET_ICON_Y and \
                                 position[1] <= selected_coords[1] + ROOM_FULL_SIZE:
 
-                                if self.presence[desired_name] is True:
-                                    self.presence[desired_name] = False
-                                else:
+                                current_presence = None
+                                for name_it, current_bool in self.presence.items():
+                                    if current_bool:
+                                        current_presence = name_it
+
+                                if self.is_possible_move(
+                                        self.node_coords[current_presence],[actual_x,actual_y]):
+                                    self.reset_presence()
+
                                     self.presence[desired_name] = True
+                                    self.name_room[desired_name].presence = True
+
+                                    #TODO: remove info
+                                    self.print_info(display_surface)
 
 
                 if event.type == pygame.QUIT:
@@ -204,6 +235,167 @@ class Simulation(object):
                 display_surface.blit(blank_img, (coords[0], coords[1] + OFFSET_ICON_Y))
 
 
+    def print_info(self, display_surface):
+        '''Prints in the right part of the screen the necessary info'''
+
+        empty_img = pygame.image.load(r'images/Empty.jpg')
+
+        display_surface.blit(empty_img, (605, 0))
+        display_surface.blit(empty_img, (605, 205))
+        display_surface.blit(empty_img, (605, 405))
+
+        helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE, bold = True)
+
+        variables_label = helvetica_font.render('Variables', HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+        sensors_label = helvetica_font.render('Sensores', HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+        actuators_label = helvetica_font.render('Actuadores', HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+        display_surface.blit(variables_label, (850, 10))
+        display_surface.blit(sensors_label, (850, 212))
+        display_surface.blit(actuators_label, (850, 412))
+
+        self.print_variables(display_surface)
+        self.print_sensors(display_surface)
+        self.print_actuators(display_surface)
+
+
+    def print_variables(self, display_surface):
+        '''Prints in the right part the information regarding variables'''
+
+        helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE-5)
+
+        current_room = ''
+        for name, value in self.viewing.items():
+            if value:
+                current_room = name
+
+        room = self.name_room[current_room]
+        
+        name_label = helvetica_font.render('Habitación: ' + room.id,
+            HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+        if room.rain:
+            rain_label = helvetica_font.render('Lluvia: sí',
+                HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+        else:
+            rain_label = helvetica_font.render('Lluvia: no',
+                HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+        light_label = helvetica_font.render('Intensidad luminosa: ' + str(room.light_intensity) + ' cd',
+            HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+        time_label = helvetica_font.render('Hora: ' + str(room.time),
+            HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+        temp_label = helvetica_font.render('Temperatura: ' + str(room.temperature) + 'ºC',
+            HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+        if room.smoke:
+            smoke_label = helvetica_font.render('Humo: sí',
+                HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+        else:
+            smoke_label = helvetica_font.render('Humo: no',
+                HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+        wind_label = helvetica_font.render('Viento: ' + str(room.wind) + ' km/h',
+            HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+        if room.gas:
+            gas_label = helvetica_font.render('Presencia de gas: sí',
+                HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+        else:
+            gas_label = helvetica_font.render('Presencia de gas: no',
+                HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+        if room.intruders:
+            intruders_label = helvetica_font.render('Intrusos: sí',
+                HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+        else:
+            intruders_label = helvetica_font.render('Intrusos: no',
+                HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+        if room.flood:
+            flood_label = helvetica_font.render('Inundación: sí',
+                HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+        else:
+            flood_label = helvetica_font.render('Inundación: no',
+                HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+        display_surface.blit(name_label, (625, 45))
+        display_surface.blit(rain_label, (625, 75))
+        display_surface.blit(light_label, (625, 105))
+        display_surface.blit(time_label, (625, 135))
+        display_surface.blit(temp_label, (625, 165))
+
+        display_surface.blit(smoke_label, (925, 45))
+        display_surface.blit(wind_label, (925, 75))
+        display_surface.blit(gas_label, (925, 105))
+        display_surface.blit(intruders_label, (925, 135))
+        display_surface.blit(flood_label, (925, 165))
+
+
+    def print_sensors(self, display_surface):
+        '''Prints in the right part the information regarding sensors'''
+
+        current_room = ''
+        for name, value in self.viewing.items():
+            if value:
+                current_room = name
+
+        room = self.name_room[current_room]
+        sensors = self.global_sensors + room.sensors
+
+        if len(sensors) > 10:
+            helvetica_font = pygame.font.SysFont('helvetica',
+                int(HELVETICA_FONT_SIZE_TYPE-7-((len(sensors)-6)/2)))
+        else:
+            helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE-7)
+
+        for i in range(len(sensors)):
+            actuator_label = helvetica_font.render(str(sensors[i]), HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+            if len(sensors) < 10:
+                if i < 5:
+                    display_surface.blit(actuator_label, (625, 245 + 30*i))
+                else:
+                    display_surface.blit(actuator_label, (925, 245 + 30*(i-5)))
+            else:
+                if i < len(sensors)/2:
+                    display_surface.blit(actuator_label, (625, 245 + 12*i))
+                else:
+                    display_surface.blit(actuator_label, (925, 245 + 12*(i-len(sensors)/2)))
+
+
+    def print_actuators(self, display_surface):
+        '''Prints in the right part the information regarding actuators'''
+
+        current_room = ''
+        for name, value in self.viewing.items():
+            if value:
+                current_room = name
+
+        room = self.name_room[current_room]
+        actuators = self.global_actuators + room.actuators
+
+        if len(actuators) > 10:
+            helvetica_font = pygame.font.SysFont('helvetica',
+                int(HELVETICA_FONT_SIZE_TYPE-7-((len(actuators)-6)/2)))
+        else:
+            helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE-7)
+
+        for i in range(len(actuators)):
+            actuator_label = helvetica_font.render(str(actuators[i]), HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+            if len(actuators) < 10:
+                if i < 5:
+                    display_surface.blit(actuator_label, (625, 445 + 30*i))
+                else:
+                    display_surface.blit(actuator_label, (925, 445 + 30*(i-5)))
+            else:
+                if i < len(actuators)/2:
+                    display_surface.blit(actuator_label, (625, 445 + 12*i))
+                else:
+                    display_surface.blit(actuator_label, (925, 445 + 12*(i-len(actuators)/2)))
+
+
     def reset_view(self):
         '''Sets every value in the viewing dictionaire to false'''
 
@@ -211,6 +403,36 @@ class Simulation(object):
             self.viewing[name] = False
 
 
+    def reset_presence(self):
+        '''Sets every value in the presence dictionaire to false'''
+
+        for name in self.presence.keys():
+            self.presence[name] = False
+
+        for room in self.name_room.values():
+            room.presence = False
+
+
+    def is_possible_move(self, current, target):
+        '''Checks if a move is possible to do'''
+
+        coords = []
+        for value in self.node_coords.values():
+            coords.append(value)
+
+        ind_1 = coords.index(current)
+        ind_2 = coords.index(target)
+
+        return [ind_1,ind_2] in self.edges or [ind_2,ind_1] in self.edges
+
+
+    def update_sensors(self):
+        '''Updates every sensor according to the variables'''
+
+        for room in self.name_room.values():
+            room.update_sensors()
+
+
 if __name__ == "__main__":
-    sim = Simulation(NUM_VERT, EDGES, TYPES, NAMES)
+    sim = Simulation(NUM_VERT, EDGES, TYPES, NAMES_USED, ROOMS_USED, GLOBAL_SENSORS, GLOBAL_ACTUATORS)
     sim.run()
