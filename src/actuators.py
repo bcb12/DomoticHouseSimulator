@@ -55,7 +55,7 @@ class ActuatorLight(Actuator):
             return f'Luz {self.identifier}: off'
 
 
-class ActuatorWINDOW(Actuator):
+class ActuatorWindow(Actuator):
     ''' THIS CLASS REPRESENTS A WINDOW ACTUATOR '''
 
     def __str__(self):
