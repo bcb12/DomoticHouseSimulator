@@ -8,11 +8,11 @@ class Room:
 
         self.presence = presence
         self.rain = rain
-        self.light_intensity = light_intensity
-        self.time = time
-        self.temperature = temperature
+        self.light_intensity = str(light_intensity)
+        self.time = str(time)
+        self.temperature = str(temperature)
         self.smoke = smoke
-        self.wind = wind
+        self.wind = str(wind)
         self.gas = gas
         self.intruders = intruders
         self.flood = flood
@@ -30,15 +30,15 @@ class Room:
             elif sensor is sensors.SensorRain:
                 sensor.value = self.rain
             elif sensor is sensors.SensorLight:
-                sensor.real_value = self.light_intensity
+                sensor.real_value = float(self.light_intensity)
             elif sensor is sensors.SensorTime:
                 sensor.real_value = self.time
             elif sensor is sensors.SensorTemperature:
-                sensor.real_value = self.temperature
+                sensor.real_value = float(self.temperature)
             elif sensor is sensors.SensorSmoke:
                 sensor.value = self.smoke
             elif sensor is sensors.SensorWind:
-                sensor.real_value = self.wind
+                sensor.real_value = float(self.wind)
             elif sensor is sensors.SensorGas:
                 sensor.value = self.gas
             elif sensor is sensors.SensorIntruders:

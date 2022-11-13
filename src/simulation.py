@@ -1,4 +1,5 @@
 import pygame
+import easygui
 from graph import preprocess_graph
 from constants import IMG_NAME, OFFSET_ICON_Y, OFFSET_LABEL_X_NAME, OFFSET_LABEL_X_TYPE,\
     OFFSET_LABEL_Y_TYPE, OFFSET_LABEL_Y_NAME, OFFSET_VIEW_X, ROOM_FULL_SIZE, WIDTH_DISPLAY,\
@@ -69,14 +70,25 @@ class Simulation(object):
         pygame.draw.line(display_surface, BLACK_COLOR, (WIDTH_DISPLAY/2, HEIGHT_DISPLAY/3*2),
             (WIDTH_DISPLAY, HEIGHT_DISPLAY/3*2), 5)
 
+
         # Preprocess display
         self.name_room[self.names[0]].presence = True
-        self.update_sensors()
+        self.update_rooms()
         self.mark_centers(display_surface, center_img)
         self.add_labels(display_surface)
         self.print_info(display_surface)
 
+        rect_light = pygame.Rect(625, 105, 175, 15)
+        rect_time = pygame.Rect(625, 135, 80, 15)
+        rect_temp = pygame.Rect(625, 165, 135, 15)
+        rect_wind = pygame.Rect(925, 75, 115, 15)
+
         running = True
+
+        active_light = False
+        active_time = False
+        active_temp = False
+        active_wind = False
 
         while running:
             # Check marked cells
@@ -117,7 +129,6 @@ class Simulation(object):
                                 self.reset_view()
                                 self.viewing[desired_name] = True
 
-                                #TODO: remove info
                                 self.print_info(display_surface)
 
                             # Presence cell
@@ -133,12 +144,199 @@ class Simulation(object):
 
                                 if self.is_possible_move(
                                         self.node_coords[current_presence],[actual_x,actual_y]):
+
                                     self.reset_presence()
 
                                     self.presence[desired_name] = True
                                     self.name_room[desired_name].presence = True
 
-                                    #TODO: remove info
+                                    self.update_rooms()
+                                    self.print_info(display_surface)
+
+                        # Apply changes
+                        if position[0] >= 1090 and \
+                            position[0] <= 1190  and \
+                            position[1] >= 168 and \
+                            position[1] <= 190:
+                            
+                            room_to_change = None
+                            for name_room, state in self.viewing.items():
+                                if state:
+                                    room_to_change = name_room
+
+                            if self.check_correct_values_room(self.name_room[room_to_change]):
+                                self.update_rooms()
+
+                        # Rain variable
+                        if position[0] >= 625 and \
+                            position[0] <= 690  and \
+                            position[1] >= 75 and \
+                            position[1] <= 90:
+
+                            room_to_change = None
+                            for name_room, state in self.viewing.items():
+                                if state:
+                                    room_to_change = name_room
+
+                            if self.name_room[room_to_change].rain:
+                                self.name_room[room_to_change].rain = False
+                            else:
+                                self.name_room[room_to_change].rain = True
+
+                            self.print_info(display_surface)
+
+                        # Smoke variable
+                        if position[0] >= 925 and \
+                            position[0] <= 990  and \
+                            position[1] >= 45 and \
+                            position[1] <= 60:
+
+                            room_to_change = None
+                            for name_room, state in self.viewing.items():
+                                if state:
+                                    room_to_change = name_room
+
+                            if self.name_room[room_to_change].smoke:
+                                self.name_room[room_to_change].smoke = False
+                            else:
+                                self.name_room[room_to_change].smoke = True
+
+                            self.print_info(display_surface)
+
+                        # Gas variable
+                        if position[0] >= 925 and \
+                            position[0] <= 1060  and \
+                            position[1] >= 105 and \
+                            position[1] <= 120:
+
+                            room_to_change = None
+                            for name_room, state in self.viewing.items():
+                                if state:
+                                    room_to_change = name_room
+
+                            if self.name_room[room_to_change].gas:
+                                self.name_room[room_to_change].gas = False
+                            else:
+                                self.name_room[room_to_change].gas = True
+
+                            self.print_info(display_surface)
+
+                        # Intruders variable
+                        if position[0] >= 925 and \
+                            position[0] <= 1000  and \
+                            position[1] >= 135 and \
+                            position[1] <= 150:
+
+                            room_to_change = None
+                            for name_room, state in self.viewing.items():
+                                if state:
+                                    room_to_change = name_room
+
+                            if self.name_room[room_to_change].intruders:
+                                self.name_room[room_to_change].intruders = False
+                            else:
+                                self.name_room[room_to_change].intruders = True
+
+                            self.print_info(display_surface)
+
+                        # Flood variable
+                        if position[0] >= 925 and \
+                            position[0] <= 1020  and \
+                            position[1] >= 165 and \
+                            position[1] <= 180:
+
+                            room_to_change = None
+                            for name_room, state in self.viewing.items():
+                                if state:
+                                    room_to_change = name_room
+
+                            if self.name_room[room_to_change].flood:
+                                self.name_room[room_to_change].flood = False
+                            else:
+                                self.name_room[room_to_change].flood = True
+
+                            self.print_info(display_surface)
+
+                        # Light variable
+                        if rect_light.collidepoint(event.pos):
+                            active_light = True
+                        else:
+                            active_light = False
+
+                        # Time variable
+                        if rect_time.collidepoint(event.pos):
+                            active_time = True
+                        else:
+                            active_time = False
+
+                        # Temperature variable
+                        if rect_temp.collidepoint(event.pos):
+                            active_temp = True
+                        else:
+                            active_temp = False
+
+                        # Wind variable
+                        if rect_wind.collidepoint(event.pos):
+                            active_wind = True
+                        else:
+                            active_wind = False
+
+                if event.type == pygame.KEYDOWN:
+                    room_to_change = None
+                    for name_room, state in self.viewing.items():
+                        if state:
+                            room_to_change = name_room
+
+                    # Backspace
+                    if event.key == pygame.K_BACKSPACE:
+                        if active_light:
+                            self.name_room[room_to_change].light_intensity = \
+                                self.name_room[room_to_change].light_intensity[:-1]
+                            self.print_info(display_surface)
+
+                        if active_time:
+                            self.name_room[room_to_change].time = \
+                                self.name_room[room_to_change].time[:-1]
+                            self.print_info(display_surface)
+
+                        if active_temp:
+                            self.name_room[room_to_change].temperature = \
+                                self.name_room[room_to_change].temperature[:-1]
+                            self.print_info(display_surface)
+
+                        if active_wind:
+                            self.name_room[room_to_change].wind = \
+                                self.name_room[room_to_change].wind[:-1]
+                            self.print_info(display_surface)
+
+                    # Other key
+                    else:
+                        if active_light:
+                            if event.unicode.isnumeric() or (event.unicode == '.' and \
+                                '.' not in self.name_room[room_to_change].light_intensity):
+                                if len(self.name_room[room_to_change].light_intensity) < 10:
+                                    self.name_room[room_to_change].light_intensity += event.unicode
+                                    self.print_info(display_surface)
+
+                        if active_time:
+                            if event.unicode.isnumeric() or (event.unicode == ':' and \
+                                ':' not in self.name_room[room_to_change].time):
+                                if len(self.name_room[room_to_change].time) < 5:
+                                    self.name_room[room_to_change].time += event.unicode
+                                    self.print_info(display_surface)
+
+                        if active_temp:
+                            if event.unicode.isnumeric() or (event.unicode == '.' and \
+                                '.' not in self.name_room[room_to_change].temperature):
+                                if len(self.name_room[room_to_change].temperature) < 10:
+                                    self.name_room[room_to_change].temperature += event.unicode
+                                    self.print_info(display_surface)
+
+                        if active_wind:
+                            if event.unicode.isnumeric() or (event.unicode == '.' and \
+                                '.' not in self.name_room[room_to_change].wind):
+                                if len(self.name_room[room_to_change].wind) < 10:
+                                    self.name_room[room_to_change].wind += event.unicode
                                     self.print_info(display_surface)
 
 
@@ -239,10 +437,13 @@ class Simulation(object):
         '''Prints in the right part of the screen the necessary info'''
 
         empty_img = pygame.image.load(r'images/Empty.jpg')
+        apply_button = pygame.image.load(r'images/ApplyButton.jpeg')
 
         display_surface.blit(empty_img, (605, 0))
         display_surface.blit(empty_img, (605, 205))
         display_surface.blit(empty_img, (605, 405))
+
+        display_surface.blit(apply_button, (1090, 168))
 
         helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE, bold = True)
 
@@ -425,12 +626,61 @@ class Simulation(object):
 
         return [ind_1,ind_2] in self.edges or [ind_2,ind_1] in self.edges
 
+    
+    def check_correct_values_room(self, room):
+        '''Checks if the new values for the variables are correct'''
 
-    def update_sensors(self):
+        message_log = ''
+
+        if room.light_intensity == '':
+            message_log += '¡La intensidad luminosa no puede estar vacía!\n'
+        else:
+            if room.light_intensity[0] == '.' or \
+                room.light_intensity[len(room.light_intensity)-1] == '.':
+                message_log += '¡El valor para la intensidad luminosa es incorrecto!\n'
+
+        if room.time == '':
+            message_log += '¡La hora no puede estar vacía!\n'
+        else:
+            time_split = room.time.split(':')
+            if len(time_split) != 2:
+                message_log += '¡El formato de la hora o minutos es incorrecto! (Formato: HH:MM)\n'
+            else:
+                if len(time_split[0]) != 2 or len(time_split[1]) != 2:
+                    message_log += '¡El formato de la hora o minutos es incorrecto! (Formato: HH:MM)\n'
+                else:
+                    if int(time_split[0]) > 23 or int(time_split[1]) > 59:
+                        message_log += '¡Los valores de la hora o minutos son incorrectos! \
+                            (Hora: de 00 a 23 | Minutos: de 00 a 59)\n'
+
+        if room.temperature == '':
+            message_log += '¡La temperatura no puede estar vacía!\n'
+        else:
+            if room.temperature[0] == '.' or \
+                room.temperature[len(room.temperature)-1] == '.':
+                message_log += '¡El valor para la temperatura es incorrecto!\n'
+
+        if room.wind == '':
+            message_log += '¡El valor para el viento no puede estar vacío!\n'
+        else:
+            if room.wind[0] == '.' or \
+                room.wind[len(room.wind)-1] == '.':
+                message_log += '¡El valor para el viento es incorrecto!\n'
+
+        if message_log != '':
+            easygui.msgbox(message_log, title="¡Errores en los datos introducidos!")
+            return False
+
+        easygui.msgbox("¡Cambios aplicados con éxito!", title="¡Cambios aplicados!")
+        return True
+
+
+    def update_rooms(self):
         '''Updates every sensor according to the variables'''
 
         for room in self.name_room.values():
             room.update_sensors()
+            #TODO: call automaton
 
 
 if __name__ == "__main__":
