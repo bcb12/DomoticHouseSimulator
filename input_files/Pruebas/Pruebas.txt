@@ -1,0 +1,69 @@
+house hg12 { 
+	room H412zL {}, 
+	room H428uO {
+		sensor_presence s412 := false , sensor_rain s189 := false ; 
+		actuator_wblind a82b ; { state q001 { a82b := true ; } , 
+		state q002 { a82b := true ; } ; init q001 ; q001 , q002 , 10 ; } ;
+	} ;
+	corridor p84ty { H412zL , H428uO ; } ;
+} ;
+
+house hr34 {
+	room He34 {
+		sensor_light low 0.34 s423 := 0.45 ;
+		actuator_door a342;
+		{state q001 { a342:= true ; } , state q002 { a342 := false ; } ; init q001 ; q001 , q002 , 1 ; } ;
+	} ,
+	room Hr29 {
+		sensor_temperature up 23.0 s2 := 24.4 , sensor_time eq 19:23 s24 := 23:43 ;
+		actuator_heat a178 ;
+		{ state q001 { a178 := false } ; init q001 ; q001 , q001 , 11 ; } ; 
+	} ;
+	corridor p3d4 {  He34 , Hr29 ; } ; 
+} ;
+
+house hy69 {
+	room Hg16 {
+		sensor_smoke s423 := false ;
+		actuator_gas a32;
+		{state q001 { a32 := false ; } , state q002 { a32 := true ; } ; init q001 ; q001 , q002 , 1 ; } ; 
+	} ,
+	room H453 {
+		sensor_wind up 23.0 s2 := 24.4 , sensor_intruder s31 := false ;
+		actuator_cold a178, actuator_gas a2 ;
+		{ state q001 { a32 := false , a178 := true ; } , state q002 { a32 := true , a178 := false ; } ; init q001 ; q001 , q002 , 10 ; q002 , q001 , 01 ; } ;
+	} ;
+	corridor p2t4 {  Hg16 , H453 ; } ;
+} ;
+
+house hg1 { room H412L {} , 
+	room H48uO {
+		sensor_presence s12 := false , sensor_rain s89 := false ; 
+		actuator_emergency a82b ; { state q001 { a82b := true ; } , 
+		state q002 { a82b := true ; } ; init q001 ; q001 , q002 , 10 ; } ;
+	} ; corridor p84ty { H412L , H48uO ; } ;
+} ;
+
+house ht19 {
+	room Hn41 {
+		sensor_flood s23 := false ;
+		actuator_light a28;
+		{state q001 { a28 := false ; } , state q002 { a28 := true ; } ; init q001 ; q001 , q002 , 1 ; } ;
+		} ,
+		room H53t {
+			sensor_gas s1 := true , sensor_intruder s31 := false ;
+			actuator_window a18, actuator_wind a20 ;
+			{ state q001 { a18 := false , a20 := true ; } , state q002 { a18 := true , a20 := false ; } ; init q001 ; q001 , q002 , 10 ; q002 , q001 , 01 ; } ; 
+		} ;
+		corridor p24g {  Hn41 , H53t ; } ;
+	} ;
+
+house h28tg {
+	room H41Lg {} , 
+	room H8uO {
+		sensor_presence s12 := false , sensor_rain s89 := false ; 
+		actuator_alarm a8b ; { state q001 { a8b := true ; } , 
+		state q002 { a8b := true ; } ; init q001 ; q001 , q002 , 10 ; } ;
+	} ;
+	corridor p34y { H41Lg , H8uO ; } ;
+} ;

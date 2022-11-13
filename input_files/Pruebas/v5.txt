@@ -1,0 +1,13 @@
+house ht19 {
+    room Hn41 {
+        sensor_flood s23 := false ;
+        actuator_light a28;
+        {state q001 { a28 := false ; } , state q002 { a28 := true ; } ; init q001 ; q001 , q002 , 1 ; } ;
+    } ,
+    room H53t {
+        sensor_gas s1 := true , sensor_intruder s31 := false ;
+        actuator_window a18, actuator_wind a20 ;
+        { state q001 { a18 := false , a20 := true ; } , state q002 { a18 := true , a20 := false ; } ; init q001 ; q001 , q002 , 10; q002 , q001 , 01 ; };
+    } ;
+    corridor p24g {  Hn41 , H53t ; } ;
+} ;

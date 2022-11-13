@@ -1,0 +1,7 @@
+house h28tg { 
+	room H41Lg {} , 
+	room H8uO { sensor_presence s12 := false , sensor_rain s89 := false ; 
+		actuator_alarm a8b ; { state q001 { a8b := true ; } , 
+		state q002 { a8b := true ; } ; init q001 ; q001 , q002 , 10 ; } ;
+	} ; corridor p34y { H41Lg , H8uO ; } ;
+} ;
