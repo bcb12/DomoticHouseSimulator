@@ -680,7 +680,7 @@ class Simulation(object):
 
         for room in self.name_room.values():
             room.update_sensors()
-            #TODO: call automaton
+            room.call_automaton()
 
 
 if __name__ == "__main__":

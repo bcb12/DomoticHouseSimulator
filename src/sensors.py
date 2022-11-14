@@ -37,19 +37,23 @@ class SensorLight:
 
     def __init__(self, identifier, compare_value, real_value, operator):
         ''' CONSTRUCTOR METHOD '''
+        self.operator = operator
+        self.compare_value = compare_value
         self.identifier = identifier
         self.real_value = real_value
+        self.set_value()
 
-        if operator == 'eq':
-            self.value = real_value == compare_value
-        elif operator == 'low':
-            self.value = real_value < compare_value
-        elif operator == 'up':
-            self.value = real_value > compare_value
-        elif operator == 'eqlow':
-            self.value = real_value <= compare_value
-        elif operator == 'equp':
-            self.value = real_value >= compare_value
+    def set_value(self):
+        if self.operator == 'eq':
+            self.value = self.real_value == self.compare_value
+        elif self.operator == 'low':
+            self.value = self.real_value < self.compare_value
+        elif self.operator == 'up':
+            self.value = self.real_value > self.compare_value
+        elif self.operator == 'eqlow':
+            self.value = self.real_value <= self.compare_value
+        elif self.operator == 'equp':
+            self.value = self.real_value >= self.compare_value
 
     def __str__(self):
         ''' TO STRING METHOD '''
@@ -64,19 +68,23 @@ class SensorTemperature:
 
     def __init__(self, identifier, compare_value, real_value, operator):
         ''' CONSTRUCTOR METHOD '''
+        self.operator = operator
+        self.compare_value = compare_value
         self.identifier = identifier
         self.real_value = real_value
+        self.set_value()
 
-        if operator == 'eq':
-            self.value = real_value == compare_value
-        elif operator == 'low':
-            self.value = real_value < compare_value
-        elif operator == 'up':
-            self.value = real_value > compare_value
-        elif operator == 'eqlow':
-            self.value = real_value <= compare_value
-        elif operator == 'equp':
-            self.value = real_value >= compare_value
+    def set_value(self):
+        if self.operator == 'eq':
+            self.value = self.real_value == self.compare_value
+        elif self.operator == 'low':
+            self.value = self.real_value < self.compare_value
+        elif self.operator == 'up':
+            self.value = self.real_value > self.compare_value
+        elif self.operator == 'eqlow':
+            self.value = self.real_value <= self.compare_value
+        elif self.operator == 'equp':
+            self.value = self.real_value >= self.compare_value
 
     def __str__(self):
         ''' TO STRING METHOD '''
@@ -91,18 +99,23 @@ class SensorTime:
 
     def __init__(self, identifier, compare_value, real_value, operator):
         ''' CONSTRUCTOR METHOD '''
+        self.operator = operator
+        self.compare_value = compare_value
         self.identifier = identifier
+        self.real_value = real_value
+        self.set_value()
 
-        if operator == 'eq':
-            self.value = real_value == compare_value
-        elif operator == 'low':
-            self.value = real_value < compare_value
-        elif operator == 'up':
-            self.value = real_value > compare_value
-        elif operator == 'eqlow':
-            self.value = real_value <= compare_value
-        elif operator == 'equp':
-            self.value = real_value >= compare_value
+    def set_value(self):
+        if self.operator == 'eq':
+            self.value = self.real_value == self.compare_value
+        elif self.operator == 'low':
+            self.value = self.real_value < self.compare_value
+        elif self.operator == 'up':
+            self.value = self.real_value > self.compare_value
+        elif self.operator == 'eqlow':
+            self.value = self.real_value <= self.compare_value
+        elif self.operator == 'equp':
+            self.value = self.real_value >= self.compare_value
 
     def __str__(self):
         ''' TO STRING METHOD '''
@@ -133,18 +146,23 @@ class SensorWind:
 
     def __init__(self, identifier, compare_value, real_value, operator):
         ''' CONSTRUCTOR METHOD '''
+        self.operator = operator
+        self.compare_value = compare_value
         self.identifier = identifier
+        self.real_value = real_value
+        self.set_value()
 
-        if operator == 'eq':
-            self.value = real_value == compare_value
-        elif operator == 'low':
-            self.value = real_value < compare_value
-        elif operator == 'up':
-            self.value = real_value > compare_value
-        elif operator == 'eqlow':
-            self.value = real_value <= compare_value
-        elif operator == 'equp':
-            self.value = real_value >= compare_value
+    def set_value(self):
+        if self.operator == 'eq':
+            self.value = self.real_value == self.compare_value
+        elif self.operator == 'low':
+            self.value = self.real_value < self.compare_value
+        elif self.operator == 'up':
+            self.value = self.real_value > self.compare_value
+        elif self.operator == 'eqlow':
+            self.value = self.real_value <= self.compare_value
+        elif self.operator == 'equp':
+            self.value = self.real_value >= self.compare_value
 
     def __str__(self):
         ''' TO STRING METHOD '''

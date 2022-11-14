@@ -5,7 +5,6 @@ import Automaton
 import Room
 import sensors
 import actuators
-import datetime
 import copy
 
 GLOBAL_SENSORS = []
@@ -18,14 +17,14 @@ GLOBAL_SENSORS.append(sensor_G_01)
 actuator_G_01 = actuators.ActuatorAlarm("GlobalAlarm", False)
 GLOBAL_ACTUATORS.append(actuator_G_01)
 
-action_1_01 = Action.Action("act_window_01",actuator_G_01,True)
-action_1_02 = Action.Action("act_window_01",actuator_G_01,False)
-action_1_03 = Action.Action("act_light_01",actuator_G_01,True)
-action_1_04 = Action.Action("act_light_01",actuator_G_01,False)
-action_1_05 = Action.Action("act_wblind_01",actuator_G_01,True)
-action_1_06 = Action.Action("act_wblind_01",actuator_G_01,False)
-action_1_07 = Action.Action("act_cold_01",actuator_G_01,True)
-action_1_08 = Action.Action("act_cold_01",actuator_G_01,False)
+action_1_01 = Action.Action(actuator_G_01,True)
+action_1_02 = Action.Action(actuator_G_01,False)
+action_1_03 = Action.Action(actuator_G_01,True)
+action_1_04 = Action.Action(actuator_G_01,False)
+action_1_05 = Action.Action(actuator_G_01,True)
+action_1_06 = Action.Action(actuator_G_01,False)
+action_1_07 = Action.Action(actuator_G_01,True)
+action_1_08 = Action.Action(actuator_G_01,False)
 
 state_1_01 = State.State("estate_01", [action_1_02, action_1_04, action_1_05, action_1_08])
 state_1_02 = State.State("estate_02", [action_1_01, action_1_04, action_1_05, action_1_08])
