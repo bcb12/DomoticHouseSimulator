@@ -28,6 +28,12 @@ class Simulation(object):
         self.viewing = {}
         self.presence = {}
 
+        self.start_index_sensors = 0
+        self.end_index_sensors = 9
+
+        self.start_index_actuators = 0
+        self.end_index_actuators = 9
+
         self.names = names
         self.edges = edges
 
@@ -73,7 +79,7 @@ class Simulation(object):
 
         # Preprocess display
         self.name_room[self.names[0]].presence = True
-        self.update_rooms()
+        self.update_rooms(display_surface)
         self.mark_centers(display_surface, center_img)
         self.add_labels(display_surface)
         self.print_info(display_surface)
@@ -150,22 +156,101 @@ class Simulation(object):
                                     self.presence[desired_name] = True
                                     self.name_room[desired_name].presence = True
 
-                                    self.update_rooms()
-                                    self.print_info(display_surface)
+                                    self.update_rooms(display_surface)
 
                         # Apply changes
                         if position[0] >= 1090 and \
                             position[0] <= 1190  and \
                             position[1] >= 168 and \
                             position[1] <= 190:
-                            
+
                             room_to_change = None
                             for name_room, state in self.viewing.items():
                                 if state:
                                     room_to_change = name_room
 
                             if self.check_correct_values_room(self.name_room[room_to_change]):
-                                self.update_rooms()
+                                self.update_rooms(display_surface)
+
+                        # Show more sensors
+                        if position[0] >= 1150 and \
+                            position[0] <= 1170  and \
+                            position[1] >= 210 and \
+                            position[1] <= 230:
+
+                            current_room = ''
+                            for name, value in self.viewing.items():
+                                if value:
+                                    current_room = name
+
+                            room = self.name_room[current_room]
+                            sensors = self.global_sensors + room.sensors
+
+                            if self.start_index_sensors + 10 <= len(sensors) and len(sensors) != 10:
+                                if self.end_index_sensors + 10 <= len(sensors):
+                                    self.start_index_sensors += 10
+                                    self.end_index_sensors += 10
+                                else:
+                                    self.start_index_sensors += 10
+                                    self.end_index_sensors = len(sensors)
+
+                            self.print_info(display_surface)
+
+                        # Show less sensors
+                        if position[0] >= 1170 and \
+                            position[0] <= 1190  and \
+                            position[1] >= 210 and \
+                            position[1] <= 230:
+
+                            if self.start_index_sensors != 0:
+                                if self.end_index_sensors - self.start_index_sensors == 9:
+                                    self.start_index_sensors -= 10
+                                    self.end_index_sensors -= 10
+                                else:
+                                    self.start_index_sensors -= 10
+                                    self.end_index_sensors -= self.end_index_sensors % 10 + 1
+
+                            self.print_info(display_surface)
+
+                        # Show more actuators
+                        if position[0] >= 1150 and \
+                            position[0] <= 1170  and \
+                            position[1] >= 410 and \
+                            position[1] <= 430:
+
+                            current_room = ''
+                            for name, value in self.viewing.items():
+                                if value:
+                                    current_room = name
+
+                            room = self.name_room[current_room]
+                            actuators = self.global_actuators + room.actuators
+
+                            if self.start_index_actuators + 10 <= len(actuators) and len(actuators) != 10:
+                                if self.end_index_actuators + 10 <= len(actuators):
+                                    self.start_index_actuators += 10
+                                    self.end_index_actuators += 10
+                                else:
+                                    self.start_index_actuators += 10
+                                    self.end_index_actuators = len(actuators)
+
+                            self.print_info(display_surface)
+
+                        # Show less actuators
+                        if position[0] >= 1170 and \
+                            position[0] <= 1190  and \
+                            position[1] >= 410 and \
+                            position[1] <= 430:
+
+                            if self.start_index_actuators != 0:
+                                if self.end_index_actuators - self.start_index_actuators == 9:
+                                    self.start_index_actuators -= 10
+                                    self.end_index_actuators -= 10
+                                else:
+                                    self.start_index_actuators -= 10
+                                    self.end_index_actuators -= self.end_index_actuators % 10 + 1
+
+                            self.print_info(display_surface)
 
                         # Rain variable
                         if position[0] >= 625 and \
@@ -438,12 +523,15 @@ class Simulation(object):
 
         empty_img = pygame.image.load(r'images/Empty.jpg')
         apply_button = pygame.image.load(r'images/ApplyButton.jpeg')
+        signs_button = pygame.image.load(r'images/Signs.png')
 
         display_surface.blit(empty_img, (605, 0))
         display_surface.blit(empty_img, (605, 205))
         display_surface.blit(empty_img, (605, 405))
 
         display_surface.blit(apply_button, (1090, 168))
+        display_surface.blit(signs_button, (1150, 210))
+        display_surface.blit(signs_button, (1150, 410))
 
         helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE, bold = True)
 
@@ -471,7 +559,7 @@ class Simulation(object):
                 current_room = name
 
         room = self.name_room[current_room]
-        
+
         name_label = helvetica_font.render('Habitación: ' + room.id,
             HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
 
@@ -482,7 +570,8 @@ class Simulation(object):
             rain_label = helvetica_font.render('Lluvia: no',
                 HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
 
-        light_label = helvetica_font.render('Intensidad luminosa: ' + str(room.light_intensity) + ' cd',
+        light_label = helvetica_font.render \
+            ('Intensidad luminosa: ' + str(room.light_intensity) + ' cd',
             HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
         time_label = helvetica_font.render('Hora: ' + str(room.time),
             HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
@@ -544,25 +633,23 @@ class Simulation(object):
         room = self.name_room[current_room]
         sensors = self.global_sensors + room.sensors
 
+        helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE-7)
+
         if len(sensors) > 10:
-            helvetica_font = pygame.font.SysFont('helvetica',
-                int(HELVETICA_FONT_SIZE_TYPE-7-((len(sensors)-6)/2)))
-        else:
-            helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE-7)
-
-        for i in range(len(sensors)):
-            actuator_label = helvetica_font.render(str(sensors[i]), HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
-
-            if len(sensors) < 10:
-                if i < 5:
-                    display_surface.blit(actuator_label, (625, 245 + 30*i))
-                else:
-                    display_surface.blit(actuator_label, (925, 245 + 30*(i-5)))
+            if self.end_index_sensors - self.start_index_sensors == 9:
+                limit = 10
             else:
-                if i < len(sensors)/2:
-                    display_surface.blit(actuator_label, (625, 245 + 12*i))
-                else:
-                    display_surface.blit(actuator_label, (925, 245 + 12*(i-len(sensors)/2)))
+                limit = self.end_index_sensors - self.start_index_sensors
+        else:
+            limit = len(sensors)
+
+        for i in range(limit):
+            actuator_label = helvetica_font.render(str(sensors[i+self.start_index_sensors]), HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+            if i < 5:
+                display_surface.blit(actuator_label, (625, 245 + 30*i))
+            else:
+                display_surface.blit(actuator_label, (925, 245 + 30*(i-5)))
 
 
     def print_actuators(self, display_surface):
@@ -576,25 +663,23 @@ class Simulation(object):
         room = self.name_room[current_room]
         actuators = self.global_actuators + room.actuators
 
+        helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE-7)
+
         if len(actuators) > 10:
-            helvetica_font = pygame.font.SysFont('helvetica',
-                int(HELVETICA_FONT_SIZE_TYPE-7-((len(actuators)-6)/2)))
-        else:
-            helvetica_font = pygame.font.SysFont('helvetica', HELVETICA_FONT_SIZE_TYPE-7)
-
-        for i in range(len(actuators)):
-            actuator_label = helvetica_font.render(str(actuators[i]), HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
-
-            if len(actuators) < 10:
-                if i < 5:
-                    display_surface.blit(actuator_label, (625, 445 + 30*i))
-                else:
-                    display_surface.blit(actuator_label, (925, 445 + 30*(i-5)))
+            if self.end_index_actuators - self.start_index_actuators == 9:
+                limit = 10
             else:
-                if i < len(actuators)/2:
-                    display_surface.blit(actuator_label, (625, 445 + 12*i))
-                else:
-                    display_surface.blit(actuator_label, (925, 445 + 12*(i-len(actuators)/2)))
+                limit = self.end_index_actuators - self.start_index_actuators
+        else:
+            limit = len(actuators)
+
+        for i in range(limit):
+            actuator_label = helvetica_font.render(str(actuators[i+self.start_index_actuators]), HELVETICA_FONT_SIZE_TYPE, BLACK_COLOR)
+
+            if i < 5:
+                display_surface.blit(actuator_label, (625, 445 + 30*i))
+            else:
+                display_surface.blit(actuator_label, (925, 445 + 30*(i-5)))
 
 
     def reset_view(self):
@@ -626,7 +711,7 @@ class Simulation(object):
 
         return [ind_1,ind_2] in self.edges or [ind_2,ind_1] in self.edges
 
-    
+
     def check_correct_values_room(self, room):
         '''Checks if the new values for the variables are correct'''
 
@@ -647,7 +732,8 @@ class Simulation(object):
                 message_log += '¡El formato de la hora o minutos es incorrecto! (Formato: HH:MM)\n'
             else:
                 if len(time_split[0]) != 2 or len(time_split[1]) != 2:
-                    message_log += '¡El formato de la hora o minutos es incorrecto! (Formato: HH:MM)\n'
+                    message_log += '¡El formato de la hora o minutos es incorrecto! \
+                        (Formato: HH:MM)\n'
                 else:
                     if int(time_split[0]) > 23 or int(time_split[1]) > 59:
                         message_log += '¡Los valores de la hora o minutos son incorrectos! \
@@ -675,14 +761,17 @@ class Simulation(object):
         return True
 
 
-    def update_rooms(self):
+    def update_rooms(self, display_surface):
         '''Updates every sensor according to the variables'''
 
         for room in self.name_room.values():
             room.update_sensors()
             room.call_automaton()
 
+        self.print_info(display_surface)
+
 
 if __name__ == "__main__":
-    sim = Simulation(NUM_VERT, EDGES, TYPES, NAMES_USED, ROOMS_USED, GLOBAL_SENSORS, GLOBAL_ACTUATORS)
+    sim = Simulation(NUM_VERT, EDGES, TYPES, NAMES_USED, ROOMS_USED, GLOBAL_SENSORS, \
+        GLOBAL_ACTUATORS)
     sim.run()

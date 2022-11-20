@@ -26,35 +26,37 @@ class Room:
         '''Updates the values in the sensors acording to the variables'''
 
         for sensor in self.sensors:
-            if sensor is sensors.SensorPresence:
+            if isinstance(sensor, sensors.SensorPresence):
                 sensor.value = self.presence
-            elif sensor is sensors.SensorRain:
+            elif isinstance(sensor, sensors.SensorRain):
                 sensor.value = self.rain
-            elif sensor is sensors.SensorLight:
+            elif isinstance(sensor, sensors.SensorLight):
                 sensor.real_value = float(self.light_intensity)
                 sensor.set_value()
-            elif sensor is sensors.SensorTime:
+            elif isinstance(sensor, sensors.SensorTime):
                 sensor.real_value = self.time
                 sensor.set_value()
-            elif sensor is sensors.SensorTemperature:
+            elif isinstance(sensor, sensors.SensorTemperature):
                 sensor.real_value = float(self.temperature)
                 sensor.set_value()
-            elif sensor is sensors.SensorSmoke:
+            elif isinstance(sensor, sensors.SensorSmoke):
                 sensor.value = self.smoke
-            elif sensor is sensors.SensorWind:
+            elif isinstance(sensor, sensors.SensorWind):
                 sensor.real_value = float(self.wind)
                 sensor.set_value()
-            elif sensor is sensors.SensorGas:
+            elif isinstance(sensor, sensors.SensorGas):
                 sensor.value = self.gas
-            elif sensor is sensors.SensorIntruders:
+            elif isinstance(sensor, sensors.SensorIntruders):
                 sensor.value = self.intruders
-            elif sensor is sensors.SensorFlood:
+            elif isinstance(sensor, sensors.SensorFlood):
                 sensor.value = self.flood
 
 
     def call_automaton(self):
         '''Calls the automaton to change state if possible'''
 
+        self.update_sensors()
+        print(self.get_combination(self.sensors))
         self.make_transition(self.automaton, self.get_combination(self.sensors))
 
 
@@ -90,7 +92,7 @@ class Room:
                 for action in actions:
                     print("Previous actuator value: " + str(action.actuator.value))
                     action.actuator.value = action.value
-                    print("Executing action: Setting " + action.id + " to " + str(action.value) + ". New actuator value: " + str(action.actuator.value))
+                    print("Executing action: Setting actuator " + str(action.actuator.identifier) + " to " + str(action.value) + ". New actuator value: " + str(action.actuator.value))
             else:
                 print("Error, the current state does not match the source state of the transition.")
         else:
