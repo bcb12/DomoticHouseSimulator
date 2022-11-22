@@ -764,7 +764,15 @@ class Simulation(object):
     def update_rooms(self, display_surface):
         '''Updates every sensor according to the variables'''
 
+        current_room = ''
+        for name, value in self.viewing.items():
+            if value:
+                current_room = name
+
+        hour_to_set = self.name_room[current_room].time 
+
         for room in self.name_room.values():
+            room.time = hour_to_set
             room.update_sensors()
             room.call_automaton()
 
