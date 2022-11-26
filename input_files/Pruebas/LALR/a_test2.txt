@@ -1,0 +1,5 @@
+house h28tg { 
+	room H123 {} , 
+	room H410 { sensor_presence s12 := false actuator_alarm a8b ; } ;
+	corridor p1 { H123 , H410 ; } ;
+} ;

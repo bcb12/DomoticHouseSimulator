@@ -1,0 +1,5 @@
+house h28tg { 
+	room H123 {} , 
+	room H410 { sensor_presence s1 := false ; } ;
+	global { sensor_presence s2 := ; } ;
+} ;
