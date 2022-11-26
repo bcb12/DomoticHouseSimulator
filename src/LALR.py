@@ -28,7 +28,11 @@ from ply.yacc import yacc
 
 # All tokens must be named in advance.
 tokens = ( 'SPRESENCIA', 'SLLUVIA', 'SILUMINACION', 'STEMPERATURA', 'SRELOJ', 'SHUMO',
-           'SGAS', 'SVIENTO', 'SINTRUSOS', 'SINUNDACION', 'APUERTA', 'ACALEFACCION', 'APERSIANA', 'ALUZ', 'AVENTANA', 'AFRIO', 'AGAS', 'ATOLDO', 'AALARMA', 'AEMERGENCIA', 'ROOM', 'HOUSE', 'CORRIDOR', 'GLOBAL', 'STATE', 'INIT', 'OPL', 'BOOL', 'ID', 'DOUBLE', 'TIME', 'COMBINATION', 'SEQ', 'SEMICOLON', 'LBRACKET', 'RBRACKET', 'COMMA' )
+           'SGAS', 'SVIENTO', 'SINTRUSOS', 'SINUNDACION', 'APUERTA', 'ACALEFACCION',
+           'APERSIANA', 'ALUZ', 'AVENTANA', 'AFRIO', 'AGAS', 'ATOLDO', 'AALARMA',
+           'AEMERGENCIA', 'ROOM', 'HOUSE', 'CORRIDOR', 'GLOBAL', 'STATE', 'INIT', 'OPL',
+           'BOOL', 'ID', 'DOUBLE', 'TIME', 'COMBINATION', 'SEQ', 'SEMICOLON', 'LBRACKET',
+           'RBRACKET', 'COMMA' )
 
 # Ignored characters
 t_ignore = ' '
@@ -208,33 +212,47 @@ def t_error(t):
 
 # Build the lexer object
 lexer = lex()
-    
+
 # Productions
 def p_casa(p):
-	'''
+    '''
 	casa : HOUSE ID LBRACKET lh RBRACKET SEMICOLON
-        | HOUSE ID LBRACKET lh lp RBRACKET SEMICOLON 
-        | HOUSE ID LBRACKET lh lsg RBRACKET SEMICOLON 
-        | HOUSE ID LBRACKET lh lag RBRACKET SEMICOLON 
-        | HOUSE ID LBRACKET lh lp lsg RBRACKET SEMICOLON 
-        | HOUSE ID LBRACKET lh lp lag RBRACKET SEMICOLON 
+        | HOUSE ID LBRACKET lh lp RBRACKET SEMICOLON
+        | HOUSE ID LBRACKET lh lsg RBRACKET SEMICOLON
+        | HOUSE ID LBRACKET lh lag RBRACKET SEMICOLON
+        | HOUSE ID LBRACKET lh lp lsg RBRACKET SEMICOLON
+        | HOUSE ID LBRACKET lh lp lag RBRACKET SEMICOLON
         | HOUSE ID LBRACKET lh lsg lag RBRACKET SEMICOLON
         | HOUSE ID LBRACKET lh lp lsg lag RBRACKET SEMICOLON
 	'''
+# Error case: when id is missing
+# def p_casa_error(p):
+#     '''
+# 	casa : HOUSE error LBRACKET lh RBRACKET SEMICOLON
+#         | HOUSE error LBRACKET lh lp RBRACKET SEMICOLON
+#         | HOUSE error LBRACKET lh lsg RBRACKET SEMICOLON
+#         | HOUSE error LBRACKET lh lag RBRACKET SEMICOLON
+#         | HOUSE error LBRACKET lh lp lsg RBRACKET SEMICOLON
+#         | HOUSE error LBRACKET lh lp lag RBRACKET SEMICOLON
+#         | HOUSE error LBRACKET lh lsg lag RBRACKET SEMICOLON
+#         | HOUSE error LBRACKET lh lp lsg lag RBRACKET SEMICOLON
+# 	'''
+#     print('ID not found for house')
 
 def p_lh(p):
-	'''
+    '''
 	lh : h COMMA lh
         | h SEMICOLON
 	'''
 
 def p_lp(p):
-	'''
+    '''
 	lp : p COMMA lp
         | p SEMICOLON
 	'''
+
 def p_h(p):
-	'''
+    '''
 	h : ROOM ID LBRACKET lsl RBRACKET
         | ROOM ID LBRACKET lal RBRACKET
         | ROOM ID LBRACKET c RBRACKET
@@ -244,8 +262,14 @@ def p_h(p):
         | ROOM ID LBRACKET RBRACKET
         | ROOM ID LBRACKET lsl lal c RBRACKET
 	'''
-def p_p(p):
+def p_h_error(p):
+    '''
+	h : ROOM ID LBRACKET error RBRACKET
 	'''
+    print("Contents of the room were not defined properly")
+
+def p_p(p):
+    '''
 	p : CORRIDOR ID LBRACKET l2id lsl RBRACKET
         | CORRIDOR ID LBRACKET l2id lal RBRACKET
         | CORRIDOR ID LBRACKET l2id c RBRACKET
@@ -256,40 +280,61 @@ def p_p(p):
         | CORRIDOR ID LBRACKET l2id RBRACKET
 	'''
 def p_l2id(p):
-	'''
+    '''
 	l2id : ID COMMA l2id
         | ID COMMA ID SEMICOLON
 	'''
+# def p_l2id_error(p):
+#     '''
+# 	l2id : ID COMMA ID error
+# 	'''
+#     print('Semicolon not found after l2id production')
 def p_lsl(p):
-	'''
+    '''
 	lsl : s COMMA lsl
         | s SEMICOLON
 	'''
+# def p_lsl_error(p):
+#     '''
+# 	lsl : s error
+# 	'''
+#     print('Semicolon not found after list of sensor')
 def p_lal(p):
-	'''
+    '''
 	lal : a COMMA lal
         | a SEMICOLON
 	'''
+# def p_lal_error(p):
+#     '''
+# 	lal : a error
+# 	'''
+#     print('Semicolon not found after list of actuators')
 def p_lsg1(p):
-	'''
+    '''
 	lsg1 : s COMMA lsg1
         | s RBRACKET SEMICOLON
 	'''
 def p_lsg(p):
-	'''
+    '''
 	lsg : GLOBAL LBRACKET lsg1
 	'''
-def p_lag1(p):
+def p_lsg_error(p):
+    '''
+	lsg : GLOBAL LBRACKET error RBRACKET SEMICOLON
 	'''
+    print("List of global sensors bad initialized")
+
+def p_lag1(p):
+    '''
 	lag1 : a COMMA lag1
         | a RBRACKET SEMICOLON
 	'''
 def p_lag(p):
-	'''
+    '''
 	lag : GLOBAL LBRACKET lag1
 	'''
 def p_s(p):
-	'''
+    '''
 	s : spresencia
         | slluvia
         | siluminacion
@@ -302,132 +347,143 @@ def p_s(p):
         | sinundacion
 	'''
 def p_a(p):
-	'''
+    '''
 	a : apuerta
         | acalefaccion
         | apersiana
         | aluz
         | aventana
         | afrio
-        | agas 
+        | agas
         | atoldo
-        | aalarma 
-        | aemergencia 
+        | aalarma
+        | aemergencia
 	'''
+
 def p_c(p):
-	'''
+    '''
 	c : LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
         | LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON
         | LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
         | LBRACKET lest SEMICOLON RBRACKET SEMICOLON
 	'''
 def p_lest(p):
-	'''
+    '''
 	lest :  STATE ID LBRACKET lactions RBRACKET COMMA lest
         | STATE ID LBRACKET RBRACKET COMMA lest
         | STATE ID LBRACKET lactions RBRACKET
         | STATE ID LBRACKET RBRACKET
 	'''
-def p_lactions(p):
+def p_lest_error(p):
+    '''
+	lest :  STATE ID LBRACKET error RBRACKET
 	'''
+    print('List of actions not defined properly.')
+def p_lactions(p):
+    '''
 	lactions : action COMMA lactions
         | action SEMICOLON
 	'''
+#def p_lactions_error(p):
+#    '''
+#	lactions : action error
+#	'''
+#    print('Semicolon not found after list of actions')
 def p_action(p):
-	'''
+    '''
 	action : ID SEQ BOOL
 	'''
 def p_init(p):
-	'''
+    '''
 	init : INIT ID
 	'''
 def p_trans(p):
-	'''
+    '''
 	trans : t trans
         | t
 	'''
 def p_t(p):
-	'''
+    '''
 	t : ID COMMA ID COMMA COMBINATION SEMICOLON
 	'''
 def p_spresencia(p):
-	'''
+    '''
 	spresencia : SPRESENCIA ID SEQ BOOL
 	'''
 def p_slluvia(p):
-	'''
+    '''
 	slluvia : SLLUVIA ID SEQ BOOL
 	'''
 def p_siluminacion(p): 
-	'''
+    '''
 	siluminacion : SILUMINACION OPL DOUBLE ID SEQ DOUBLE
 	'''
 def p_stemperatura(p):
-	'''
+    '''
 	stemperatura : STEMPERATURA OPL DOUBLE ID SEQ DOUBLE
 	'''
 def p_sreloj(p):
-	'''
+    '''
 	sreloj : SRELOJ OPL TIME ID SEQ TIME
 	'''
 def p_shumo(p):
-	'''
+    '''
 	shumo : SHUMO ID SEQ BOOL
 	'''
 def p_sviento(p):
-	'''
+    '''
 	sviento : SVIENTO OPL DOUBLE ID SEQ DOUBLE
 	'''
 def p_sintrusos(p):
-	'''
+    '''
 	sintrusos : SINTRUSOS ID SEQ BOOL
 	'''
 def p_sinundacion(p):
-	'''
+    '''
 	sinundacion : SINUNDACION ID SEQ BOOL
 	'''
 def p_sgas(p):
-	'''
+    '''
 	sgas : SGAS ID SEQ BOOL
 	'''
 def p_apuerta(p):
-	'''
+    '''
 	apuerta : APUERTA ID
 	'''
 def p_acalefaccion(p):
-	'''
+    '''
 	acalefaccion : ACALEFACCION ID
 	'''
 def p_apersiana(p):
-	'''
+    '''
 	apersiana : APERSIANA ID
 	'''
 def p_aluz(p):
-	'''
+    '''
 	aluz : ALUZ ID
 	'''
 def p_aventana(p):
-	'''
+    '''
 	aventana : AVENTANA ID
 	'''
 def p_frio(p):
-	'''
+    '''
 	afrio : AFRIO ID
 	'''
 def p_agas(p):
-	'''
+    '''
 	agas : AGAS ID
 	'''
 def p_atoldo(p):
-	'''
+    '''
 	atoldo : ATOLDO ID
 	'''
 def p_aalarma(p):
-	'''
+    '''
 	aalarma : AALARMA ID
 	'''
 def p_aemergencia(p):
-	'''
+    '''
 	aemergencia : AEMERGENCIA ID
 	'''
 
@@ -444,7 +500,6 @@ def main():
         lexer = lex()
         parser = yacc()
         parser.parse(input = file.read(), lexer = lexer, debug = 1, tracking = 1)
-        #parser.parse('aabbabbbabbbcccc', lexer = lexer)
 
 if __name__ == '__main__':
     main()
