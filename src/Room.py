@@ -56,7 +56,6 @@ class Room:
         '''Calls the automaton to change state if possible'''
 
         self.update_sensors()
-        print(self.get_combination(self.sensors))
         self.make_transition(self.automaton, self.get_combination(self.sensors))
 
 
@@ -90,14 +89,7 @@ class Room:
                 
                 # Mostrar acciones ejecutadas
                 for action in actions:
-                    print("Previous actuator value: " + str(action.actuator.value))
                     action.actuator.value = action.value
-                    print("Executing action: Setting actuator " + str(action.actuator.identifier) + " to " + str(action.value) + ". New actuator value: " + str(action.actuator.value))
-            else:
-                print("Error, the current state does not match the source state of the transition.")
-        else:
-            # Output error
-            print("Error, the given combination does not exist.")
         
         return result
 
