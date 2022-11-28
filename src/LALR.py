@@ -225,19 +225,6 @@ def p_casa(p):
         | HOUSE ID LBRACKET lh lsg lag RBRACKET SEMICOLON
         | HOUSE ID LBRACKET lh lp lsg lag RBRACKET SEMICOLON
 	'''
-# Error case: when id is missing
-# def p_casa_error(p):
-#     '''
-# 	casa : HOUSE error LBRACKET lh RBRACKET SEMICOLON
-#         | HOUSE error LBRACKET lh lp RBRACKET SEMICOLON
-#         | HOUSE error LBRACKET lh lsg RBRACKET SEMICOLON
-#         | HOUSE error LBRACKET lh lag RBRACKET SEMICOLON
-#         | HOUSE error LBRACKET lh lp lsg RBRACKET SEMICOLON
-#         | HOUSE error LBRACKET lh lp lag RBRACKET SEMICOLON
-#         | HOUSE error LBRACKET lh lsg lag RBRACKET SEMICOLON
-#         | HOUSE error LBRACKET lh lp lsg lag RBRACKET SEMICOLON
-# 	'''
-#     print('ID not found for house')
 
 def p_lh(p):
     '''
@@ -284,31 +271,19 @@ def p_l2id(p):
 	l2id : ID COMMA l2id
         | ID COMMA ID SEMICOLON
 	'''
-# def p_l2id_error(p):
-#     '''
-# 	l2id : ID COMMA ID error
-# 	'''
-#     print('Semicolon not found after l2id production')
+
 def p_lsl(p):
     '''
 	lsl : s COMMA lsl
         | s SEMICOLON
 	'''
-# def p_lsl_error(p):
-#     '''
-# 	lsl : s error
-# 	'''
-#     print('Semicolon not found after list of sensor')
+
 def p_lal(p):
     '''
 	lal : a COMMA lal
         | a SEMICOLON
 	'''
-# def p_lal_error(p):
-#     '''
-# 	lal : a error
-# 	'''
-#     print('Semicolon not found after list of actuators')
+
 def p_lsg1(p):
     '''
 	lsg1 : s COMMA lsg1
@@ -381,11 +356,7 @@ def p_lactions(p):
 	lactions : action COMMA lactions
         | action SEMICOLON
 	'''
-#def p_lactions_error(p):
-#    '''
-#	lactions : action error
-#	'''
-#    print('Semicolon not found after list of actions')
+
 def p_action(p):
     '''
 	action : ID SEQ BOOL
