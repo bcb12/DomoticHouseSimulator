@@ -363,9 +363,6 @@ def p_a(p):
 def p_c(p):
     '''
 	c : LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
-        | LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON
-        | LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
-        | LBRACKET lest SEMICOLON RBRACKET SEMICOLON
 	'''
 def p_lest(p):
     '''
