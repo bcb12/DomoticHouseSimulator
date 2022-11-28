@@ -5,14 +5,6 @@ from constants import IMG_NAME, OFFSET_ICON_Y, OFFSET_LABEL_X_NAME, OFFSET_LABEL
     OFFSET_LABEL_Y_TYPE, OFFSET_LABEL_Y_NAME, OFFSET_VIEW_X, ROOM_FULL_SIZE, WIDTH_DISPLAY,\
     IMG_SIZE, DEVIATION_FACTOR, WHITE_COLOR, BLACK_COLOR, CAPTION, HEIGHT_DISPLAY,\
     HELVETICA_FONT_SIZE_TYPE, HELVETICA_FONT_SIZE_NAME, ROOM_OFFSET, MARGIN_DISPLAY
-from ExampleRooms import ROOMS, NAMES, GLOBAL_SENSORS, GLOBAL_ACTUATORS
-
-
-NUM_VERT = 8
-EDGES = [[0, 1], [2, 3], [1, 2], [1, 3], [4, 2], [4, 5], [6, 7], [7, 5]]
-TYPES = ["H", "H", "P", "H", "H", "P", "H", "H"]
-ROOMS_USED = ROOMS
-NAMES_USED = NAMES
 
 
 class Simulation(object):
@@ -777,9 +769,3 @@ class Simulation(object):
             room.call_automaton()
 
         self.print_info(display_surface)
-
-
-if __name__ == "__main__":
-    sim = Simulation(NUM_VERT, EDGES, TYPES, NAMES_USED, ROOMS_USED, GLOBAL_SENSORS, \
-        GLOBAL_ACTUATORS)
-    sim.run()

@@ -2,9 +2,10 @@ import sensors
 
 
 class Room:
-    def __init__(self, id, automaton, presence, rain, light_intensity, time, temperature,
-        smoke, wind, gas, intruders, flood, sensors, actuators):
+    def __init__(self, id, room_type, automaton, presence, rain, light_intensity, time, temperature,
+        smoke, wind, gas, intruders, flood, sensors, actuators, connection_list = []):
         self.id = id
+        self.type = room_type
         self.automaton = automaton
 
         self.presence = presence
@@ -20,6 +21,8 @@ class Room:
 
         self.sensors = sensors
         self.actuators = actuators
+
+        self.connection_list = connection_list
 
 
     def update_sensors(self):
