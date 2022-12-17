@@ -2,10 +2,11 @@ import sensors
 
 
 class Room:
-    def __init__(self, id, room_type, automaton, presence, rain, light_intensity, time, temperature,
-        smoke, wind, gas, intruders, flood, sensors, actuators, connection_list = []):
+    def __init__(self, id, room_type, states, automaton, presence, rain, light_intensity, 
+    time, temperature, smoke, wind, gas, intruders, flood, sensors, actuators, connection_list = []):
         self.id = id
         self.type = room_type
+        self.states = states
         self.automaton = automaton
 
         self.presence = presence
@@ -80,19 +81,27 @@ class Room:
         transition_index = self.transition_exists(automaton.transitions, combination)
         if transition_index != -1:
             transition = automaton.transitions[transition_index]
-            if transition.source_state.id == automaton.current_state.id:
+            if transition.source_state == automaton.current_state:
+                print("\nEjecutando transición desde el estado " + transition.source_state + " al estado " + transition.target_state + " en la habitación " + self.id)
                 target_state = transition.target_state
 
                 # Realiza el cambio de estado
                 automaton.current_state = target_state
 
+                # Find state
+                state = self.get_state(target_state)
+
                 # Ejecutar acciones
                 result = target_state
-                actions = target_state.actions
+                actions = state.actions
                 
                 # Mostrar acciones ejecutadas
                 for action in actions:
+                    print("\tAcción: actuador " + str(action.actuator) + " a " + str(action.value))
+                    print(action.actuator.value)
                     action.actuator.value = action.value
+                    print("\tAcción: actuador " + str(action.actuator) + " a " + str(action.value) + "\n")
+                    print(action.actuator.value)
         
         return result
 
@@ -105,3 +114,13 @@ class Room:
             else:
                 combination += "0"
         return(combination)
+
+
+    def get_state(self, id):
+        found_state = False
+        for state in self.states:
+            if(state.id == id):
+                found_state = state
+                break
+
+        return found_state

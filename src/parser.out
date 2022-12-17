@@ -1,0 +1,2870 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> casa
+Rule 1     casa -> HOUSE ID LBRACKET lh RBRACKET SEMICOLON
+Rule 2     casa -> HOUSE ID LBRACKET lh lp RBRACKET SEMICOLON
+Rule 3     casa -> HOUSE ID LBRACKET lh lsg RBRACKET SEMICOLON
+Rule 4     casa -> HOUSE ID LBRACKET lh lag RBRACKET SEMICOLON
+Rule 5     casa -> HOUSE ID LBRACKET lh lp lsg RBRACKET SEMICOLON
+Rule 6     casa -> HOUSE ID LBRACKET lh lp lag RBRACKET SEMICOLON
+Rule 7     casa -> HOUSE ID LBRACKET lh lsg lag RBRACKET SEMICOLON
+Rule 8     casa -> HOUSE ID LBRACKET lh lp lsg lag RBRACKET SEMICOLON
+Rule 9     lh -> h COMMA lh
+Rule 10    lh -> h SEMICOLON
+Rule 11    lp -> p COMMA lp
+Rule 12    lp -> p SEMICOLON
+Rule 13    h -> ROOM ID LBRACKET lsl RBRACKET
+Rule 14    h -> ROOM ID LBRACKET lal RBRACKET
+Rule 15    h -> ROOM ID LBRACKET c RBRACKET
+Rule 16    h -> ROOM ID LBRACKET lsl lal RBRACKET
+Rule 17    h -> ROOM ID LBRACKET lsl c RBRACKET
+Rule 18    h -> ROOM ID LBRACKET lal c RBRACKET
+Rule 19    h -> ROOM ID LBRACKET lsl lal c RBRACKET
+Rule 20    h -> ROOM ID LBRACKET RBRACKET
+Rule 21    p -> CORRIDOR ID LBRACKET l2id lsl RBRACKET
+Rule 22    p -> CORRIDOR ID LBRACKET l2id lal RBRACKET
+Rule 23    p -> CORRIDOR ID LBRACKET l2id c RBRACKET
+Rule 24    p -> CORRIDOR ID LBRACKET l2id lsl lal RBRACKET
+Rule 25    p -> CORRIDOR ID LBRACKET l2id lsl c RBRACKET
+Rule 26    p -> CORRIDOR ID LBRACKET l2id lal c RBRACKET
+Rule 27    p -> CORRIDOR ID LBRACKET l2id lsl lal c RBRACKET
+Rule 28    p -> CORRIDOR ID LBRACKET l2id RBRACKET
+Rule 29    l2id -> ID COMMA l2id
+Rule 30    l2id -> ID COMMA ID SEMICOLON
+Rule 31    lsl -> s COMMA lsl
+Rule 32    lsl -> s SEMICOLON
+Rule 33    lal -> a COMMA lal
+Rule 34    lal -> a SEMICOLON
+Rule 35    lsg -> GLOBAL LBRACKET lsg1
+Rule 36    lsg1 -> s COMMA lsg1
+Rule 37    lsg1 -> s RBRACKET SEMICOLON
+Rule 38    lag -> GLOBAL LBRACKET lag1
+Rule 39    lag1 -> a COMMA lag1
+Rule 40    lag1 -> a RBRACKET SEMICOLON
+Rule 41    s -> spresencia
+Rule 42    s -> slluvia
+Rule 43    s -> siluminacion
+Rule 44    s -> sreloj
+Rule 45    s -> stemperatura
+Rule 46    s -> shumo
+Rule 47    s -> sviento
+Rule 48    s -> sintrusos
+Rule 49    s -> sgas
+Rule 50    s -> sinundacion
+Rule 51    a -> apuerta
+Rule 52    a -> acalefaccion
+Rule 53    a -> apersiana
+Rule 54    a -> aluz
+Rule 55    a -> aventana
+Rule 56    a -> afrio
+Rule 57    a -> agas
+Rule 58    a -> atoldo
+Rule 59    a -> aalarma
+Rule 60    a -> aemergencia
+Rule 61    c -> LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
+Rule 62    c -> LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON
+Rule 63    c -> LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
+Rule 64    c -> LBRACKET lest SEMICOLON RBRACKET SEMICOLON
+Rule 65    lest -> STATE ID LBRACKET lactions RBRACKET COMMA lest
+Rule 66    lest -> STATE ID LBRACKET RBRACKET COMMA lest
+Rule 67    lest -> STATE ID LBRACKET lactions RBRACKET
+Rule 68    lest -> STATE ID LBRACKET RBRACKET
+Rule 69    lactions -> action COMMA lactions
+Rule 70    lactions -> action SEMICOLON
+Rule 71    action -> ID SEQ BOOL
+Rule 72    init -> INIT ID
+Rule 73    trans -> t trans
+Rule 74    trans -> t
+Rule 75    t -> ID COMMA ID COMMA COMBINATION SEMICOLON
+Rule 76    spresencia -> SPRESENCIA ID SEQ BOOL
+Rule 77    slluvia -> SLLUVIA ID SEQ BOOL
+Rule 78    siluminacion -> SILUMINACION OPL DOUBLE ID SEQ DOUBLE
+Rule 79    stemperatura -> STEMPERATURA OPL DOUBLE ID SEQ DOUBLE
+Rule 80    sreloj -> SRELOJ OPL TIME ID SEQ TIME
+Rule 81    shumo -> SHUMO ID SEQ BOOL
+Rule 82    sviento -> SVIENTO OPL DOUBLE ID SEQ DOUBLE
+Rule 83    sintrusos -> SINTRUSOS ID SEQ BOOL
+Rule 84    sinundacion -> SINUNDACION ID SEQ BOOL
+Rule 85    sgas -> SGAS ID SEQ BOOL
+Rule 86    apuerta -> APUERTA ID
+Rule 87    acalefaccion -> ACALEFACCION ID
+Rule 88    apersiana -> APERSIANA ID
+Rule 89    aluz -> ALUZ ID
+Rule 90    aventana -> AVENTANA ID
+Rule 91    afrio -> AFRIO ID
+Rule 92    agas -> AGAS ID
+Rule 93    atoldo -> ATOLDO ID
+Rule 94    aalarma -> AALARMA ID
+Rule 95    aemergencia -> AEMERGENCIA ID
+
+Terminals, with rules where they appear
+
+AALARMA              : 94
+ACALEFACCION         : 87
+AEMERGENCIA          : 95
+AFRIO                : 91
+AGAS                 : 92
+ALUZ                 : 89
+APERSIANA            : 88
+APUERTA              : 86
+ATOLDO               : 93
+AVENTANA             : 90
+BOOL                 : 71 76 77 81 83 84 85
+COMBINATION          : 75
+COMMA                : 9 11 29 30 31 33 36 39 65 66 69 75 75
+CORRIDOR             : 21 22 23 24 25 26 27 28
+DOUBLE               : 78 78 79 79 82 82
+GLOBAL               : 35 38
+HOUSE                : 1 2 3 4 5 6 7 8
+ID                   : 1 2 3 4 5 6 7 8 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 30 65 66 67 68 71 72 75 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95
+INIT                 : 72
+LBRACKET             : 1 2 3 4 5 6 7 8 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 35 38 61 62 63 64 65 66 67 68
+OPL                  : 78 79 80 82
+RBRACKET             : 1 2 3 4 5 6 7 8 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 37 40 61 62 63 64 65 66 67 68
+ROOM                 : 13 14 15 16 17 18 19 20
+SEMICOLON            : 1 2 3 4 5 6 7 8 10 12 30 32 34 37 40 61 61 61 62 62 63 63 63 64 64 70 75
+SEQ                  : 71 76 77 78 79 80 81 82 83 84 85
+SGAS                 : 85
+SHUMO                : 81
+SILUMINACION         : 78
+SINTRUSOS            : 83
+SINUNDACION          : 84
+SLLUVIA              : 77
+SPRESENCIA           : 76
+SRELOJ               : 80
+STATE                : 65 66 67 68
+STEMPERATURA         : 79
+SVIENTO              : 82
+TIME                 : 80 80
+error                : 
+
+Nonterminals, with rules where they appear
+
+a                    : 33 34 39 40
+aalarma              : 59
+acalefaccion         : 52
+action               : 69 70
+aemergencia          : 60
+afrio                : 56
+agas                 : 57
+aluz                 : 54
+apersiana            : 53
+apuerta              : 51
+atoldo               : 58
+aventana             : 55
+c                    : 15 17 18 19 23 25 26 27
+casa                 : 0
+h                    : 9 10
+init                 : 61 63
+l2id                 : 21 22 23 24 25 26 27 28 29
+lactions             : 65 67 69
+lag                  : 4 6 7 8
+lag1                 : 38 39
+lal                  : 14 16 18 19 22 24 26 27 33
+lest                 : 61 62 63 64 65 66
+lh                   : 1 2 3 4 5 6 7 8 9
+lp                   : 2 5 6 8 11
+lsg                  : 3 5 7 8
+lsg1                 : 35 36
+lsl                  : 13 16 17 19 21 24 25 27 31
+p                    : 11 12
+s                    : 31 32 36 37
+sgas                 : 49
+shumo                : 46
+siluminacion         : 43
+sintrusos            : 48
+sinundacion          : 50
+slluvia              : 42
+spresencia           : 41
+sreloj               : 44
+stemperatura         : 45
+sviento              : 47
+t                    : 73 74
+trans                : 61 62 73
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . casa
+    (1) casa -> . HOUSE ID LBRACKET lh RBRACKET SEMICOLON
+    (2) casa -> . HOUSE ID LBRACKET lh lp RBRACKET SEMICOLON
+    (3) casa -> . HOUSE ID LBRACKET lh lsg RBRACKET SEMICOLON
+    (4) casa -> . HOUSE ID LBRACKET lh lag RBRACKET SEMICOLON
+    (5) casa -> . HOUSE ID LBRACKET lh lp lsg RBRACKET SEMICOLON
+    (6) casa -> . HOUSE ID LBRACKET lh lp lag RBRACKET SEMICOLON
+    (7) casa -> . HOUSE ID LBRACKET lh lsg lag RBRACKET SEMICOLON
+    (8) casa -> . HOUSE ID LBRACKET lh lp lsg lag RBRACKET SEMICOLON
+
+    HOUSE           shift and go to state 2
+
+    casa                           shift and go to state 1
+
+state 1
+
+    (0) S' -> casa .
+
+
+
+state 2
+
+    (1) casa -> HOUSE . ID LBRACKET lh RBRACKET SEMICOLON
+    (2) casa -> HOUSE . ID LBRACKET lh lp RBRACKET SEMICOLON
+    (3) casa -> HOUSE . ID LBRACKET lh lsg RBRACKET SEMICOLON
+    (4) casa -> HOUSE . ID LBRACKET lh lag RBRACKET SEMICOLON
+    (5) casa -> HOUSE . ID LBRACKET lh lp lsg RBRACKET SEMICOLON
+    (6) casa -> HOUSE . ID LBRACKET lh lp lag RBRACKET SEMICOLON
+    (7) casa -> HOUSE . ID LBRACKET lh lsg lag RBRACKET SEMICOLON
+    (8) casa -> HOUSE . ID LBRACKET lh lp lsg lag RBRACKET SEMICOLON
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) casa -> HOUSE ID . LBRACKET lh RBRACKET SEMICOLON
+    (2) casa -> HOUSE ID . LBRACKET lh lp RBRACKET SEMICOLON
+    (3) casa -> HOUSE ID . LBRACKET lh lsg RBRACKET SEMICOLON
+    (4) casa -> HOUSE ID . LBRACKET lh lag RBRACKET SEMICOLON
+    (5) casa -> HOUSE ID . LBRACKET lh lp lsg RBRACKET SEMICOLON
+    (6) casa -> HOUSE ID . LBRACKET lh lp lag RBRACKET SEMICOLON
+    (7) casa -> HOUSE ID . LBRACKET lh lsg lag RBRACKET SEMICOLON
+    (8) casa -> HOUSE ID . LBRACKET lh lp lsg lag RBRACKET SEMICOLON
+
+    LBRACKET        shift and go to state 4
+
+
+state 4
+
+    (1) casa -> HOUSE ID LBRACKET . lh RBRACKET SEMICOLON
+    (2) casa -> HOUSE ID LBRACKET . lh lp RBRACKET SEMICOLON
+    (3) casa -> HOUSE ID LBRACKET . lh lsg RBRACKET SEMICOLON
+    (4) casa -> HOUSE ID LBRACKET . lh lag RBRACKET SEMICOLON
+    (5) casa -> HOUSE ID LBRACKET . lh lp lsg RBRACKET SEMICOLON
+    (6) casa -> HOUSE ID LBRACKET . lh lp lag RBRACKET SEMICOLON
+    (7) casa -> HOUSE ID LBRACKET . lh lsg lag RBRACKET SEMICOLON
+    (8) casa -> HOUSE ID LBRACKET . lh lp lsg lag RBRACKET SEMICOLON
+    (9) lh -> . h COMMA lh
+    (10) lh -> . h SEMICOLON
+    (13) h -> . ROOM ID LBRACKET lsl RBRACKET
+    (14) h -> . ROOM ID LBRACKET lal RBRACKET
+    (15) h -> . ROOM ID LBRACKET c RBRACKET
+    (16) h -> . ROOM ID LBRACKET lsl lal RBRACKET
+    (17) h -> . ROOM ID LBRACKET lsl c RBRACKET
+    (18) h -> . ROOM ID LBRACKET lal c RBRACKET
+    (19) h -> . ROOM ID LBRACKET lsl lal c RBRACKET
+    (20) h -> . ROOM ID LBRACKET RBRACKET
+
+    ROOM            shift and go to state 7
+
+    lh                             shift and go to state 5
+    h                              shift and go to state 6
+
+state 5
+
+    (1) casa -> HOUSE ID LBRACKET lh . RBRACKET SEMICOLON
+    (2) casa -> HOUSE ID LBRACKET lh . lp RBRACKET SEMICOLON
+    (3) casa -> HOUSE ID LBRACKET lh . lsg RBRACKET SEMICOLON
+    (4) casa -> HOUSE ID LBRACKET lh . lag RBRACKET SEMICOLON
+    (5) casa -> HOUSE ID LBRACKET lh . lp lsg RBRACKET SEMICOLON
+    (6) casa -> HOUSE ID LBRACKET lh . lp lag RBRACKET SEMICOLON
+    (7) casa -> HOUSE ID LBRACKET lh . lsg lag RBRACKET SEMICOLON
+    (8) casa -> HOUSE ID LBRACKET lh . lp lsg lag RBRACKET SEMICOLON
+    (11) lp -> . p COMMA lp
+    (12) lp -> . p SEMICOLON
+    (35) lsg -> . GLOBAL LBRACKET lsg1
+    (38) lag -> . GLOBAL LBRACKET lag1
+    (21) p -> . CORRIDOR ID LBRACKET l2id lsl RBRACKET
+    (22) p -> . CORRIDOR ID LBRACKET l2id lal RBRACKET
+    (23) p -> . CORRIDOR ID LBRACKET l2id c RBRACKET
+    (24) p -> . CORRIDOR ID LBRACKET l2id lsl lal RBRACKET
+    (25) p -> . CORRIDOR ID LBRACKET l2id lsl c RBRACKET
+    (26) p -> . CORRIDOR ID LBRACKET l2id lal c RBRACKET
+    (27) p -> . CORRIDOR ID LBRACKET l2id lsl lal c RBRACKET
+    (28) p -> . CORRIDOR ID LBRACKET l2id RBRACKET
+
+    RBRACKET        shift and go to state 8
+    GLOBAL          shift and go to state 13
+    CORRIDOR        shift and go to state 14
+
+    lp                             shift and go to state 9
+    lsg                            shift and go to state 10
+    lag                            shift and go to state 11
+    p                              shift and go to state 12
+
+state 6
+
+    (9) lh -> h . COMMA lh
+    (10) lh -> h . SEMICOLON
+
+    COMMA           shift and go to state 15
+    SEMICOLON       shift and go to state 16
+
+
+state 7
+
+    (13) h -> ROOM . ID LBRACKET lsl RBRACKET
+    (14) h -> ROOM . ID LBRACKET lal RBRACKET
+    (15) h -> ROOM . ID LBRACKET c RBRACKET
+    (16) h -> ROOM . ID LBRACKET lsl lal RBRACKET
+    (17) h -> ROOM . ID LBRACKET lsl c RBRACKET
+    (18) h -> ROOM . ID LBRACKET lal c RBRACKET
+    (19) h -> ROOM . ID LBRACKET lsl lal c RBRACKET
+    (20) h -> ROOM . ID LBRACKET RBRACKET
+
+    ID              shift and go to state 17
+
+
+state 8
+
+    (1) casa -> HOUSE ID LBRACKET lh RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 18
+
+
+state 9
+
+    (2) casa -> HOUSE ID LBRACKET lh lp . RBRACKET SEMICOLON
+    (5) casa -> HOUSE ID LBRACKET lh lp . lsg RBRACKET SEMICOLON
+    (6) casa -> HOUSE ID LBRACKET lh lp . lag RBRACKET SEMICOLON
+    (8) casa -> HOUSE ID LBRACKET lh lp . lsg lag RBRACKET SEMICOLON
+    (35) lsg -> . GLOBAL LBRACKET lsg1
+    (38) lag -> . GLOBAL LBRACKET lag1
+
+    RBRACKET        shift and go to state 19
+    GLOBAL          shift and go to state 13
+
+    lsg                            shift and go to state 20
+    lag                            shift and go to state 21
+
+state 10
+
+    (3) casa -> HOUSE ID LBRACKET lh lsg . RBRACKET SEMICOLON
+    (7) casa -> HOUSE ID LBRACKET lh lsg . lag RBRACKET SEMICOLON
+    (38) lag -> . GLOBAL LBRACKET lag1
+
+    RBRACKET        shift and go to state 22
+    GLOBAL          shift and go to state 24
+
+    lag                            shift and go to state 23
+
+state 11
+
+    (4) casa -> HOUSE ID LBRACKET lh lag . RBRACKET SEMICOLON
+
+    RBRACKET        shift and go to state 25
+
+
+state 12
+
+    (11) lp -> p . COMMA lp
+    (12) lp -> p . SEMICOLON
+
+    COMMA           shift and go to state 26
+    SEMICOLON       shift and go to state 27
+
+
+state 13
+
+    (35) lsg -> GLOBAL . LBRACKET lsg1
+    (38) lag -> GLOBAL . LBRACKET lag1
+
+    LBRACKET        shift and go to state 28
+
+
+state 14
+
+    (21) p -> CORRIDOR . ID LBRACKET l2id lsl RBRACKET
+    (22) p -> CORRIDOR . ID LBRACKET l2id lal RBRACKET
+    (23) p -> CORRIDOR . ID LBRACKET l2id c RBRACKET
+    (24) p -> CORRIDOR . ID LBRACKET l2id lsl lal RBRACKET
+    (25) p -> CORRIDOR . ID LBRACKET l2id lsl c RBRACKET
+    (26) p -> CORRIDOR . ID LBRACKET l2id lal c RBRACKET
+    (27) p -> CORRIDOR . ID LBRACKET l2id lsl lal c RBRACKET
+    (28) p -> CORRIDOR . ID LBRACKET l2id RBRACKET
+
+    ID              shift and go to state 29
+
+
+state 15
+
+    (9) lh -> h COMMA . lh
+    (9) lh -> . h COMMA lh
+    (10) lh -> . h SEMICOLON
+    (13) h -> . ROOM ID LBRACKET lsl RBRACKET
+    (14) h -> . ROOM ID LBRACKET lal RBRACKET
+    (15) h -> . ROOM ID LBRACKET c RBRACKET
+    (16) h -> . ROOM ID LBRACKET lsl lal RBRACKET
+    (17) h -> . ROOM ID LBRACKET lsl c RBRACKET
+    (18) h -> . ROOM ID LBRACKET lal c RBRACKET
+    (19) h -> . ROOM ID LBRACKET lsl lal c RBRACKET
+    (20) h -> . ROOM ID LBRACKET RBRACKET
+
+    ROOM            shift and go to state 7
+
+    h                              shift and go to state 6
+    lh                             shift and go to state 30
+
+state 16
+
+    (10) lh -> h SEMICOLON .
+
+    RBRACKET        reduce using rule 10 (lh -> h SEMICOLON .)
+    GLOBAL          reduce using rule 10 (lh -> h SEMICOLON .)
+    CORRIDOR        reduce using rule 10 (lh -> h SEMICOLON .)
+
+
+state 17
+
+    (13) h -> ROOM ID . LBRACKET lsl RBRACKET
+    (14) h -> ROOM ID . LBRACKET lal RBRACKET
+    (15) h -> ROOM ID . LBRACKET c RBRACKET
+    (16) h -> ROOM ID . LBRACKET lsl lal RBRACKET
+    (17) h -> ROOM ID . LBRACKET lsl c RBRACKET
+    (18) h -> ROOM ID . LBRACKET lal c RBRACKET
+    (19) h -> ROOM ID . LBRACKET lsl lal c RBRACKET
+    (20) h -> ROOM ID . LBRACKET RBRACKET
+
+    LBRACKET        shift and go to state 31
+
+
+state 18
+
+    (1) casa -> HOUSE ID LBRACKET lh RBRACKET SEMICOLON .
+
+    $end            reduce using rule 1 (casa -> HOUSE ID LBRACKET lh RBRACKET SEMICOLON .)
+
+
+state 19
+
+    (2) casa -> HOUSE ID LBRACKET lh lp RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 32
+
+
+state 20
+
+    (5) casa -> HOUSE ID LBRACKET lh lp lsg . RBRACKET SEMICOLON
+    (8) casa -> HOUSE ID LBRACKET lh lp lsg . lag RBRACKET SEMICOLON
+    (38) lag -> . GLOBAL LBRACKET lag1
+
+    RBRACKET        shift and go to state 33
+    GLOBAL          shift and go to state 24
+
+    lag                            shift and go to state 34
+
+state 21
+
+    (6) casa -> HOUSE ID LBRACKET lh lp lag . RBRACKET SEMICOLON
+
+    RBRACKET        shift and go to state 35
+
+
+state 22
+
+    (3) casa -> HOUSE ID LBRACKET lh lsg RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 36
+
+
+state 23
+
+    (7) casa -> HOUSE ID LBRACKET lh lsg lag . RBRACKET SEMICOLON
+
+    RBRACKET        shift and go to state 37
+
+
+state 24
+
+    (38) lag -> GLOBAL . LBRACKET lag1
+
+    LBRACKET        shift and go to state 38
+
+
+state 25
+
+    (4) casa -> HOUSE ID LBRACKET lh lag RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 39
+
+
+state 26
+
+    (11) lp -> p COMMA . lp
+    (11) lp -> . p COMMA lp
+    (12) lp -> . p SEMICOLON
+    (21) p -> . CORRIDOR ID LBRACKET l2id lsl RBRACKET
+    (22) p -> . CORRIDOR ID LBRACKET l2id lal RBRACKET
+    (23) p -> . CORRIDOR ID LBRACKET l2id c RBRACKET
+    (24) p -> . CORRIDOR ID LBRACKET l2id lsl lal RBRACKET
+    (25) p -> . CORRIDOR ID LBRACKET l2id lsl c RBRACKET
+    (26) p -> . CORRIDOR ID LBRACKET l2id lal c RBRACKET
+    (27) p -> . CORRIDOR ID LBRACKET l2id lsl lal c RBRACKET
+    (28) p -> . CORRIDOR ID LBRACKET l2id RBRACKET
+
+    CORRIDOR        shift and go to state 14
+
+    p                              shift and go to state 12
+    lp                             shift and go to state 40
+
+state 27
+
+    (12) lp -> p SEMICOLON .
+
+    RBRACKET        reduce using rule 12 (lp -> p SEMICOLON .)
+    GLOBAL          reduce using rule 12 (lp -> p SEMICOLON .)
+
+
+state 28
+
+    (35) lsg -> GLOBAL LBRACKET . lsg1
+    (38) lag -> GLOBAL LBRACKET . lag1
+    (36) lsg1 -> . s COMMA lsg1
+    (37) lsg1 -> . s RBRACKET SEMICOLON
+    (39) lag1 -> . a COMMA lag1
+    (40) lag1 -> . a RBRACKET SEMICOLON
+    (41) s -> . spresencia
+    (42) s -> . slluvia
+    (43) s -> . siluminacion
+    (44) s -> . sreloj
+    (45) s -> . stemperatura
+    (46) s -> . shumo
+    (47) s -> . sviento
+    (48) s -> . sintrusos
+    (49) s -> . sgas
+    (50) s -> . sinundacion
+    (51) a -> . apuerta
+    (52) a -> . acalefaccion
+    (53) a -> . apersiana
+    (54) a -> . aluz
+    (55) a -> . aventana
+    (56) a -> . afrio
+    (57) a -> . agas
+    (58) a -> . atoldo
+    (59) a -> . aalarma
+    (60) a -> . aemergencia
+    (76) spresencia -> . SPRESENCIA ID SEQ BOOL
+    (77) slluvia -> . SLLUVIA ID SEQ BOOL
+    (78) siluminacion -> . SILUMINACION OPL DOUBLE ID SEQ DOUBLE
+    (80) sreloj -> . SRELOJ OPL TIME ID SEQ TIME
+    (79) stemperatura -> . STEMPERATURA OPL DOUBLE ID SEQ DOUBLE
+    (81) shumo -> . SHUMO ID SEQ BOOL
+    (82) sviento -> . SVIENTO OPL DOUBLE ID SEQ DOUBLE
+    (83) sintrusos -> . SINTRUSOS ID SEQ BOOL
+    (85) sgas -> . SGAS ID SEQ BOOL
+    (84) sinundacion -> . SINUNDACION ID SEQ BOOL
+    (86) apuerta -> . APUERTA ID
+    (87) acalefaccion -> . ACALEFACCION ID
+    (88) apersiana -> . APERSIANA ID
+    (89) aluz -> . ALUZ ID
+    (90) aventana -> . AVENTANA ID
+    (91) afrio -> . AFRIO ID
+    (92) agas -> . AGAS ID
+    (93) atoldo -> . ATOLDO ID
+    (94) aalarma -> . AALARMA ID
+    (95) aemergencia -> . AEMERGENCIA ID
+
+    SPRESENCIA      shift and go to state 65
+    SLLUVIA         shift and go to state 66
+    SILUMINACION    shift and go to state 67
+    SRELOJ          shift and go to state 68
+    STEMPERATURA    shift and go to state 69
+    SHUMO           shift and go to state 70
+    SVIENTO         shift and go to state 71
+    SINTRUSOS       shift and go to state 72
+    SGAS            shift and go to state 73
+    SINUNDACION     shift and go to state 74
+    APUERTA         shift and go to state 75
+    ACALEFACCION    shift and go to state 76
+    APERSIANA       shift and go to state 77
+    ALUZ            shift and go to state 78
+    AVENTANA        shift and go to state 79
+    AFRIO           shift and go to state 80
+    AGAS            shift and go to state 81
+    ATOLDO          shift and go to state 82
+    AALARMA         shift and go to state 83
+    AEMERGENCIA     shift and go to state 84
+
+    lsg1                           shift and go to state 41
+    lag1                           shift and go to state 42
+    s                              shift and go to state 43
+    a                              shift and go to state 44
+    spresencia                     shift and go to state 45
+    slluvia                        shift and go to state 46
+    siluminacion                   shift and go to state 47
+    sreloj                         shift and go to state 48
+    stemperatura                   shift and go to state 49
+    shumo                          shift and go to state 50
+    sviento                        shift and go to state 51
+    sintrusos                      shift and go to state 52
+    sgas                           shift and go to state 53
+    sinundacion                    shift and go to state 54
+    apuerta                        shift and go to state 55
+    acalefaccion                   shift and go to state 56
+    apersiana                      shift and go to state 57
+    aluz                           shift and go to state 58
+    aventana                       shift and go to state 59
+    afrio                          shift and go to state 60
+    agas                           shift and go to state 61
+    atoldo                         shift and go to state 62
+    aalarma                        shift and go to state 63
+    aemergencia                    shift and go to state 64
+
+state 29
+
+    (21) p -> CORRIDOR ID . LBRACKET l2id lsl RBRACKET
+    (22) p -> CORRIDOR ID . LBRACKET l2id lal RBRACKET
+    (23) p -> CORRIDOR ID . LBRACKET l2id c RBRACKET
+    (24) p -> CORRIDOR ID . LBRACKET l2id lsl lal RBRACKET
+    (25) p -> CORRIDOR ID . LBRACKET l2id lsl c RBRACKET
+    (26) p -> CORRIDOR ID . LBRACKET l2id lal c RBRACKET
+    (27) p -> CORRIDOR ID . LBRACKET l2id lsl lal c RBRACKET
+    (28) p -> CORRIDOR ID . LBRACKET l2id RBRACKET
+
+    LBRACKET        shift and go to state 85
+
+
+state 30
+
+    (9) lh -> h COMMA lh .
+
+    RBRACKET        reduce using rule 9 (lh -> h COMMA lh .)
+    GLOBAL          reduce using rule 9 (lh -> h COMMA lh .)
+    CORRIDOR        reduce using rule 9 (lh -> h COMMA lh .)
+
+
+state 31
+
+    (13) h -> ROOM ID LBRACKET . lsl RBRACKET
+    (14) h -> ROOM ID LBRACKET . lal RBRACKET
+    (15) h -> ROOM ID LBRACKET . c RBRACKET
+    (16) h -> ROOM ID LBRACKET . lsl lal RBRACKET
+    (17) h -> ROOM ID LBRACKET . lsl c RBRACKET
+    (18) h -> ROOM ID LBRACKET . lal c RBRACKET
+    (19) h -> ROOM ID LBRACKET . lsl lal c RBRACKET
+    (20) h -> ROOM ID LBRACKET . RBRACKET
+    (31) lsl -> . s COMMA lsl
+    (32) lsl -> . s SEMICOLON
+    (33) lal -> . a COMMA lal
+    (34) lal -> . a SEMICOLON
+    (61) c -> . LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
+    (62) c -> . LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON
+    (63) c -> . LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
+    (64) c -> . LBRACKET lest SEMICOLON RBRACKET SEMICOLON
+    (41) s -> . spresencia
+    (42) s -> . slluvia
+    (43) s -> . siluminacion
+    (44) s -> . sreloj
+    (45) s -> . stemperatura
+    (46) s -> . shumo
+    (47) s -> . sviento
+    (48) s -> . sintrusos
+    (49) s -> . sgas
+    (50) s -> . sinundacion
+    (51) a -> . apuerta
+    (52) a -> . acalefaccion
+    (53) a -> . apersiana
+    (54) a -> . aluz
+    (55) a -> . aventana
+    (56) a -> . afrio
+    (57) a -> . agas
+    (58) a -> . atoldo
+    (59) a -> . aalarma
+    (60) a -> . aemergencia
+    (76) spresencia -> . SPRESENCIA ID SEQ BOOL
+    (77) slluvia -> . SLLUVIA ID SEQ BOOL
+    (78) siluminacion -> . SILUMINACION OPL DOUBLE ID SEQ DOUBLE
+    (80) sreloj -> . SRELOJ OPL TIME ID SEQ TIME
+    (79) stemperatura -> . STEMPERATURA OPL DOUBLE ID SEQ DOUBLE
+    (81) shumo -> . SHUMO ID SEQ BOOL
+    (82) sviento -> . SVIENTO OPL DOUBLE ID SEQ DOUBLE
+    (83) sintrusos -> . SINTRUSOS ID SEQ BOOL
+    (85) sgas -> . SGAS ID SEQ BOOL
+    (84) sinundacion -> . SINUNDACION ID SEQ BOOL
+    (86) apuerta -> . APUERTA ID
+    (87) acalefaccion -> . ACALEFACCION ID
+    (88) apersiana -> . APERSIANA ID
+    (89) aluz -> . ALUZ ID
+    (90) aventana -> . AVENTANA ID
+    (91) afrio -> . AFRIO ID
+    (92) agas -> . AGAS ID
+    (93) atoldo -> . ATOLDO ID
+    (94) aalarma -> . AALARMA ID
+    (95) aemergencia -> . AEMERGENCIA ID
+
+    RBRACKET        shift and go to state 88
+    LBRACKET        shift and go to state 86
+    SPRESENCIA      shift and go to state 65
+    SLLUVIA         shift and go to state 66
+    SILUMINACION    shift and go to state 67
+    SRELOJ          shift and go to state 68
+    STEMPERATURA    shift and go to state 69
+    SHUMO           shift and go to state 70
+    SVIENTO         shift and go to state 71
+    SINTRUSOS       shift and go to state 72
+    SGAS            shift and go to state 73
+    SINUNDACION     shift and go to state 74
+    APUERTA         shift and go to state 75
+    ACALEFACCION    shift and go to state 76
+    APERSIANA       shift and go to state 77
+    ALUZ            shift and go to state 78
+    AVENTANA        shift and go to state 79
+    AFRIO           shift and go to state 80
+    AGAS            shift and go to state 81
+    ATOLDO          shift and go to state 82
+    AALARMA         shift and go to state 83
+    AEMERGENCIA     shift and go to state 84
+
+    lsl                            shift and go to state 87
+    lal                            shift and go to state 89
+    c                              shift and go to state 90
+    s                              shift and go to state 91
+    a                              shift and go to state 92
+    spresencia                     shift and go to state 45
+    slluvia                        shift and go to state 46
+    siluminacion                   shift and go to state 47
+    sreloj                         shift and go to state 48
+    stemperatura                   shift and go to state 49
+    shumo                          shift and go to state 50
+    sviento                        shift and go to state 51
+    sintrusos                      shift and go to state 52
+    sgas                           shift and go to state 53
+    sinundacion                    shift and go to state 54
+    apuerta                        shift and go to state 55
+    acalefaccion                   shift and go to state 56
+    apersiana                      shift and go to state 57
+    aluz                           shift and go to state 58
+    aventana                       shift and go to state 59
+    afrio                          shift and go to state 60
+    agas                           shift and go to state 61
+    atoldo                         shift and go to state 62
+    aalarma                        shift and go to state 63
+    aemergencia                    shift and go to state 64
+
+state 32
+
+    (2) casa -> HOUSE ID LBRACKET lh lp RBRACKET SEMICOLON .
+
+    $end            reduce using rule 2 (casa -> HOUSE ID LBRACKET lh lp RBRACKET SEMICOLON .)
+
+
+state 33
+
+    (5) casa -> HOUSE ID LBRACKET lh lp lsg RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 93
+
+
+state 34
+
+    (8) casa -> HOUSE ID LBRACKET lh lp lsg lag . RBRACKET SEMICOLON
+
+    RBRACKET        shift and go to state 94
+
+
+state 35
+
+    (6) casa -> HOUSE ID LBRACKET lh lp lag RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 95
+
+
+state 36
+
+    (3) casa -> HOUSE ID LBRACKET lh lsg RBRACKET SEMICOLON .
+
+    $end            reduce using rule 3 (casa -> HOUSE ID LBRACKET lh lsg RBRACKET SEMICOLON .)
+
+
+state 37
+
+    (7) casa -> HOUSE ID LBRACKET lh lsg lag RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 96
+
+
+state 38
+
+    (38) lag -> GLOBAL LBRACKET . lag1
+    (39) lag1 -> . a COMMA lag1
+    (40) lag1 -> . a RBRACKET SEMICOLON
+    (51) a -> . apuerta
+    (52) a -> . acalefaccion
+    (53) a -> . apersiana
+    (54) a -> . aluz
+    (55) a -> . aventana
+    (56) a -> . afrio
+    (57) a -> . agas
+    (58) a -> . atoldo
+    (59) a -> . aalarma
+    (60) a -> . aemergencia
+    (86) apuerta -> . APUERTA ID
+    (87) acalefaccion -> . ACALEFACCION ID
+    (88) apersiana -> . APERSIANA ID
+    (89) aluz -> . ALUZ ID
+    (90) aventana -> . AVENTANA ID
+    (91) afrio -> . AFRIO ID
+    (92) agas -> . AGAS ID
+    (93) atoldo -> . ATOLDO ID
+    (94) aalarma -> . AALARMA ID
+    (95) aemergencia -> . AEMERGENCIA ID
+
+    APUERTA         shift and go to state 75
+    ACALEFACCION    shift and go to state 76
+    APERSIANA       shift and go to state 77
+    ALUZ            shift and go to state 78
+    AVENTANA        shift and go to state 79
+    AFRIO           shift and go to state 80
+    AGAS            shift and go to state 81
+    ATOLDO          shift and go to state 82
+    AALARMA         shift and go to state 83
+    AEMERGENCIA     shift and go to state 84
+
+    lag1                           shift and go to state 42
+    a                              shift and go to state 44
+    apuerta                        shift and go to state 55
+    acalefaccion                   shift and go to state 56
+    apersiana                      shift and go to state 57
+    aluz                           shift and go to state 58
+    aventana                       shift and go to state 59
+    afrio                          shift and go to state 60
+    agas                           shift and go to state 61
+    atoldo                         shift and go to state 62
+    aalarma                        shift and go to state 63
+    aemergencia                    shift and go to state 64
+
+state 39
+
+    (4) casa -> HOUSE ID LBRACKET lh lag RBRACKET SEMICOLON .
+
+    $end            reduce using rule 4 (casa -> HOUSE ID LBRACKET lh lag RBRACKET SEMICOLON .)
+
+
+state 40
+
+    (11) lp -> p COMMA lp .
+
+    RBRACKET        reduce using rule 11 (lp -> p COMMA lp .)
+    GLOBAL          reduce using rule 11 (lp -> p COMMA lp .)
+
+
+state 41
+
+    (35) lsg -> GLOBAL LBRACKET lsg1 .
+
+    RBRACKET        reduce using rule 35 (lsg -> GLOBAL LBRACKET lsg1 .)
+    GLOBAL          reduce using rule 35 (lsg -> GLOBAL LBRACKET lsg1 .)
+
+
+state 42
+
+    (38) lag -> GLOBAL LBRACKET lag1 .
+
+    RBRACKET        reduce using rule 38 (lag -> GLOBAL LBRACKET lag1 .)
+
+
+state 43
+
+    (36) lsg1 -> s . COMMA lsg1
+    (37) lsg1 -> s . RBRACKET SEMICOLON
+
+    COMMA           shift and go to state 97
+    RBRACKET        shift and go to state 98
+
+
+state 44
+
+    (39) lag1 -> a . COMMA lag1
+    (40) lag1 -> a . RBRACKET SEMICOLON
+
+    COMMA           shift and go to state 99
+    RBRACKET        shift and go to state 100
+
+
+state 45
+
+    (41) s -> spresencia .
+
+    COMMA           reduce using rule 41 (s -> spresencia .)
+    RBRACKET        reduce using rule 41 (s -> spresencia .)
+    SEMICOLON       reduce using rule 41 (s -> spresencia .)
+
+
+state 46
+
+    (42) s -> slluvia .
+
+    COMMA           reduce using rule 42 (s -> slluvia .)
+    RBRACKET        reduce using rule 42 (s -> slluvia .)
+    SEMICOLON       reduce using rule 42 (s -> slluvia .)
+
+
+state 47
+
+    (43) s -> siluminacion .
+
+    COMMA           reduce using rule 43 (s -> siluminacion .)
+    RBRACKET        reduce using rule 43 (s -> siluminacion .)
+    SEMICOLON       reduce using rule 43 (s -> siluminacion .)
+
+
+state 48
+
+    (44) s -> sreloj .
+
+    COMMA           reduce using rule 44 (s -> sreloj .)
+    RBRACKET        reduce using rule 44 (s -> sreloj .)
+    SEMICOLON       reduce using rule 44 (s -> sreloj .)
+
+
+state 49
+
+    (45) s -> stemperatura .
+
+    COMMA           reduce using rule 45 (s -> stemperatura .)
+    RBRACKET        reduce using rule 45 (s -> stemperatura .)
+    SEMICOLON       reduce using rule 45 (s -> stemperatura .)
+
+
+state 50
+
+    (46) s -> shumo .
+
+    COMMA           reduce using rule 46 (s -> shumo .)
+    RBRACKET        reduce using rule 46 (s -> shumo .)
+    SEMICOLON       reduce using rule 46 (s -> shumo .)
+
+
+state 51
+
+    (47) s -> sviento .
+
+    COMMA           reduce using rule 47 (s -> sviento .)
+    RBRACKET        reduce using rule 47 (s -> sviento .)
+    SEMICOLON       reduce using rule 47 (s -> sviento .)
+
+
+state 52
+
+    (48) s -> sintrusos .
+
+    COMMA           reduce using rule 48 (s -> sintrusos .)
+    RBRACKET        reduce using rule 48 (s -> sintrusos .)
+    SEMICOLON       reduce using rule 48 (s -> sintrusos .)
+
+
+state 53
+
+    (49) s -> sgas .
+
+    COMMA           reduce using rule 49 (s -> sgas .)
+    RBRACKET        reduce using rule 49 (s -> sgas .)
+    SEMICOLON       reduce using rule 49 (s -> sgas .)
+
+
+state 54
+
+    (50) s -> sinundacion .
+
+    COMMA           reduce using rule 50 (s -> sinundacion .)
+    RBRACKET        reduce using rule 50 (s -> sinundacion .)
+    SEMICOLON       reduce using rule 50 (s -> sinundacion .)
+
+
+state 55
+
+    (51) a -> apuerta .
+
+    COMMA           reduce using rule 51 (a -> apuerta .)
+    RBRACKET        reduce using rule 51 (a -> apuerta .)
+    SEMICOLON       reduce using rule 51 (a -> apuerta .)
+
+
+state 56
+
+    (52) a -> acalefaccion .
+
+    COMMA           reduce using rule 52 (a -> acalefaccion .)
+    RBRACKET        reduce using rule 52 (a -> acalefaccion .)
+    SEMICOLON       reduce using rule 52 (a -> acalefaccion .)
+
+
+state 57
+
+    (53) a -> apersiana .
+
+    COMMA           reduce using rule 53 (a -> apersiana .)
+    RBRACKET        reduce using rule 53 (a -> apersiana .)
+    SEMICOLON       reduce using rule 53 (a -> apersiana .)
+
+
+state 58
+
+    (54) a -> aluz .
+
+    COMMA           reduce using rule 54 (a -> aluz .)
+    RBRACKET        reduce using rule 54 (a -> aluz .)
+    SEMICOLON       reduce using rule 54 (a -> aluz .)
+
+
+state 59
+
+    (55) a -> aventana .
+
+    COMMA           reduce using rule 55 (a -> aventana .)
+    RBRACKET        reduce using rule 55 (a -> aventana .)
+    SEMICOLON       reduce using rule 55 (a -> aventana .)
+
+
+state 60
+
+    (56) a -> afrio .
+
+    COMMA           reduce using rule 56 (a -> afrio .)
+    RBRACKET        reduce using rule 56 (a -> afrio .)
+    SEMICOLON       reduce using rule 56 (a -> afrio .)
+
+
+state 61
+
+    (57) a -> agas .
+
+    COMMA           reduce using rule 57 (a -> agas .)
+    RBRACKET        reduce using rule 57 (a -> agas .)
+    SEMICOLON       reduce using rule 57 (a -> agas .)
+
+
+state 62
+
+    (58) a -> atoldo .
+
+    COMMA           reduce using rule 58 (a -> atoldo .)
+    RBRACKET        reduce using rule 58 (a -> atoldo .)
+    SEMICOLON       reduce using rule 58 (a -> atoldo .)
+
+
+state 63
+
+    (59) a -> aalarma .
+
+    COMMA           reduce using rule 59 (a -> aalarma .)
+    RBRACKET        reduce using rule 59 (a -> aalarma .)
+    SEMICOLON       reduce using rule 59 (a -> aalarma .)
+
+
+state 64
+
+    (60) a -> aemergencia .
+
+    COMMA           reduce using rule 60 (a -> aemergencia .)
+    RBRACKET        reduce using rule 60 (a -> aemergencia .)
+    SEMICOLON       reduce using rule 60 (a -> aemergencia .)
+
+
+state 65
+
+    (76) spresencia -> SPRESENCIA . ID SEQ BOOL
+
+    ID              shift and go to state 101
+
+
+state 66
+
+    (77) slluvia -> SLLUVIA . ID SEQ BOOL
+
+    ID              shift and go to state 102
+
+
+state 67
+
+    (78) siluminacion -> SILUMINACION . OPL DOUBLE ID SEQ DOUBLE
+
+    OPL             shift and go to state 103
+
+
+state 68
+
+    (80) sreloj -> SRELOJ . OPL TIME ID SEQ TIME
+
+    OPL             shift and go to state 104
+
+
+state 69
+
+    (79) stemperatura -> STEMPERATURA . OPL DOUBLE ID SEQ DOUBLE
+
+    OPL             shift and go to state 105
+
+
+state 70
+
+    (81) shumo -> SHUMO . ID SEQ BOOL
+
+    ID              shift and go to state 106
+
+
+state 71
+
+    (82) sviento -> SVIENTO . OPL DOUBLE ID SEQ DOUBLE
+
+    OPL             shift and go to state 107
+
+
+state 72
+
+    (83) sintrusos -> SINTRUSOS . ID SEQ BOOL
+
+    ID              shift and go to state 108
+
+
+state 73
+
+    (85) sgas -> SGAS . ID SEQ BOOL
+
+    ID              shift and go to state 109
+
+
+state 74
+
+    (84) sinundacion -> SINUNDACION . ID SEQ BOOL
+
+    ID              shift and go to state 110
+
+
+state 75
+
+    (86) apuerta -> APUERTA . ID
+
+    ID              shift and go to state 111
+
+
+state 76
+
+    (87) acalefaccion -> ACALEFACCION . ID
+
+    ID              shift and go to state 112
+
+
+state 77
+
+    (88) apersiana -> APERSIANA . ID
+
+    ID              shift and go to state 113
+
+
+state 78
+
+    (89) aluz -> ALUZ . ID
+
+    ID              shift and go to state 114
+
+
+state 79
+
+    (90) aventana -> AVENTANA . ID
+
+    ID              shift and go to state 115
+
+
+state 80
+
+    (91) afrio -> AFRIO . ID
+
+    ID              shift and go to state 116
+
+
+state 81
+
+    (92) agas -> AGAS . ID
+
+    ID              shift and go to state 117
+
+
+state 82
+
+    (93) atoldo -> ATOLDO . ID
+
+    ID              shift and go to state 118
+
+
+state 83
+
+    (94) aalarma -> AALARMA . ID
+
+    ID              shift and go to state 119
+
+
+state 84
+
+    (95) aemergencia -> AEMERGENCIA . ID
+
+    ID              shift and go to state 120
+
+
+state 85
+
+    (21) p -> CORRIDOR ID LBRACKET . l2id lsl RBRACKET
+    (22) p -> CORRIDOR ID LBRACKET . l2id lal RBRACKET
+    (23) p -> CORRIDOR ID LBRACKET . l2id c RBRACKET
+    (24) p -> CORRIDOR ID LBRACKET . l2id lsl lal RBRACKET
+    (25) p -> CORRIDOR ID LBRACKET . l2id lsl c RBRACKET
+    (26) p -> CORRIDOR ID LBRACKET . l2id lal c RBRACKET
+    (27) p -> CORRIDOR ID LBRACKET . l2id lsl lal c RBRACKET
+    (28) p -> CORRIDOR ID LBRACKET . l2id RBRACKET
+    (29) l2id -> . ID COMMA l2id
+    (30) l2id -> . ID COMMA ID SEMICOLON
+
+    ID              shift and go to state 121
+
+    l2id                           shift and go to state 122
+
+state 86
+
+    (61) c -> LBRACKET . lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
+    (62) c -> LBRACKET . lest SEMICOLON trans RBRACKET SEMICOLON
+    (63) c -> LBRACKET . lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
+    (64) c -> LBRACKET . lest SEMICOLON RBRACKET SEMICOLON
+    (65) lest -> . STATE ID LBRACKET lactions RBRACKET COMMA lest
+    (66) lest -> . STATE ID LBRACKET RBRACKET COMMA lest
+    (67) lest -> . STATE ID LBRACKET lactions RBRACKET
+    (68) lest -> . STATE ID LBRACKET RBRACKET
+
+    STATE           shift and go to state 124
+
+    lest                           shift and go to state 123
+
+state 87
+
+    (13) h -> ROOM ID LBRACKET lsl . RBRACKET
+    (16) h -> ROOM ID LBRACKET lsl . lal RBRACKET
+    (17) h -> ROOM ID LBRACKET lsl . c RBRACKET
+    (19) h -> ROOM ID LBRACKET lsl . lal c RBRACKET
+    (33) lal -> . a COMMA lal
+    (34) lal -> . a SEMICOLON
+    (61) c -> . LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
+    (62) c -> . LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON
+    (63) c -> . LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
+    (64) c -> . LBRACKET lest SEMICOLON RBRACKET SEMICOLON
+    (51) a -> . apuerta
+    (52) a -> . acalefaccion
+    (53) a -> . apersiana
+    (54) a -> . aluz
+    (55) a -> . aventana
+    (56) a -> . afrio
+    (57) a -> . agas
+    (58) a -> . atoldo
+    (59) a -> . aalarma
+    (60) a -> . aemergencia
+    (86) apuerta -> . APUERTA ID
+    (87) acalefaccion -> . ACALEFACCION ID
+    (88) apersiana -> . APERSIANA ID
+    (89) aluz -> . ALUZ ID
+    (90) aventana -> . AVENTANA ID
+    (91) afrio -> . AFRIO ID
+    (92) agas -> . AGAS ID
+    (93) atoldo -> . ATOLDO ID
+    (94) aalarma -> . AALARMA ID
+    (95) aemergencia -> . AEMERGENCIA ID
+
+    RBRACKET        shift and go to state 125
+    LBRACKET        shift and go to state 86
+    APUERTA         shift and go to state 75
+    ACALEFACCION    shift and go to state 76
+    APERSIANA       shift and go to state 77
+    ALUZ            shift and go to state 78
+    AVENTANA        shift and go to state 79
+    AFRIO           shift and go to state 80
+    AGAS            shift and go to state 81
+    ATOLDO          shift and go to state 82
+    AALARMA         shift and go to state 83
+    AEMERGENCIA     shift and go to state 84
+
+    lal                            shift and go to state 126
+    c                              shift and go to state 127
+    a                              shift and go to state 92
+    apuerta                        shift and go to state 55
+    acalefaccion                   shift and go to state 56
+    apersiana                      shift and go to state 57
+    aluz                           shift and go to state 58
+    aventana                       shift and go to state 59
+    afrio                          shift and go to state 60
+    agas                           shift and go to state 61
+    atoldo                         shift and go to state 62
+    aalarma                        shift and go to state 63
+    aemergencia                    shift and go to state 64
+
+state 88
+
+    (20) h -> ROOM ID LBRACKET RBRACKET .
+
+    COMMA           reduce using rule 20 (h -> ROOM ID LBRACKET RBRACKET .)
+    SEMICOLON       reduce using rule 20 (h -> ROOM ID LBRACKET RBRACKET .)
+
+
+state 89
+
+    (14) h -> ROOM ID LBRACKET lal . RBRACKET
+    (18) h -> ROOM ID LBRACKET lal . c RBRACKET
+    (61) c -> . LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
+    (62) c -> . LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON
+    (63) c -> . LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
+    (64) c -> . LBRACKET lest SEMICOLON RBRACKET SEMICOLON
+
+    RBRACKET        shift and go to state 128
+    LBRACKET        shift and go to state 86
+
+    c                              shift and go to state 129
+
+state 90
+
+    (15) h -> ROOM ID LBRACKET c . RBRACKET
+
+    RBRACKET        shift and go to state 130
+
+
+state 91
+
+    (31) lsl -> s . COMMA lsl
+    (32) lsl -> s . SEMICOLON
+
+    COMMA           shift and go to state 131
+    SEMICOLON       shift and go to state 132
+
+
+state 92
+
+    (33) lal -> a . COMMA lal
+    (34) lal -> a . SEMICOLON
+
+    COMMA           shift and go to state 133
+    SEMICOLON       shift and go to state 134
+
+
+state 93
+
+    (5) casa -> HOUSE ID LBRACKET lh lp lsg RBRACKET SEMICOLON .
+
+    $end            reduce using rule 5 (casa -> HOUSE ID LBRACKET lh lp lsg RBRACKET SEMICOLON .)
+
+
+state 94
+
+    (8) casa -> HOUSE ID LBRACKET lh lp lsg lag RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 135
+
+
+state 95
+
+    (6) casa -> HOUSE ID LBRACKET lh lp lag RBRACKET SEMICOLON .
+
+    $end            reduce using rule 6 (casa -> HOUSE ID LBRACKET lh lp lag RBRACKET SEMICOLON .)
+
+
+state 96
+
+    (7) casa -> HOUSE ID LBRACKET lh lsg lag RBRACKET SEMICOLON .
+
+    $end            reduce using rule 7 (casa -> HOUSE ID LBRACKET lh lsg lag RBRACKET SEMICOLON .)
+
+
+state 97
+
+    (36) lsg1 -> s COMMA . lsg1
+    (36) lsg1 -> . s COMMA lsg1
+    (37) lsg1 -> . s RBRACKET SEMICOLON
+    (41) s -> . spresencia
+    (42) s -> . slluvia
+    (43) s -> . siluminacion
+    (44) s -> . sreloj
+    (45) s -> . stemperatura
+    (46) s -> . shumo
+    (47) s -> . sviento
+    (48) s -> . sintrusos
+    (49) s -> . sgas
+    (50) s -> . sinundacion
+    (76) spresencia -> . SPRESENCIA ID SEQ BOOL
+    (77) slluvia -> . SLLUVIA ID SEQ BOOL
+    (78) siluminacion -> . SILUMINACION OPL DOUBLE ID SEQ DOUBLE
+    (80) sreloj -> . SRELOJ OPL TIME ID SEQ TIME
+    (79) stemperatura -> . STEMPERATURA OPL DOUBLE ID SEQ DOUBLE
+    (81) shumo -> . SHUMO ID SEQ BOOL
+    (82) sviento -> . SVIENTO OPL DOUBLE ID SEQ DOUBLE
+    (83) sintrusos -> . SINTRUSOS ID SEQ BOOL
+    (85) sgas -> . SGAS ID SEQ BOOL
+    (84) sinundacion -> . SINUNDACION ID SEQ BOOL
+
+    SPRESENCIA      shift and go to state 65
+    SLLUVIA         shift and go to state 66
+    SILUMINACION    shift and go to state 67
+    SRELOJ          shift and go to state 68
+    STEMPERATURA    shift and go to state 69
+    SHUMO           shift and go to state 70
+    SVIENTO         shift and go to state 71
+    SINTRUSOS       shift and go to state 72
+    SGAS            shift and go to state 73
+    SINUNDACION     shift and go to state 74
+
+    s                              shift and go to state 43
+    lsg1                           shift and go to state 136
+    spresencia                     shift and go to state 45
+    slluvia                        shift and go to state 46
+    siluminacion                   shift and go to state 47
+    sreloj                         shift and go to state 48
+    stemperatura                   shift and go to state 49
+    shumo                          shift and go to state 50
+    sviento                        shift and go to state 51
+    sintrusos                      shift and go to state 52
+    sgas                           shift and go to state 53
+    sinundacion                    shift and go to state 54
+
+state 98
+
+    (37) lsg1 -> s RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 137
+
+
+state 99
+
+    (39) lag1 -> a COMMA . lag1
+    (39) lag1 -> . a COMMA lag1
+    (40) lag1 -> . a RBRACKET SEMICOLON
+    (51) a -> . apuerta
+    (52) a -> . acalefaccion
+    (53) a -> . apersiana
+    (54) a -> . aluz
+    (55) a -> . aventana
+    (56) a -> . afrio
+    (57) a -> . agas
+    (58) a -> . atoldo
+    (59) a -> . aalarma
+    (60) a -> . aemergencia
+    (86) apuerta -> . APUERTA ID
+    (87) acalefaccion -> . ACALEFACCION ID
+    (88) apersiana -> . APERSIANA ID
+    (89) aluz -> . ALUZ ID
+    (90) aventana -> . AVENTANA ID
+    (91) afrio -> . AFRIO ID
+    (92) agas -> . AGAS ID
+    (93) atoldo -> . ATOLDO ID
+    (94) aalarma -> . AALARMA ID
+    (95) aemergencia -> . AEMERGENCIA ID
+
+    APUERTA         shift and go to state 75
+    ACALEFACCION    shift and go to state 76
+    APERSIANA       shift and go to state 77
+    ALUZ            shift and go to state 78
+    AVENTANA        shift and go to state 79
+    AFRIO           shift and go to state 80
+    AGAS            shift and go to state 81
+    ATOLDO          shift and go to state 82
+    AALARMA         shift and go to state 83
+    AEMERGENCIA     shift and go to state 84
+
+    a                              shift and go to state 44
+    lag1                           shift and go to state 138
+    apuerta                        shift and go to state 55
+    acalefaccion                   shift and go to state 56
+    apersiana                      shift and go to state 57
+    aluz                           shift and go to state 58
+    aventana                       shift and go to state 59
+    afrio                          shift and go to state 60
+    agas                           shift and go to state 61
+    atoldo                         shift and go to state 62
+    aalarma                        shift and go to state 63
+    aemergencia                    shift and go to state 64
+
+state 100
+
+    (40) lag1 -> a RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 139
+
+
+state 101
+
+    (76) spresencia -> SPRESENCIA ID . SEQ BOOL
+
+    SEQ             shift and go to state 140
+
+
+state 102
+
+    (77) slluvia -> SLLUVIA ID . SEQ BOOL
+
+    SEQ             shift and go to state 141
+
+
+state 103
+
+    (78) siluminacion -> SILUMINACION OPL . DOUBLE ID SEQ DOUBLE
+
+    DOUBLE          shift and go to state 142
+
+
+state 104
+
+    (80) sreloj -> SRELOJ OPL . TIME ID SEQ TIME
+
+    TIME            shift and go to state 143
+
+
+state 105
+
+    (79) stemperatura -> STEMPERATURA OPL . DOUBLE ID SEQ DOUBLE
+
+    DOUBLE          shift and go to state 144
+
+
+state 106
+
+    (81) shumo -> SHUMO ID . SEQ BOOL
+
+    SEQ             shift and go to state 145
+
+
+state 107
+
+    (82) sviento -> SVIENTO OPL . DOUBLE ID SEQ DOUBLE
+
+    DOUBLE          shift and go to state 146
+
+
+state 108
+
+    (83) sintrusos -> SINTRUSOS ID . SEQ BOOL
+
+    SEQ             shift and go to state 147
+
+
+state 109
+
+    (85) sgas -> SGAS ID . SEQ BOOL
+
+    SEQ             shift and go to state 148
+
+
+state 110
+
+    (84) sinundacion -> SINUNDACION ID . SEQ BOOL
+
+    SEQ             shift and go to state 149
+
+
+state 111
+
+    (86) apuerta -> APUERTA ID .
+
+    COMMA           reduce using rule 86 (apuerta -> APUERTA ID .)
+    RBRACKET        reduce using rule 86 (apuerta -> APUERTA ID .)
+    SEMICOLON       reduce using rule 86 (apuerta -> APUERTA ID .)
+
+
+state 112
+
+    (87) acalefaccion -> ACALEFACCION ID .
+
+    COMMA           reduce using rule 87 (acalefaccion -> ACALEFACCION ID .)
+    RBRACKET        reduce using rule 87 (acalefaccion -> ACALEFACCION ID .)
+    SEMICOLON       reduce using rule 87 (acalefaccion -> ACALEFACCION ID .)
+
+
+state 113
+
+    (88) apersiana -> APERSIANA ID .
+
+    COMMA           reduce using rule 88 (apersiana -> APERSIANA ID .)
+    RBRACKET        reduce using rule 88 (apersiana -> APERSIANA ID .)
+    SEMICOLON       reduce using rule 88 (apersiana -> APERSIANA ID .)
+
+
+state 114
+
+    (89) aluz -> ALUZ ID .
+
+    COMMA           reduce using rule 89 (aluz -> ALUZ ID .)
+    RBRACKET        reduce using rule 89 (aluz -> ALUZ ID .)
+    SEMICOLON       reduce using rule 89 (aluz -> ALUZ ID .)
+
+
+state 115
+
+    (90) aventana -> AVENTANA ID .
+
+    COMMA           reduce using rule 90 (aventana -> AVENTANA ID .)
+    RBRACKET        reduce using rule 90 (aventana -> AVENTANA ID .)
+    SEMICOLON       reduce using rule 90 (aventana -> AVENTANA ID .)
+
+
+state 116
+
+    (91) afrio -> AFRIO ID .
+
+    COMMA           reduce using rule 91 (afrio -> AFRIO ID .)
+    RBRACKET        reduce using rule 91 (afrio -> AFRIO ID .)
+    SEMICOLON       reduce using rule 91 (afrio -> AFRIO ID .)
+
+
+state 117
+
+    (92) agas -> AGAS ID .
+
+    COMMA           reduce using rule 92 (agas -> AGAS ID .)
+    RBRACKET        reduce using rule 92 (agas -> AGAS ID .)
+    SEMICOLON       reduce using rule 92 (agas -> AGAS ID .)
+
+
+state 118
+
+    (93) atoldo -> ATOLDO ID .
+
+    COMMA           reduce using rule 93 (atoldo -> ATOLDO ID .)
+    RBRACKET        reduce using rule 93 (atoldo -> ATOLDO ID .)
+    SEMICOLON       reduce using rule 93 (atoldo -> ATOLDO ID .)
+
+
+state 119
+
+    (94) aalarma -> AALARMA ID .
+
+    COMMA           reduce using rule 94 (aalarma -> AALARMA ID .)
+    RBRACKET        reduce using rule 94 (aalarma -> AALARMA ID .)
+    SEMICOLON       reduce using rule 94 (aalarma -> AALARMA ID .)
+
+
+state 120
+
+    (95) aemergencia -> AEMERGENCIA ID .
+
+    COMMA           reduce using rule 95 (aemergencia -> AEMERGENCIA ID .)
+    RBRACKET        reduce using rule 95 (aemergencia -> AEMERGENCIA ID .)
+    SEMICOLON       reduce using rule 95 (aemergencia -> AEMERGENCIA ID .)
+
+
+state 121
+
+    (29) l2id -> ID . COMMA l2id
+    (30) l2id -> ID . COMMA ID SEMICOLON
+
+    COMMA           shift and go to state 150
+
+
+state 122
+
+    (21) p -> CORRIDOR ID LBRACKET l2id . lsl RBRACKET
+    (22) p -> CORRIDOR ID LBRACKET l2id . lal RBRACKET
+    (23) p -> CORRIDOR ID LBRACKET l2id . c RBRACKET
+    (24) p -> CORRIDOR ID LBRACKET l2id . lsl lal RBRACKET
+    (25) p -> CORRIDOR ID LBRACKET l2id . lsl c RBRACKET
+    (26) p -> CORRIDOR ID LBRACKET l2id . lal c RBRACKET
+    (27) p -> CORRIDOR ID LBRACKET l2id . lsl lal c RBRACKET
+    (28) p -> CORRIDOR ID LBRACKET l2id . RBRACKET
+    (31) lsl -> . s COMMA lsl
+    (32) lsl -> . s SEMICOLON
+    (33) lal -> . a COMMA lal
+    (34) lal -> . a SEMICOLON
+    (61) c -> . LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
+    (62) c -> . LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON
+    (63) c -> . LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
+    (64) c -> . LBRACKET lest SEMICOLON RBRACKET SEMICOLON
+    (41) s -> . spresencia
+    (42) s -> . slluvia
+    (43) s -> . siluminacion
+    (44) s -> . sreloj
+    (45) s -> . stemperatura
+    (46) s -> . shumo
+    (47) s -> . sviento
+    (48) s -> . sintrusos
+    (49) s -> . sgas
+    (50) s -> . sinundacion
+    (51) a -> . apuerta
+    (52) a -> . acalefaccion
+    (53) a -> . apersiana
+    (54) a -> . aluz
+    (55) a -> . aventana
+    (56) a -> . afrio
+    (57) a -> . agas
+    (58) a -> . atoldo
+    (59) a -> . aalarma
+    (60) a -> . aemergencia
+    (76) spresencia -> . SPRESENCIA ID SEQ BOOL
+    (77) slluvia -> . SLLUVIA ID SEQ BOOL
+    (78) siluminacion -> . SILUMINACION OPL DOUBLE ID SEQ DOUBLE
+    (80) sreloj -> . SRELOJ OPL TIME ID SEQ TIME
+    (79) stemperatura -> . STEMPERATURA OPL DOUBLE ID SEQ DOUBLE
+    (81) shumo -> . SHUMO ID SEQ BOOL
+    (82) sviento -> . SVIENTO OPL DOUBLE ID SEQ DOUBLE
+    (83) sintrusos -> . SINTRUSOS ID SEQ BOOL
+    (85) sgas -> . SGAS ID SEQ BOOL
+    (84) sinundacion -> . SINUNDACION ID SEQ BOOL
+    (86) apuerta -> . APUERTA ID
+    (87) acalefaccion -> . ACALEFACCION ID
+    (88) apersiana -> . APERSIANA ID
+    (89) aluz -> . ALUZ ID
+    (90) aventana -> . AVENTANA ID
+    (91) afrio -> . AFRIO ID
+    (92) agas -> . AGAS ID
+    (93) atoldo -> . ATOLDO ID
+    (94) aalarma -> . AALARMA ID
+    (95) aemergencia -> . AEMERGENCIA ID
+
+    RBRACKET        shift and go to state 152
+    LBRACKET        shift and go to state 86
+    SPRESENCIA      shift and go to state 65
+    SLLUVIA         shift and go to state 66
+    SILUMINACION    shift and go to state 67
+    SRELOJ          shift and go to state 68
+    STEMPERATURA    shift and go to state 69
+    SHUMO           shift and go to state 70
+    SVIENTO         shift and go to state 71
+    SINTRUSOS       shift and go to state 72
+    SGAS            shift and go to state 73
+    SINUNDACION     shift and go to state 74
+    APUERTA         shift and go to state 75
+    ACALEFACCION    shift and go to state 76
+    APERSIANA       shift and go to state 77
+    ALUZ            shift and go to state 78
+    AVENTANA        shift and go to state 79
+    AFRIO           shift and go to state 80
+    AGAS            shift and go to state 81
+    ATOLDO          shift and go to state 82
+    AALARMA         shift and go to state 83
+    AEMERGENCIA     shift and go to state 84
+
+    lsl                            shift and go to state 151
+    lal                            shift and go to state 153
+    c                              shift and go to state 154
+    s                              shift and go to state 91
+    a                              shift and go to state 92
+    spresencia                     shift and go to state 45
+    slluvia                        shift and go to state 46
+    siluminacion                   shift and go to state 47
+    sreloj                         shift and go to state 48
+    stemperatura                   shift and go to state 49
+    shumo                          shift and go to state 50
+    sviento                        shift and go to state 51
+    sintrusos                      shift and go to state 52
+    sgas                           shift and go to state 53
+    sinundacion                    shift and go to state 54
+    apuerta                        shift and go to state 55
+    acalefaccion                   shift and go to state 56
+    apersiana                      shift and go to state 57
+    aluz                           shift and go to state 58
+    aventana                       shift and go to state 59
+    afrio                          shift and go to state 60
+    agas                           shift and go to state 61
+    atoldo                         shift and go to state 62
+    aalarma                        shift and go to state 63
+    aemergencia                    shift and go to state 64
+
+state 123
+
+    (61) c -> LBRACKET lest . SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
+    (62) c -> LBRACKET lest . SEMICOLON trans RBRACKET SEMICOLON
+    (63) c -> LBRACKET lest . SEMICOLON init SEMICOLON RBRACKET SEMICOLON
+    (64) c -> LBRACKET lest . SEMICOLON RBRACKET SEMICOLON
+
+    SEMICOLON       shift and go to state 155
+
+
+state 124
+
+    (65) lest -> STATE . ID LBRACKET lactions RBRACKET COMMA lest
+    (66) lest -> STATE . ID LBRACKET RBRACKET COMMA lest
+    (67) lest -> STATE . ID LBRACKET lactions RBRACKET
+    (68) lest -> STATE . ID LBRACKET RBRACKET
+
+    ID              shift and go to state 156
+
+
+state 125
+
+    (13) h -> ROOM ID LBRACKET lsl RBRACKET .
+
+    COMMA           reduce using rule 13 (h -> ROOM ID LBRACKET lsl RBRACKET .)
+    SEMICOLON       reduce using rule 13 (h -> ROOM ID LBRACKET lsl RBRACKET .)
+
+
+state 126
+
+    (16) h -> ROOM ID LBRACKET lsl lal . RBRACKET
+    (19) h -> ROOM ID LBRACKET lsl lal . c RBRACKET
+    (61) c -> . LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
+    (62) c -> . LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON
+    (63) c -> . LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
+    (64) c -> . LBRACKET lest SEMICOLON RBRACKET SEMICOLON
+
+    RBRACKET        shift and go to state 157
+    LBRACKET        shift and go to state 86
+
+    c                              shift and go to state 158
+
+state 127
+
+    (17) h -> ROOM ID LBRACKET lsl c . RBRACKET
+
+    RBRACKET        shift and go to state 159
+
+
+state 128
+
+    (14) h -> ROOM ID LBRACKET lal RBRACKET .
+
+    COMMA           reduce using rule 14 (h -> ROOM ID LBRACKET lal RBRACKET .)
+    SEMICOLON       reduce using rule 14 (h -> ROOM ID LBRACKET lal RBRACKET .)
+
+
+state 129
+
+    (18) h -> ROOM ID LBRACKET lal c . RBRACKET
+
+    RBRACKET        shift and go to state 160
+
+
+state 130
+
+    (15) h -> ROOM ID LBRACKET c RBRACKET .
+
+    COMMA           reduce using rule 15 (h -> ROOM ID LBRACKET c RBRACKET .)
+    SEMICOLON       reduce using rule 15 (h -> ROOM ID LBRACKET c RBRACKET .)
+
+
+state 131
+
+    (31) lsl -> s COMMA . lsl
+    (31) lsl -> . s COMMA lsl
+    (32) lsl -> . s SEMICOLON
+    (41) s -> . spresencia
+    (42) s -> . slluvia
+    (43) s -> . siluminacion
+    (44) s -> . sreloj
+    (45) s -> . stemperatura
+    (46) s -> . shumo
+    (47) s -> . sviento
+    (48) s -> . sintrusos
+    (49) s -> . sgas
+    (50) s -> . sinundacion
+    (76) spresencia -> . SPRESENCIA ID SEQ BOOL
+    (77) slluvia -> . SLLUVIA ID SEQ BOOL
+    (78) siluminacion -> . SILUMINACION OPL DOUBLE ID SEQ DOUBLE
+    (80) sreloj -> . SRELOJ OPL TIME ID SEQ TIME
+    (79) stemperatura -> . STEMPERATURA OPL DOUBLE ID SEQ DOUBLE
+    (81) shumo -> . SHUMO ID SEQ BOOL
+    (82) sviento -> . SVIENTO OPL DOUBLE ID SEQ DOUBLE
+    (83) sintrusos -> . SINTRUSOS ID SEQ BOOL
+    (85) sgas -> . SGAS ID SEQ BOOL
+    (84) sinundacion -> . SINUNDACION ID SEQ BOOL
+
+    SPRESENCIA      shift and go to state 65
+    SLLUVIA         shift and go to state 66
+    SILUMINACION    shift and go to state 67
+    SRELOJ          shift and go to state 68
+    STEMPERATURA    shift and go to state 69
+    SHUMO           shift and go to state 70
+    SVIENTO         shift and go to state 71
+    SINTRUSOS       shift and go to state 72
+    SGAS            shift and go to state 73
+    SINUNDACION     shift and go to state 74
+
+    s                              shift and go to state 91
+    lsl                            shift and go to state 161
+    spresencia                     shift and go to state 45
+    slluvia                        shift and go to state 46
+    siluminacion                   shift and go to state 47
+    sreloj                         shift and go to state 48
+    stemperatura                   shift and go to state 49
+    shumo                          shift and go to state 50
+    sviento                        shift and go to state 51
+    sintrusos                      shift and go to state 52
+    sgas                           shift and go to state 53
+    sinundacion                    shift and go to state 54
+
+state 132
+
+    (32) lsl -> s SEMICOLON .
+
+    RBRACKET        reduce using rule 32 (lsl -> s SEMICOLON .)
+    LBRACKET        reduce using rule 32 (lsl -> s SEMICOLON .)
+    APUERTA         reduce using rule 32 (lsl -> s SEMICOLON .)
+    ACALEFACCION    reduce using rule 32 (lsl -> s SEMICOLON .)
+    APERSIANA       reduce using rule 32 (lsl -> s SEMICOLON .)
+    ALUZ            reduce using rule 32 (lsl -> s SEMICOLON .)
+    AVENTANA        reduce using rule 32 (lsl -> s SEMICOLON .)
+    AFRIO           reduce using rule 32 (lsl -> s SEMICOLON .)
+    AGAS            reduce using rule 32 (lsl -> s SEMICOLON .)
+    ATOLDO          reduce using rule 32 (lsl -> s SEMICOLON .)
+    AALARMA         reduce using rule 32 (lsl -> s SEMICOLON .)
+    AEMERGENCIA     reduce using rule 32 (lsl -> s SEMICOLON .)
+
+
+state 133
+
+    (33) lal -> a COMMA . lal
+    (33) lal -> . a COMMA lal
+    (34) lal -> . a SEMICOLON
+    (51) a -> . apuerta
+    (52) a -> . acalefaccion
+    (53) a -> . apersiana
+    (54) a -> . aluz
+    (55) a -> . aventana
+    (56) a -> . afrio
+    (57) a -> . agas
+    (58) a -> . atoldo
+    (59) a -> . aalarma
+    (60) a -> . aemergencia
+    (86) apuerta -> . APUERTA ID
+    (87) acalefaccion -> . ACALEFACCION ID
+    (88) apersiana -> . APERSIANA ID
+    (89) aluz -> . ALUZ ID
+    (90) aventana -> . AVENTANA ID
+    (91) afrio -> . AFRIO ID
+    (92) agas -> . AGAS ID
+    (93) atoldo -> . ATOLDO ID
+    (94) aalarma -> . AALARMA ID
+    (95) aemergencia -> . AEMERGENCIA ID
+
+    APUERTA         shift and go to state 75
+    ACALEFACCION    shift and go to state 76
+    APERSIANA       shift and go to state 77
+    ALUZ            shift and go to state 78
+    AVENTANA        shift and go to state 79
+    AFRIO           shift and go to state 80
+    AGAS            shift and go to state 81
+    ATOLDO          shift and go to state 82
+    AALARMA         shift and go to state 83
+    AEMERGENCIA     shift and go to state 84
+
+    a                              shift and go to state 92
+    lal                            shift and go to state 162
+    apuerta                        shift and go to state 55
+    acalefaccion                   shift and go to state 56
+    apersiana                      shift and go to state 57
+    aluz                           shift and go to state 58
+    aventana                       shift and go to state 59
+    afrio                          shift and go to state 60
+    agas                           shift and go to state 61
+    atoldo                         shift and go to state 62
+    aalarma                        shift and go to state 63
+    aemergencia                    shift and go to state 64
+
+state 134
+
+    (34) lal -> a SEMICOLON .
+
+    RBRACKET        reduce using rule 34 (lal -> a SEMICOLON .)
+    LBRACKET        reduce using rule 34 (lal -> a SEMICOLON .)
+
+
+state 135
+
+    (8) casa -> HOUSE ID LBRACKET lh lp lsg lag RBRACKET SEMICOLON .
+
+    $end            reduce using rule 8 (casa -> HOUSE ID LBRACKET lh lp lsg lag RBRACKET SEMICOLON .)
+
+
+state 136
+
+    (36) lsg1 -> s COMMA lsg1 .
+
+    RBRACKET        reduce using rule 36 (lsg1 -> s COMMA lsg1 .)
+    GLOBAL          reduce using rule 36 (lsg1 -> s COMMA lsg1 .)
+
+
+state 137
+
+    (37) lsg1 -> s RBRACKET SEMICOLON .
+
+    RBRACKET        reduce using rule 37 (lsg1 -> s RBRACKET SEMICOLON .)
+    GLOBAL          reduce using rule 37 (lsg1 -> s RBRACKET SEMICOLON .)
+
+
+state 138
+
+    (39) lag1 -> a COMMA lag1 .
+
+    RBRACKET        reduce using rule 39 (lag1 -> a COMMA lag1 .)
+
+
+state 139
+
+    (40) lag1 -> a RBRACKET SEMICOLON .
+
+    RBRACKET        reduce using rule 40 (lag1 -> a RBRACKET SEMICOLON .)
+
+
+state 140
+
+    (76) spresencia -> SPRESENCIA ID SEQ . BOOL
+
+    BOOL            shift and go to state 163
+
+
+state 141
+
+    (77) slluvia -> SLLUVIA ID SEQ . BOOL
+
+    BOOL            shift and go to state 164
+
+
+state 142
+
+    (78) siluminacion -> SILUMINACION OPL DOUBLE . ID SEQ DOUBLE
+
+    ID              shift and go to state 165
+
+
+state 143
+
+    (80) sreloj -> SRELOJ OPL TIME . ID SEQ TIME
+
+    ID              shift and go to state 166
+
+
+state 144
+
+    (79) stemperatura -> STEMPERATURA OPL DOUBLE . ID SEQ DOUBLE
+
+    ID              shift and go to state 167
+
+
+state 145
+
+    (81) shumo -> SHUMO ID SEQ . BOOL
+
+    BOOL            shift and go to state 168
+
+
+state 146
+
+    (82) sviento -> SVIENTO OPL DOUBLE . ID SEQ DOUBLE
+
+    ID              shift and go to state 169
+
+
+state 147
+
+    (83) sintrusos -> SINTRUSOS ID SEQ . BOOL
+
+    BOOL            shift and go to state 170
+
+
+state 148
+
+    (85) sgas -> SGAS ID SEQ . BOOL
+
+    BOOL            shift and go to state 171
+
+
+state 149
+
+    (84) sinundacion -> SINUNDACION ID SEQ . BOOL
+
+    BOOL            shift and go to state 172
+
+
+state 150
+
+    (29) l2id -> ID COMMA . l2id
+    (30) l2id -> ID COMMA . ID SEMICOLON
+    (29) l2id -> . ID COMMA l2id
+    (30) l2id -> . ID COMMA ID SEMICOLON
+
+    ID              shift and go to state 173
+
+    l2id                           shift and go to state 174
+
+state 151
+
+    (21) p -> CORRIDOR ID LBRACKET l2id lsl . RBRACKET
+    (24) p -> CORRIDOR ID LBRACKET l2id lsl . lal RBRACKET
+    (25) p -> CORRIDOR ID LBRACKET l2id lsl . c RBRACKET
+    (27) p -> CORRIDOR ID LBRACKET l2id lsl . lal c RBRACKET
+    (33) lal -> . a COMMA lal
+    (34) lal -> . a SEMICOLON
+    (61) c -> . LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
+    (62) c -> . LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON
+    (63) c -> . LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
+    (64) c -> . LBRACKET lest SEMICOLON RBRACKET SEMICOLON
+    (51) a -> . apuerta
+    (52) a -> . acalefaccion
+    (53) a -> . apersiana
+    (54) a -> . aluz
+    (55) a -> . aventana
+    (56) a -> . afrio
+    (57) a -> . agas
+    (58) a -> . atoldo
+    (59) a -> . aalarma
+    (60) a -> . aemergencia
+    (86) apuerta -> . APUERTA ID
+    (87) acalefaccion -> . ACALEFACCION ID
+    (88) apersiana -> . APERSIANA ID
+    (89) aluz -> . ALUZ ID
+    (90) aventana -> . AVENTANA ID
+    (91) afrio -> . AFRIO ID
+    (92) agas -> . AGAS ID
+    (93) atoldo -> . ATOLDO ID
+    (94) aalarma -> . AALARMA ID
+    (95) aemergencia -> . AEMERGENCIA ID
+
+    RBRACKET        shift and go to state 175
+    LBRACKET        shift and go to state 86
+    APUERTA         shift and go to state 75
+    ACALEFACCION    shift and go to state 76
+    APERSIANA       shift and go to state 77
+    ALUZ            shift and go to state 78
+    AVENTANA        shift and go to state 79
+    AFRIO           shift and go to state 80
+    AGAS            shift and go to state 81
+    ATOLDO          shift and go to state 82
+    AALARMA         shift and go to state 83
+    AEMERGENCIA     shift and go to state 84
+
+    lal                            shift and go to state 176
+    c                              shift and go to state 177
+    a                              shift and go to state 92
+    apuerta                        shift and go to state 55
+    acalefaccion                   shift and go to state 56
+    apersiana                      shift and go to state 57
+    aluz                           shift and go to state 58
+    aventana                       shift and go to state 59
+    afrio                          shift and go to state 60
+    agas                           shift and go to state 61
+    atoldo                         shift and go to state 62
+    aalarma                        shift and go to state 63
+    aemergencia                    shift and go to state 64
+
+state 152
+
+    (28) p -> CORRIDOR ID LBRACKET l2id RBRACKET .
+
+    COMMA           reduce using rule 28 (p -> CORRIDOR ID LBRACKET l2id RBRACKET .)
+    SEMICOLON       reduce using rule 28 (p -> CORRIDOR ID LBRACKET l2id RBRACKET .)
+
+
+state 153
+
+    (22) p -> CORRIDOR ID LBRACKET l2id lal . RBRACKET
+    (26) p -> CORRIDOR ID LBRACKET l2id lal . c RBRACKET
+    (61) c -> . LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
+    (62) c -> . LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON
+    (63) c -> . LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
+    (64) c -> . LBRACKET lest SEMICOLON RBRACKET SEMICOLON
+
+    RBRACKET        shift and go to state 178
+    LBRACKET        shift and go to state 86
+
+    c                              shift and go to state 179
+
+state 154
+
+    (23) p -> CORRIDOR ID LBRACKET l2id c . RBRACKET
+
+    RBRACKET        shift and go to state 180
+
+
+state 155
+
+    (61) c -> LBRACKET lest SEMICOLON . init SEMICOLON trans RBRACKET SEMICOLON
+    (62) c -> LBRACKET lest SEMICOLON . trans RBRACKET SEMICOLON
+    (63) c -> LBRACKET lest SEMICOLON . init SEMICOLON RBRACKET SEMICOLON
+    (64) c -> LBRACKET lest SEMICOLON . RBRACKET SEMICOLON
+    (72) init -> . INIT ID
+    (73) trans -> . t trans
+    (74) trans -> . t
+    (75) t -> . ID COMMA ID COMMA COMBINATION SEMICOLON
+
+    RBRACKET        shift and go to state 183
+    INIT            shift and go to state 184
+    ID              shift and go to state 185
+
+    init                           shift and go to state 181
+    trans                          shift and go to state 182
+    t                              shift and go to state 186
+
+state 156
+
+    (65) lest -> STATE ID . LBRACKET lactions RBRACKET COMMA lest
+    (66) lest -> STATE ID . LBRACKET RBRACKET COMMA lest
+    (67) lest -> STATE ID . LBRACKET lactions RBRACKET
+    (68) lest -> STATE ID . LBRACKET RBRACKET
+
+    LBRACKET        shift and go to state 187
+
+
+state 157
+
+    (16) h -> ROOM ID LBRACKET lsl lal RBRACKET .
+
+    COMMA           reduce using rule 16 (h -> ROOM ID LBRACKET lsl lal RBRACKET .)
+    SEMICOLON       reduce using rule 16 (h -> ROOM ID LBRACKET lsl lal RBRACKET .)
+
+
+state 158
+
+    (19) h -> ROOM ID LBRACKET lsl lal c . RBRACKET
+
+    RBRACKET        shift and go to state 188
+
+
+state 159
+
+    (17) h -> ROOM ID LBRACKET lsl c RBRACKET .
+
+    COMMA           reduce using rule 17 (h -> ROOM ID LBRACKET lsl c RBRACKET .)
+    SEMICOLON       reduce using rule 17 (h -> ROOM ID LBRACKET lsl c RBRACKET .)
+
+
+state 160
+
+    (18) h -> ROOM ID LBRACKET lal c RBRACKET .
+
+    COMMA           reduce using rule 18 (h -> ROOM ID LBRACKET lal c RBRACKET .)
+    SEMICOLON       reduce using rule 18 (h -> ROOM ID LBRACKET lal c RBRACKET .)
+
+
+state 161
+
+    (31) lsl -> s COMMA lsl .
+
+    RBRACKET        reduce using rule 31 (lsl -> s COMMA lsl .)
+    LBRACKET        reduce using rule 31 (lsl -> s COMMA lsl .)
+    APUERTA         reduce using rule 31 (lsl -> s COMMA lsl .)
+    ACALEFACCION    reduce using rule 31 (lsl -> s COMMA lsl .)
+    APERSIANA       reduce using rule 31 (lsl -> s COMMA lsl .)
+    ALUZ            reduce using rule 31 (lsl -> s COMMA lsl .)
+    AVENTANA        reduce using rule 31 (lsl -> s COMMA lsl .)
+    AFRIO           reduce using rule 31 (lsl -> s COMMA lsl .)
+    AGAS            reduce using rule 31 (lsl -> s COMMA lsl .)
+    ATOLDO          reduce using rule 31 (lsl -> s COMMA lsl .)
+    AALARMA         reduce using rule 31 (lsl -> s COMMA lsl .)
+    AEMERGENCIA     reduce using rule 31 (lsl -> s COMMA lsl .)
+
+
+state 162
+
+    (33) lal -> a COMMA lal .
+
+    RBRACKET        reduce using rule 33 (lal -> a COMMA lal .)
+    LBRACKET        reduce using rule 33 (lal -> a COMMA lal .)
+
+
+state 163
+
+    (76) spresencia -> SPRESENCIA ID SEQ BOOL .
+
+    COMMA           reduce using rule 76 (spresencia -> SPRESENCIA ID SEQ BOOL .)
+    RBRACKET        reduce using rule 76 (spresencia -> SPRESENCIA ID SEQ BOOL .)
+    SEMICOLON       reduce using rule 76 (spresencia -> SPRESENCIA ID SEQ BOOL .)
+
+
+state 164
+
+    (77) slluvia -> SLLUVIA ID SEQ BOOL .
+
+    COMMA           reduce using rule 77 (slluvia -> SLLUVIA ID SEQ BOOL .)
+    RBRACKET        reduce using rule 77 (slluvia -> SLLUVIA ID SEQ BOOL .)
+    SEMICOLON       reduce using rule 77 (slluvia -> SLLUVIA ID SEQ BOOL .)
+
+
+state 165
+
+    (78) siluminacion -> SILUMINACION OPL DOUBLE ID . SEQ DOUBLE
+
+    SEQ             shift and go to state 189
+
+
+state 166
+
+    (80) sreloj -> SRELOJ OPL TIME ID . SEQ TIME
+
+    SEQ             shift and go to state 190
+
+
+state 167
+
+    (79) stemperatura -> STEMPERATURA OPL DOUBLE ID . SEQ DOUBLE
+
+    SEQ             shift and go to state 191
+
+
+state 168
+
+    (81) shumo -> SHUMO ID SEQ BOOL .
+
+    COMMA           reduce using rule 81 (shumo -> SHUMO ID SEQ BOOL .)
+    RBRACKET        reduce using rule 81 (shumo -> SHUMO ID SEQ BOOL .)
+    SEMICOLON       reduce using rule 81 (shumo -> SHUMO ID SEQ BOOL .)
+
+
+state 169
+
+    (82) sviento -> SVIENTO OPL DOUBLE ID . SEQ DOUBLE
+
+    SEQ             shift and go to state 192
+
+
+state 170
+
+    (83) sintrusos -> SINTRUSOS ID SEQ BOOL .
+
+    COMMA           reduce using rule 83 (sintrusos -> SINTRUSOS ID SEQ BOOL .)
+    RBRACKET        reduce using rule 83 (sintrusos -> SINTRUSOS ID SEQ BOOL .)
+    SEMICOLON       reduce using rule 83 (sintrusos -> SINTRUSOS ID SEQ BOOL .)
+
+
+state 171
+
+    (85) sgas -> SGAS ID SEQ BOOL .
+
+    COMMA           reduce using rule 85 (sgas -> SGAS ID SEQ BOOL .)
+    RBRACKET        reduce using rule 85 (sgas -> SGAS ID SEQ BOOL .)
+    SEMICOLON       reduce using rule 85 (sgas -> SGAS ID SEQ BOOL .)
+
+
+state 172
+
+    (84) sinundacion -> SINUNDACION ID SEQ BOOL .
+
+    COMMA           reduce using rule 84 (sinundacion -> SINUNDACION ID SEQ BOOL .)
+    RBRACKET        reduce using rule 84 (sinundacion -> SINUNDACION ID SEQ BOOL .)
+    SEMICOLON       reduce using rule 84 (sinundacion -> SINUNDACION ID SEQ BOOL .)
+
+
+state 173
+
+    (30) l2id -> ID COMMA ID . SEMICOLON
+    (29) l2id -> ID . COMMA l2id
+    (30) l2id -> ID . COMMA ID SEMICOLON
+
+    SEMICOLON       shift and go to state 193
+    COMMA           shift and go to state 150
+
+
+state 174
+
+    (29) l2id -> ID COMMA l2id .
+
+    RBRACKET        reduce using rule 29 (l2id -> ID COMMA l2id .)
+    LBRACKET        reduce using rule 29 (l2id -> ID COMMA l2id .)
+    SPRESENCIA      reduce using rule 29 (l2id -> ID COMMA l2id .)
+    SLLUVIA         reduce using rule 29 (l2id -> ID COMMA l2id .)
+    SILUMINACION    reduce using rule 29 (l2id -> ID COMMA l2id .)
+    SRELOJ          reduce using rule 29 (l2id -> ID COMMA l2id .)
+    STEMPERATURA    reduce using rule 29 (l2id -> ID COMMA l2id .)
+    SHUMO           reduce using rule 29 (l2id -> ID COMMA l2id .)
+    SVIENTO         reduce using rule 29 (l2id -> ID COMMA l2id .)
+    SINTRUSOS       reduce using rule 29 (l2id -> ID COMMA l2id .)
+    SGAS            reduce using rule 29 (l2id -> ID COMMA l2id .)
+    SINUNDACION     reduce using rule 29 (l2id -> ID COMMA l2id .)
+    APUERTA         reduce using rule 29 (l2id -> ID COMMA l2id .)
+    ACALEFACCION    reduce using rule 29 (l2id -> ID COMMA l2id .)
+    APERSIANA       reduce using rule 29 (l2id -> ID COMMA l2id .)
+    ALUZ            reduce using rule 29 (l2id -> ID COMMA l2id .)
+    AVENTANA        reduce using rule 29 (l2id -> ID COMMA l2id .)
+    AFRIO           reduce using rule 29 (l2id -> ID COMMA l2id .)
+    AGAS            reduce using rule 29 (l2id -> ID COMMA l2id .)
+    ATOLDO          reduce using rule 29 (l2id -> ID COMMA l2id .)
+    AALARMA         reduce using rule 29 (l2id -> ID COMMA l2id .)
+    AEMERGENCIA     reduce using rule 29 (l2id -> ID COMMA l2id .)
+
+
+state 175
+
+    (21) p -> CORRIDOR ID LBRACKET l2id lsl RBRACKET .
+
+    COMMA           reduce using rule 21 (p -> CORRIDOR ID LBRACKET l2id lsl RBRACKET .)
+    SEMICOLON       reduce using rule 21 (p -> CORRIDOR ID LBRACKET l2id lsl RBRACKET .)
+
+
+state 176
+
+    (24) p -> CORRIDOR ID LBRACKET l2id lsl lal . RBRACKET
+    (27) p -> CORRIDOR ID LBRACKET l2id lsl lal . c RBRACKET
+    (61) c -> . LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
+    (62) c -> . LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON
+    (63) c -> . LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
+    (64) c -> . LBRACKET lest SEMICOLON RBRACKET SEMICOLON
+
+    RBRACKET        shift and go to state 194
+    LBRACKET        shift and go to state 86
+
+    c                              shift and go to state 195
+
+state 177
+
+    (25) p -> CORRIDOR ID LBRACKET l2id lsl c . RBRACKET
+
+    RBRACKET        shift and go to state 196
+
+
+state 178
+
+    (22) p -> CORRIDOR ID LBRACKET l2id lal RBRACKET .
+
+    COMMA           reduce using rule 22 (p -> CORRIDOR ID LBRACKET l2id lal RBRACKET .)
+    SEMICOLON       reduce using rule 22 (p -> CORRIDOR ID LBRACKET l2id lal RBRACKET .)
+
+
+state 179
+
+    (26) p -> CORRIDOR ID LBRACKET l2id lal c . RBRACKET
+
+    RBRACKET        shift and go to state 197
+
+
+state 180
+
+    (23) p -> CORRIDOR ID LBRACKET l2id c RBRACKET .
+
+    COMMA           reduce using rule 23 (p -> CORRIDOR ID LBRACKET l2id c RBRACKET .)
+    SEMICOLON       reduce using rule 23 (p -> CORRIDOR ID LBRACKET l2id c RBRACKET .)
+
+
+state 181
+
+    (61) c -> LBRACKET lest SEMICOLON init . SEMICOLON trans RBRACKET SEMICOLON
+    (63) c -> LBRACKET lest SEMICOLON init . SEMICOLON RBRACKET SEMICOLON
+
+    SEMICOLON       shift and go to state 198
+
+
+state 182
+
+    (62) c -> LBRACKET lest SEMICOLON trans . RBRACKET SEMICOLON
+
+    RBRACKET        shift and go to state 199
+
+
+state 183
+
+    (64) c -> LBRACKET lest SEMICOLON RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 200
+
+
+state 184
+
+    (72) init -> INIT . ID
+
+    ID              shift and go to state 201
+
+
+state 185
+
+    (75) t -> ID . COMMA ID COMMA COMBINATION SEMICOLON
+
+    COMMA           shift and go to state 202
+
+
+state 186
+
+    (73) trans -> t . trans
+    (74) trans -> t .
+    (73) trans -> . t trans
+    (74) trans -> . t
+    (75) t -> . ID COMMA ID COMMA COMBINATION SEMICOLON
+
+    RBRACKET        reduce using rule 74 (trans -> t .)
+    ID              shift and go to state 185
+
+    t                              shift and go to state 186
+    trans                          shift and go to state 203
+
+state 187
+
+    (65) lest -> STATE ID LBRACKET . lactions RBRACKET COMMA lest
+    (66) lest -> STATE ID LBRACKET . RBRACKET COMMA lest
+    (67) lest -> STATE ID LBRACKET . lactions RBRACKET
+    (68) lest -> STATE ID LBRACKET . RBRACKET
+    (69) lactions -> . action COMMA lactions
+    (70) lactions -> . action SEMICOLON
+    (71) action -> . ID SEQ BOOL
+
+    RBRACKET        shift and go to state 206
+    ID              shift and go to state 204
+
+    lactions                       shift and go to state 205
+    action                         shift and go to state 207
+
+state 188
+
+    (19) h -> ROOM ID LBRACKET lsl lal c RBRACKET .
+
+    COMMA           reduce using rule 19 (h -> ROOM ID LBRACKET lsl lal c RBRACKET .)
+    SEMICOLON       reduce using rule 19 (h -> ROOM ID LBRACKET lsl lal c RBRACKET .)
+
+
+state 189
+
+    (78) siluminacion -> SILUMINACION OPL DOUBLE ID SEQ . DOUBLE
+
+    DOUBLE          shift and go to state 208
+
+
+state 190
+
+    (80) sreloj -> SRELOJ OPL TIME ID SEQ . TIME
+
+    TIME            shift and go to state 209
+
+
+state 191
+
+    (79) stemperatura -> STEMPERATURA OPL DOUBLE ID SEQ . DOUBLE
+
+    DOUBLE          shift and go to state 210
+
+
+state 192
+
+    (82) sviento -> SVIENTO OPL DOUBLE ID SEQ . DOUBLE
+
+    DOUBLE          shift and go to state 211
+
+
+state 193
+
+    (30) l2id -> ID COMMA ID SEMICOLON .
+
+    RBRACKET        reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    LBRACKET        reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    SPRESENCIA      reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    SLLUVIA         reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    SILUMINACION    reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    SRELOJ          reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    STEMPERATURA    reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    SHUMO           reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    SVIENTO         reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    SINTRUSOS       reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    SGAS            reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    SINUNDACION     reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    APUERTA         reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    ACALEFACCION    reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    APERSIANA       reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    ALUZ            reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    AVENTANA        reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    AFRIO           reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    AGAS            reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    ATOLDO          reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    AALARMA         reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+    AEMERGENCIA     reduce using rule 30 (l2id -> ID COMMA ID SEMICOLON .)
+
+
+state 194
+
+    (24) p -> CORRIDOR ID LBRACKET l2id lsl lal RBRACKET .
+
+    COMMA           reduce using rule 24 (p -> CORRIDOR ID LBRACKET l2id lsl lal RBRACKET .)
+    SEMICOLON       reduce using rule 24 (p -> CORRIDOR ID LBRACKET l2id lsl lal RBRACKET .)
+
+
+state 195
+
+    (27) p -> CORRIDOR ID LBRACKET l2id lsl lal c . RBRACKET
+
+    RBRACKET        shift and go to state 212
+
+
+state 196
+
+    (25) p -> CORRIDOR ID LBRACKET l2id lsl c RBRACKET .
+
+    COMMA           reduce using rule 25 (p -> CORRIDOR ID LBRACKET l2id lsl c RBRACKET .)
+    SEMICOLON       reduce using rule 25 (p -> CORRIDOR ID LBRACKET l2id lsl c RBRACKET .)
+
+
+state 197
+
+    (26) p -> CORRIDOR ID LBRACKET l2id lal c RBRACKET .
+
+    COMMA           reduce using rule 26 (p -> CORRIDOR ID LBRACKET l2id lal c RBRACKET .)
+    SEMICOLON       reduce using rule 26 (p -> CORRIDOR ID LBRACKET l2id lal c RBRACKET .)
+
+
+state 198
+
+    (61) c -> LBRACKET lest SEMICOLON init SEMICOLON . trans RBRACKET SEMICOLON
+    (63) c -> LBRACKET lest SEMICOLON init SEMICOLON . RBRACKET SEMICOLON
+    (73) trans -> . t trans
+    (74) trans -> . t
+    (75) t -> . ID COMMA ID COMMA COMBINATION SEMICOLON
+
+    RBRACKET        shift and go to state 214
+    ID              shift and go to state 185
+
+    trans                          shift and go to state 213
+    t                              shift and go to state 186
+
+state 199
+
+    (62) c -> LBRACKET lest SEMICOLON trans RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 215
+
+
+state 200
+
+    (64) c -> LBRACKET lest SEMICOLON RBRACKET SEMICOLON .
+
+    RBRACKET        reduce using rule 64 (c -> LBRACKET lest SEMICOLON RBRACKET SEMICOLON .)
+
+
+state 201
+
+    (72) init -> INIT ID .
+
+    SEMICOLON       reduce using rule 72 (init -> INIT ID .)
+
+
+state 202
+
+    (75) t -> ID COMMA . ID COMMA COMBINATION SEMICOLON
+
+    ID              shift and go to state 216
+
+
+state 203
+
+    (73) trans -> t trans .
+
+    RBRACKET        reduce using rule 73 (trans -> t trans .)
+
+
+state 204
+
+    (71) action -> ID . SEQ BOOL
+
+    SEQ             shift and go to state 217
+
+
+state 205
+
+    (65) lest -> STATE ID LBRACKET lactions . RBRACKET COMMA lest
+    (67) lest -> STATE ID LBRACKET lactions . RBRACKET
+
+    RBRACKET        shift and go to state 218
+
+
+state 206
+
+    (66) lest -> STATE ID LBRACKET RBRACKET . COMMA lest
+    (68) lest -> STATE ID LBRACKET RBRACKET .
+
+    COMMA           shift and go to state 219
+    SEMICOLON       reduce using rule 68 (lest -> STATE ID LBRACKET RBRACKET .)
+
+
+state 207
+
+    (69) lactions -> action . COMMA lactions
+    (70) lactions -> action . SEMICOLON
+
+    COMMA           shift and go to state 220
+    SEMICOLON       shift and go to state 221
+
+
+state 208
+
+    (78) siluminacion -> SILUMINACION OPL DOUBLE ID SEQ DOUBLE .
+
+    COMMA           reduce using rule 78 (siluminacion -> SILUMINACION OPL DOUBLE ID SEQ DOUBLE .)
+    RBRACKET        reduce using rule 78 (siluminacion -> SILUMINACION OPL DOUBLE ID SEQ DOUBLE .)
+    SEMICOLON       reduce using rule 78 (siluminacion -> SILUMINACION OPL DOUBLE ID SEQ DOUBLE .)
+
+
+state 209
+
+    (80) sreloj -> SRELOJ OPL TIME ID SEQ TIME .
+
+    COMMA           reduce using rule 80 (sreloj -> SRELOJ OPL TIME ID SEQ TIME .)
+    RBRACKET        reduce using rule 80 (sreloj -> SRELOJ OPL TIME ID SEQ TIME .)
+    SEMICOLON       reduce using rule 80 (sreloj -> SRELOJ OPL TIME ID SEQ TIME .)
+
+
+state 210
+
+    (79) stemperatura -> STEMPERATURA OPL DOUBLE ID SEQ DOUBLE .
+
+    COMMA           reduce using rule 79 (stemperatura -> STEMPERATURA OPL DOUBLE ID SEQ DOUBLE .)
+    RBRACKET        reduce using rule 79 (stemperatura -> STEMPERATURA OPL DOUBLE ID SEQ DOUBLE .)
+    SEMICOLON       reduce using rule 79 (stemperatura -> STEMPERATURA OPL DOUBLE ID SEQ DOUBLE .)
+
+
+state 211
+
+    (82) sviento -> SVIENTO OPL DOUBLE ID SEQ DOUBLE .
+
+    COMMA           reduce using rule 82 (sviento -> SVIENTO OPL DOUBLE ID SEQ DOUBLE .)
+    RBRACKET        reduce using rule 82 (sviento -> SVIENTO OPL DOUBLE ID SEQ DOUBLE .)
+    SEMICOLON       reduce using rule 82 (sviento -> SVIENTO OPL DOUBLE ID SEQ DOUBLE .)
+
+
+state 212
+
+    (27) p -> CORRIDOR ID LBRACKET l2id lsl lal c RBRACKET .
+
+    COMMA           reduce using rule 27 (p -> CORRIDOR ID LBRACKET l2id lsl lal c RBRACKET .)
+    SEMICOLON       reduce using rule 27 (p -> CORRIDOR ID LBRACKET l2id lsl lal c RBRACKET .)
+
+
+state 213
+
+    (61) c -> LBRACKET lest SEMICOLON init SEMICOLON trans . RBRACKET SEMICOLON
+
+    RBRACKET        shift and go to state 222
+
+
+state 214
+
+    (63) c -> LBRACKET lest SEMICOLON init SEMICOLON RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 223
+
+
+state 215
+
+    (62) c -> LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON .
+
+    RBRACKET        reduce using rule 62 (c -> LBRACKET lest SEMICOLON trans RBRACKET SEMICOLON .)
+
+
+state 216
+
+    (75) t -> ID COMMA ID . COMMA COMBINATION SEMICOLON
+
+    COMMA           shift and go to state 224
+
+
+state 217
+
+    (71) action -> ID SEQ . BOOL
+
+    BOOL            shift and go to state 225
+
+
+state 218
+
+    (65) lest -> STATE ID LBRACKET lactions RBRACKET . COMMA lest
+    (67) lest -> STATE ID LBRACKET lactions RBRACKET .
+
+    COMMA           shift and go to state 226
+    SEMICOLON       reduce using rule 67 (lest -> STATE ID LBRACKET lactions RBRACKET .)
+
+
+state 219
+
+    (66) lest -> STATE ID LBRACKET RBRACKET COMMA . lest
+    (65) lest -> . STATE ID LBRACKET lactions RBRACKET COMMA lest
+    (66) lest -> . STATE ID LBRACKET RBRACKET COMMA lest
+    (67) lest -> . STATE ID LBRACKET lactions RBRACKET
+    (68) lest -> . STATE ID LBRACKET RBRACKET
+
+    STATE           shift and go to state 124
+
+    lest                           shift and go to state 227
+
+state 220
+
+    (69) lactions -> action COMMA . lactions
+    (69) lactions -> . action COMMA lactions
+    (70) lactions -> . action SEMICOLON
+    (71) action -> . ID SEQ BOOL
+
+    ID              shift and go to state 204
+
+    action                         shift and go to state 207
+    lactions                       shift and go to state 228
+
+state 221
+
+    (70) lactions -> action SEMICOLON .
+
+    RBRACKET        reduce using rule 70 (lactions -> action SEMICOLON .)
+
+
+state 222
+
+    (61) c -> LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 229
+
+
+state 223
+
+    (63) c -> LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON .
+
+    RBRACKET        reduce using rule 63 (c -> LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON .)
+
+
+state 224
+
+    (75) t -> ID COMMA ID COMMA . COMBINATION SEMICOLON
+
+    COMBINATION     shift and go to state 230
+
+
+state 225
+
+    (71) action -> ID SEQ BOOL .
+
+    COMMA           reduce using rule 71 (action -> ID SEQ BOOL .)
+    SEMICOLON       reduce using rule 71 (action -> ID SEQ BOOL .)
+
+
+state 226
+
+    (65) lest -> STATE ID LBRACKET lactions RBRACKET COMMA . lest
+    (65) lest -> . STATE ID LBRACKET lactions RBRACKET COMMA lest
+    (66) lest -> . STATE ID LBRACKET RBRACKET COMMA lest
+    (67) lest -> . STATE ID LBRACKET lactions RBRACKET
+    (68) lest -> . STATE ID LBRACKET RBRACKET
+
+    STATE           shift and go to state 124
+
+    lest                           shift and go to state 231
+
+state 227
+
+    (66) lest -> STATE ID LBRACKET RBRACKET COMMA lest .
+
+    SEMICOLON       reduce using rule 66 (lest -> STATE ID LBRACKET RBRACKET COMMA lest .)
+
+
+state 228
+
+    (69) lactions -> action COMMA lactions .
+
+    RBRACKET        reduce using rule 69 (lactions -> action COMMA lactions .)
+
+
+state 229
+
+    (61) c -> LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON .
+
+    RBRACKET        reduce using rule 61 (c -> LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON .)
+
+
+state 230
+
+    (75) t -> ID COMMA ID COMMA COMBINATION . SEMICOLON
+
+    SEMICOLON       shift and go to state 232
+
+
+state 231
+
+    (65) lest -> STATE ID LBRACKET lactions RBRACKET COMMA lest .
+
+    SEMICOLON       reduce using rule 65 (lest -> STATE ID LBRACKET lactions RBRACKET COMMA lest .)
+
+
+state 232
+
+    (75) t -> ID COMMA ID COMMA COMBINATION SEMICOLON .
+
+    ID              reduce using rule 75 (t -> ID COMMA ID COMMA COMBINATION SEMICOLON .)
+    RBRACKET        reduce using rule 75 (t -> ID COMMA ID COMMA COMBINATION SEMICOLON .)
+

@@ -243,6 +243,9 @@ class Simulation(object):
                                     self.end_index_actuators -= self.end_index_actuators % 10 + 1
 
                             self.print_info(display_surface)
+                        
+                        # Presence variable
+                        
 
                         # Rain variable
                         if position[0] >= 625 and \
