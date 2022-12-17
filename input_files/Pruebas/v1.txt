@@ -2,8 +2,8 @@ house hg12 {
 	room H412zL {} ,
 	room H428uO {
 		sensor_presence s412 := false , sensor_rain s189 := false ; 
-		actuator_wblind a82b ; { state q001 { a82b := true ; } , 
-		state q002 { a82b := false ; } ; init q001 ; q001 , q002 , 10 ; } ;
+		actuator_wblind a82b ; { state q001 { a82b := false ; } , 
+		state q002 { a82b := true ; } ; init q001 ; q001 , q002 , 00 ; } ;
 	} ;
 	corridor p84ty { H412zL , H428uO ; } ;
 } ;

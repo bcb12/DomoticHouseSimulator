@@ -886,7 +886,7 @@ def main(file_name):
         print(vars(house))
         counter = 1
         for room in house.room_list:
-            print("Room nº " + str(counter))
+            print("Room nº" + str(counter))
             print("\tID: " + room.id)
             print("\tType: " + room.type)
             print("\tStates:")

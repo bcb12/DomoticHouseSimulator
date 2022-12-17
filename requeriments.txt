@@ -1,8 +1,0 @@
-python-igraph==0.10.1
-pygame==2.1.2
-easygui==0.98.3
-antlr4-tools
-antlr4-python3-runtime
-ply
-pillow
-pycairo

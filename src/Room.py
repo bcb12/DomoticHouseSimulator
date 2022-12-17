@@ -25,6 +25,21 @@ class Room:
 
         self.connection_list = connection_list
 
+        self.reset_variables()
+
+
+    def reset_variables(self):
+        '''Reset variable values to 0'''
+
+        self.rain = False
+        self.light_intensity = 0.0
+        self.time = '00:00'
+        self.temperature = 0.0
+        self.smoke = False
+        self.wind = 0.0
+        self.gas = False
+        self.intruders = False
+        self.flood = False
 
     def update_sensors(self):
         '''Updates the values in the sensors acording to the variables'''
@@ -82,7 +97,7 @@ class Room:
         if transition_index != -1:
             transition = automaton.transitions[transition_index]
             if transition.source_state == automaton.current_state:
-                print("\nEjecutando transición desde el estado " + transition.source_state + " al estado " + transition.target_state + " en la habitación " + self.id)
+                print("\nExecuting transition from state " + transition.source_state + " to state " + transition.target_state + " in room " + self.id + ".")
                 target_state = transition.target_state
 
                 # Realiza el cambio de estado

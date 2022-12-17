@@ -34,12 +34,14 @@ def start_simulation(room_list, global_sensors, global_actuators):
         global_actuators)
     sim.run()
 
+
 def main():
     if len(sys.argv) == 1:
         logging.error('No file was provided. Try to provide a text file for the lexer to work.')
         return
     house = LALR.main(sys.argv[1])
     simulate_house(house)
+
 
 if __name__ == '__main__':
     main()
