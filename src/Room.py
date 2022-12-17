@@ -97,11 +97,7 @@ class Room:
                 
                 # Mostrar acciones ejecutadas
                 for action in actions:
-                    print("\tAcción: actuador " + str(action.actuator) + " a " + str(action.value))
-                    print(action.actuator.value)
                     action.actuator.value = action.value
-                    print("\tAcción: actuador " + str(action.actuator) + " a " + str(action.value) + "\n")
-                    print(action.actuator.value)
         
         return result
 
