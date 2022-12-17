@@ -12,5 +12,7 @@ Authors:
 
 # Execution
 To try the simulation, execute the following commands in a terminal:
+
 chmod 766 execute_simulation.sh
+
 ./execute_simulation.sh
