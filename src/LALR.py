@@ -224,31 +224,217 @@ def p_casa1(token):
     '''
 	casa : HOUSE ID LBRACKET lh RBRACKET SEMICOLON
 	'''
+    all_ids_list = []
+    state_ids = []
+    sensor_count = 0
+
+    # House ids
+    all_ids_list.append(token[2])
+
+    for room in token[4]:
+        # Room ids
+        all_ids_list.append(room.id)
+
+        # Sensor ids
+        for sensor in room.sensors:
+            sensor_count+=1
+            all_ids_list.append(sensor.identifier)
+
+        # Actuator ids
+        for actuator in room.actuators:
+            all_ids_list.append(actuator.identifier)
+    
+        # State ids
+        for state in room.states:
+            all_ids_list.append(state.id)
+            state_ids.append(state.id)
+
+    check_trans_id(token[4], state_ids)
+
+    check_trans_comb(token[4], sensor_count)
+
     token[0] = House(token[2], token[4], [], [])
 
 def p_casa2(token):
     '''
 	casa : HOUSE ID LBRACKET lh lp RBRACKET SEMICOLON
 	'''
+    room_ids_list = []
+    all_ids_list = []
+    state_ids = []
+    sensor_count = 0
+
+    # House ids
+    all_ids_list.append(token[2])
+
     token[4].extend(token[5])
+    for room in token[4]:
+        # Room ids
+        if(room.type == "H"):
+            room_ids_list.append(room.id)
+        all_ids_list.append(room.id)
+
+        # Sensor ids
+        for sensor in room.sensors:
+            sensor_count+=1
+            all_ids_list.append(sensor.identifier)
+
+        # Actuator ids
+        for actuator in room.actuators:
+            all_ids_list.append(actuator.identifier)
+    
+        # State ids
+        for state in room.states:
+            all_ids_list.append(state.id)
+            state_ids.append(state.id)
+        
+    check_corridor_conns(token[5], room_ids_list)
+
+    check_trans_id(token[4], state_ids)
+
+    check_trans_comb(token[4], sensor_count)
+
+    check_ids(all_ids_list)
+
+    lista_habitaciones = token[4]
+    lista_transiciones = []
+    for habitacion in lista_habitaciones:
+        automata = habitacion.automaton
+        lista_transiciones.append(automata.transitions)
+    
+    for transition in lista_transiciones:
+        for transicion in transition:
+            print(transicion.combination)
     token[0] = House(token[2], token[4], [], [])
 
 def p_casa3(token):
     '''
 	casa : HOUSE ID LBRACKET lh lsg RBRACKET SEMICOLON
 	'''
-    token[0] = House(token[2], token[4], token[6], [])
+    all_ids_list = []
+    state_ids = []
+    sensor_count = 0
+
+    # House ids
+    all_ids_list.append(token[2])
+
+    # Global sensors
+    for sensor in token[5]:
+        sensor_count+=1
+        all_ids_list.append(sensor.identifier)
+
+    for room in token[4]:
+        # Room ids
+        all_ids_list.append(room.id)
+
+        # Sensor ids
+        for sensor in room.sensors:
+            sensor_count+=1
+            all_ids_list.append(sensor.identifier)
+
+        # Actuator ids
+        for actuator in room.actuators:
+            all_ids_list.append(actuator.identifier)
+    
+        # State ids
+        for state in room.states:
+            all_ids_list.append(state.id)
+            state_ids.append(state.id)
+
+    check_trans_id(token[4], state_ids)
+
+    check_trans_comb(token[4], sensor_count)
+
+    token[0] = House(token[2], token[4], token[5], [])
 
 def p_casa4(token):
     '''
 	casa : HOUSE ID LBRACKET lh lag RBRACKET SEMICOLON
 	'''
+    room_ids_list = []
+    all_ids_list = []
+    state_ids = []
+    sensor_count = 0
+
+    # House ids
+    all_ids_list.append(token[2])
+
+    # Global actuators
+    for actuator in token[5]:
+        all_ids_list.append(actuator.identifier)
+
+    for room in token[4]:
+        # Room ids
+        all_ids_list.append(room.id)
+
+        # Sensor ids
+        for sensor in room.sensors:
+            sensor_count+=1
+            all_ids_list.append(sensor.identifier)
+
+        # Actuator ids
+        for actuator in room.actuators:
+            all_ids_list.append(actuator.identifier)
+    
+        # State ids
+        for state in room.states:
+            all_ids_list.append(state.id)
+            state_ids.append(state.id)
+
+    check_trans_id(token[4], state_ids)
+
+    check_trans_comb(token[4], sensor_count)
+
+    check_ids(all_ids_list)
+
     token[0] = House(token[2], token[4], [], token[6])
 
 def p_casa5(token):
     '''
 	casa : HOUSE ID LBRACKET lh lp lsg RBRACKET SEMICOLON
 	'''
+    room_ids_list = []
+    all_ids_list = []
+    state_ids = []
+    sensor_count = 0
+
+    # House ids
+    all_ids_list.append(token[2])
+
+    # Global sensors
+    for sensor in token[5]:
+        sensor_count+=1
+        all_ids_list.append(sensor.identifier)
+
+    token[4].extend(token[5])
+    for room in token[4]:
+        # Room ids
+        if(room.type == "H"):
+            room_ids_list.append(room.id)
+        all_ids_list.append(room.id)
+
+        # Sensor ids
+        for sensor in room.sensors:
+            sensor_count+=1
+            all_ids_list.append(sensor.identifier)
+
+        # Actuator ids
+        for actuator in room.actuators:
+            all_ids_list.append(actuator.identifier)
+    
+        # State ids
+        for state in room.states:
+            all_ids_list.append(state.id)
+            state_ids.append(state.id)
+        
+    check_corridor_conns(token[5], room_ids_list)
+
+    check_trans_id(token[4], state_ids)
+
+    check_trans_comb(token[4], sensor_count)
+
+    check_ids(all_ids_list)
+
     token[4].extend(token[5])
     token[0] = House(token[2], token[4], token[6], [])
 
@@ -256,6 +442,47 @@ def p_casa6(token):
     '''
 	casa : HOUSE ID LBRACKET lh lp lag RBRACKET SEMICOLON
 	'''
+    room_ids_list = []
+    all_ids_list = []
+    state_ids = []
+    sensor_count = 0
+
+    # House ids
+    all_ids_list.append(token[2])
+
+    # Global actuators
+    for actuator in token[6]:
+        all_ids_list.append(actuator.identifier)
+
+    token[4].extend(token[5])
+    for room in token[4]:
+        # Room ids
+        if(room.type == "H"):
+            room_ids_list.append(room.id)
+        all_ids_list.append(room.id)
+
+        # Sensor ids
+        for sensor in room.sensors:
+            sensor_count+=1
+            all_ids_list.append(sensor.identifier)
+
+        # Actuator ids
+        for actuator in room.actuators:
+            all_ids_list.append(actuator.identifier)
+    
+        # State ids
+        for state in room.states:
+            all_ids_list.append(state.id)
+            state_ids.append(state.id)
+        
+    check_corridor_conns(token[5], room_ids_list)
+
+    check_trans_id(token[4], state_ids)
+
+    check_trans_comb(token[4], sensor_count)
+
+    check_ids(all_ids_list)
+
     token[4].extend(token[5])
     token[0] = House(token[2], token[4], [], token[6])
 
@@ -263,14 +490,101 @@ def p_casa7(token):
     '''
 	casa : HOUSE ID LBRACKET lh lsg lag RBRACKET SEMICOLON
 	'''
+    room_ids_list = []
+    all_ids_list = []
+    state_ids = []
+    sensor_count = 0
+
+    # House ids
+    all_ids_list.append(token[2])
+
+    # Global sensors
+    for sensors in token[5]:
+        all_ids_list.append(sensors.identifier)
+
+    # Global actuators
+    for actuator in token[6]:
+        all_ids_list.append(actuator.identifier)
+
+    for room in token[4]:
+        # Room ids
+        all_ids_list.append(room.id)
+
+        # Sensor ids
+        for sensor in room.sensors:
+            sensor_count+=1
+            all_ids_list.append(sensor.identifier)
+
+        # Actuator ids
+        for actuator in room.actuators:
+            all_ids_list.append(actuator.identifier)
+    
+        # State ids
+        for state in room.states:
+            all_ids_list.append(state.id)
+            state_ids.append(state.id)
+
+    check_trans_id(token[4], state_ids)
+
+    check_trans_comb(token[4], sensor_count)
+
+    check_ids(all_ids_list)
+
     token[0] = House(token[2], token[4], token[5], token[6])
 
 def p_casa8(token):
     '''
 	casa : HOUSE ID LBRACKET lh lp lsg lag RBRACKET SEMICOLON
 	'''
+    room_ids_list = []
+    all_ids_list = []
+    state_ids = []
+    sensor_count = 0
+
+    # House ids
+    all_ids_list.append(token[2])
+
+    # Global sensors
+    for sensors in token[6]:
+        all_ids_list.append(sensors.identifier)
+
+    # Global actuators
+    for actuator in token[7]:
+        all_ids_list.append(actuator.identifier)
+
+    token[4].extend(token[5])
+    for room in token[4]:
+        # Room ids
+        if(room.type == "H"):
+            room_ids_list.append(room.id)
+        all_ids_list.append(room.id)
+
+        # Sensor ids
+        for sensor in room.sensors:
+            sensor_count+=1
+            all_ids_list.append(sensor.identifier)
+
+        # Actuator ids
+        for actuator in room.actuators:
+            all_ids_list.append(actuator.identifier)
+    
+        # State ids
+        for state in room.states:
+            all_ids_list.append(state.id)
+            state_ids.append(state.id)
+        
+    check_corridor_conns(token[5], room_ids_list)
+
+    check_trans_id(token[4], state_ids)
+
+    check_trans_comb(token[4], sensor_count)
+
+    check_ids(all_ids_list)
+
     token[4].extend(token[5])
     token[0] = House(token[2], token[4], token[6], token[7])
+
+    
 
 def p_lh1(token):
     '''
@@ -605,6 +919,14 @@ def p_c1(token):
     '''
 	c : LBRACKET lest SEMICOLON init SEMICOLON trans RBRACKET SEMICOLON
 	'''
+    # Check if initial state is in the list of states
+    id_list = []
+    for state in token[2]:
+        id_list.append(state.id)
+    
+    if(token[4] not in id_list):
+        print("Error: El id del estado inicial no existe en la lista de estados")
+        exit(1)
     token[0] = Behaviour(token[2], token[4], token[6])
 
 def p_c2(token):
@@ -619,6 +941,14 @@ def p_c3(token):
     '''
 	c : LBRACKET lest SEMICOLON init SEMICOLON RBRACKET SEMICOLON
 	'''
+    # Check if initial state is in the list of states
+    id_list = []
+    for state in token[2]:
+        id_list.append(state.id)
+    
+    if(token[4] not in id_list):
+        print("Error: El id del estado inicial no existe en la lista de estados")
+        exit(1)
     token[0] = Behaviour(token[2], token[4])
 
 def p_c4(token):
@@ -872,6 +1202,46 @@ def check_sensor_type(sensor, list):
         list[9] = sensor.value
     print(list)
 
+'''
+Auxiliary methods
+'''
+# Check if all ids are unique
+def check_ids(id_list):
+    aux_list = []
+    for id in id_list:
+        if(id in aux_list):
+            print("Error: id duplicado")
+            exit(1)
+        aux_list.append(id)
+
+#Check if corridor connections are actually room ids
+def check_corridor_conns(corridor_list, room_ids_list):
+    for corridor in corridor_list:
+        connections = corridor.connection_list
+        for connection in connections:
+            if(connection not in room_ids_list):
+                print("Error: Los ids de las conexiones no son ids de habitaciones")
+                exit(1)
+
+# Check if transition ids are actually state ids
+def check_trans_id(room_list, state_ids):
+    for room in room_list:
+        transitions = room.automaton.transitions
+        for transition in transitions:
+            if(transition.source_state not in state_ids or transition.target_state not in state_ids):
+                print("Error: los ids de estados no corresponden a estados")
+                exit(1)
+
+# Check if transition combinations have the same number of digits as sensors in the room    
+def check_trans_comb(room_list, sensor_count):
+    for room in room_list:
+        transitions = room.automaton.transitions
+        for transition in transitions: 
+            if(sensor_count != len(transition.combination)):
+                print("Error: la combinación de transición no tiene la misma longitud que el número de sensores")
+                exit(1)
+
+# Main
 def main(file_name):
     ''' Main method '''
     ''' '''
