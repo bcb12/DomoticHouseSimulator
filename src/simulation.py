@@ -101,6 +101,13 @@ class Simulation(object):
                     if mouse_presses[0]:
                         # Getting room coordinates after left click
                         rows, columns = self.get_row_col()
+
+                        if columns == 0:
+                            columns = 1
+
+                        if rows == 0:
+                            rows = 1
+
                         position = pygame.mouse.get_pos()
                         actual_x = (position[0] - ROOM_OFFSET) \
                             / ((IMG_SIZE - MARGIN_DISPLAY + DEVIATION_FACTOR)/rows)
@@ -430,6 +437,12 @@ class Simulation(object):
         '''Adds an image in the center of each node'''
 
         rows, columns = self.get_row_col()
+        if columns == 0:
+            columns = 1
+
+        if rows == 0:
+            rows = 1
+
         for name, coords in self.node_coords.items():
             first_coord = ROOM_OFFSET + \
                 ((IMG_SIZE - MARGIN_DISPLAY + DEVIATION_FACTOR)/rows) * coords[0]
@@ -446,6 +459,12 @@ class Simulation(object):
 
         rows, columns = self.get_row_col()
 
+        if columns == 0:
+            columns = 1
+
+        if rows == 0:
+            rows = 1
+            
         for name, coords in self.node_coords.items():
 
             # Type labels
