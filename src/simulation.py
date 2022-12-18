@@ -378,22 +378,22 @@ class Simulation(object):
                     if event.key == pygame.K_BACKSPACE:
                         if active_light:
                             self.name_room[room_to_change].light_intensity = \
-                                self.name_room[room_to_change].light_intensity[:-1]
+                                str(self.name_room[room_to_change].light_intensity)[:-1]
                             self.print_info(display_surface)
 
                         if active_time:
                             self.name_room[room_to_change].time = \
-                                self.name_room[room_to_change].time[:-1]
+                                str(self.name_room[room_to_change].time)[:-1]
                             self.print_info(display_surface)
 
                         if active_temp:
                             self.name_room[room_to_change].temperature = \
-                                self.name_room[room_to_change].temperature[:-1]
+                                str(self.name_room[room_to_change].temperature)[:-1]
                             self.print_info(display_surface)
 
                         if active_wind:
                             self.name_room[room_to_change].wind = \
-                                self.name_room[room_to_change].wind[:-1]
+                                str(self.name_room[room_to_change].wind)[:-1]
                             self.print_info(display_surface)
 
                     # Other key

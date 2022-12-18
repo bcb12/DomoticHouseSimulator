@@ -112,9 +112,8 @@ class SensorTime:
     def set_value(self):
         compare_hour = str(self.compare_value).split(':')[0]
         compare_minutes = str(self.compare_value).split(':')[1]
-        self.compare_value = datetime.time(int(compare_hour), int(compare_minutes))
+        self.compare_value = datetime.time(int(compare_hour), int(compare_minutes)).strftime('%H:%M')
 
-        print(self.real_value)
         real_hour = str(self.real_value).split(':')[0]
         real_minutes = str(self.real_value).split(':')[1]
         self.real_value = datetime.time(int(real_hour), int(real_minutes)).strftime('%H:%M')
