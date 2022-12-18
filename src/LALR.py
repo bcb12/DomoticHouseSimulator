@@ -925,7 +925,7 @@ def p_c1(token):
         id_list.append(state.id)
     
     if(token[4] not in id_list):
-        print("Error: El id del estado inicial no existe en la lista de estados")
+        print("Error: El id del estado inicial no existe en la lista de estados.")
         exit(1)
     token[0] = Behaviour(token[2], token[4], token[6])
 
@@ -947,7 +947,7 @@ def p_c3(token):
         id_list.append(state.id)
     
     if(token[4] not in id_list):
-        print("Error: El id del estado inicial no existe en la lista de estados")
+        print("Error: El id del estado inicial no existe en la lista de estados.")
         exit(1)
     token[0] = Behaviour(token[2], token[4])
 
@@ -1210,7 +1210,7 @@ def check_ids(id_list):
     aux_list = []
     for id in id_list:
         if(id in aux_list):
-            print("Error: id duplicado")
+            print("Error: id duplicado.")
             exit(1)
         aux_list.append(id)
 
@@ -1220,7 +1220,7 @@ def check_corridor_conns(corridor_list, room_ids_list):
         connections = corridor.connection_list
         for connection in connections:
             if(connection not in room_ids_list):
-                print("Error: Los ids de las conexiones no son ids de habitaciones")
+                print("Error: Los ids de las conexiones no son ids de habitaciones.")
                 exit(1)
 
 # Check if transition ids are actually state ids
@@ -1229,7 +1229,7 @@ def check_trans_id(room_list, state_ids):
         transitions = room.automaton.transitions
         for transition in transitions:
             if(transition.source_state not in state_ids or transition.target_state not in state_ids):
-                print("Error: los ids de estados no corresponden a estados")
+                print("Error: los ids de estados no corresponden a estados.")
                 exit(1)
 
 # Check if transition combinations have the same number of digits as sensors in the room    
@@ -1238,7 +1238,7 @@ def check_trans_comb(room_list, sensor_count):
         transitions = room.automaton.transitions
         for transition in transitions: 
             if(sensor_count != len(transition.combination)):
-                print("Error: la combinación de transición no tiene la misma longitud que el número de sensores")
+                print("Error: la combinación de transición no tiene la misma longitud que el número de sensores.")
                 exit(1)
 
 # Main

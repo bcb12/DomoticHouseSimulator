@@ -18,7 +18,7 @@ def create_graph(num_vert, edges, types, names):
         target = IMG_NAME,
         layout = lay,
         vertex_size = VERTEX_SIZE,
-        vertex_color = "lightblue",
+        vertex_color = "white",
         vertex_frame_width = VERTEX_FRAME_WIDTH,
         vertex_frame_color = "white",
         vertex_label = graph.vs["name"],

@@ -14,6 +14,7 @@ def simulate_house(house):
 
 def start_simulation(room_list, global_sensors, global_actuators):
     ''' Starts the simulation given the necessary parameters '''
+    room_list = check_repeated_rooms(room_list)
     num_vert = len(room_list)
 
     edge_list = {}
@@ -35,6 +36,17 @@ def start_simulation(room_list, global_sensors, global_actuators):
     sim.run()
 
 
+def check_repeated_rooms(room_list):
+    '''Checks if there are repeated rooms'''
+    final_rooms = []
+
+    for room in room_list:
+        if room not in final_rooms:
+            final_rooms.append(room)
+
+    return final_rooms
+
+
 def main():
     if len(sys.argv) == 1:
         logging.error('No file was provided. Try to provide a text file for the lexer to work.')
@@ -45,5 +57,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-

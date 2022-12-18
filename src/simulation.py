@@ -731,17 +731,17 @@ class Simulation(object):
 
         message_log = ''
 
-        if room.light_intensity == '':
+        if str(room.light_intensity) == '':
             message_log += '¡La intensidad luminosa no puede estar vacía!\n'
         else:
-            if room.light_intensity[0] == '.' or \
-                room.light_intensity[len(room.light_intensity)-1] == '.':
+            if str(room.light_intensity)[0] == '.' or \
+                str(room.light_intensity)[len(str(room.light_intensity))-1] == '.':
                 message_log += '¡El valor para la intensidad luminosa es incorrecto!\n'
 
-        if room.time == '':
+        if str(room.time) == '':
             message_log += '¡La hora no puede estar vacía!\n'
         else:
-            time_split = room.time.split(':')
+            time_split = str(room.time).split(':')
             if len(time_split) != 2:
                 message_log += '¡El formato de la hora o minutos es incorrecto! (Formato: HH:MM)\n'
             else:
@@ -753,18 +753,18 @@ class Simulation(object):
                         message_log += '¡Los valores de la hora o minutos son incorrectos! \
                             (Hora: de 00 a 23 | Minutos: de 00 a 59)\n'
 
-        if room.temperature == '':
+        if str(room.temperature) == '':
             message_log += '¡La temperatura no puede estar vacía!\n'
         else:
-            if room.temperature[0] == '.' or \
-                room.temperature[len(room.temperature)-1] == '.':
+            if str(room.temperature)[0] == '.' or \
+                str(room.temperature)[len(str(room.temperature))-1] == '.':
                 message_log += '¡El valor para la temperatura es incorrecto!\n'
 
-        if room.wind == '':
+        if str(room.wind) == '':
             message_log += '¡El valor para el viento no puede estar vacío!\n'
         else:
-            if room.wind[0] == '.' or \
-                room.wind[len(room.wind)-1] == '.':
+            if str(room.wind)[0] == '.' or \
+                str(room.wind)[len(str(room.wind))-1] == '.':
                 message_log += '¡El valor para el viento es incorrecto!\n'
 
         if message_log != '':
