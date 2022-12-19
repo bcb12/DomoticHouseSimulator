@@ -387,7 +387,7 @@ def p_casa4(token):
 
     check_ids(all_ids_list)
 
-    token[0] = House(token[2], token[4], [], token[6])
+    token[0] = House(token[2], token[4], [], token[5])
 
 def p_casa5(token):
     '''
