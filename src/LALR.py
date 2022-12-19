@@ -249,9 +249,9 @@ def p_casa1(token):
             all_ids_list.append(state.id)
             state_ids.append(state.id)
 
-    check_trans_id(token[4], state_ids)
+        check_trans_comb(room, sensor_count)
 
-    check_trans_comb(token[4], sensor_count)
+    check_trans_id(token[4], state_ids)
 
     token[0] = House(token[2], token[4], [], [])
 
@@ -287,12 +287,12 @@ def p_casa2(token):
         for state in room.states:
             all_ids_list.append(state.id)
             state_ids.append(state.id)
+
+        check_trans_comb(room, sensor_count)
         
     check_corridor_conns(token[5], room_ids_list)
 
     check_trans_id(token[4], state_ids)
-
-    check_trans_comb(token[4], sensor_count)
 
     check_ids(all_ids_list)
 
@@ -341,9 +341,9 @@ def p_casa3(token):
             all_ids_list.append(state.id)
             state_ids.append(state.id)
 
-    check_trans_id(token[4], state_ids)
+        check_trans_comb(room, sensor_count)
 
-    check_trans_comb(token[4], sensor_count)
+    check_trans_id(token[4], state_ids)
 
     token[0] = House(token[2], token[4], token[5], [])
 
@@ -351,7 +351,6 @@ def p_casa4(token):
     '''
 	casa : HOUSE ID LBRACKET lh lag RBRACKET SEMICOLON
 	'''
-    room_ids_list = []
     all_ids_list = []
     state_ids = []
     sensor_count = 0
@@ -381,9 +380,10 @@ def p_casa4(token):
             all_ids_list.append(state.id)
             state_ids.append(state.id)
 
+        check_trans_comb(room, sensor_count)
+
     check_trans_id(token[4], state_ids)
 
-    check_trans_comb(token[4], sensor_count)
 
     check_ids(all_ids_list)
 
@@ -396,18 +396,19 @@ def p_casa5(token):
     room_ids_list = []
     all_ids_list = []
     state_ids = []
-    sensor_count = 0
+    global_sensor_count = 0
 
     # House ids
     all_ids_list.append(token[2])
 
     # Global sensors
-    for sensor in token[5]:
-        sensor_count+=1
+    for sensor in token[6]:
+        global_sensor_count+=1
         all_ids_list.append(sensor.identifier)
 
     token[4].extend(token[5])
     for room in token[4]:
+        sensor_count = 0
         # Room ids
         if(room.type == "H"):
             room_ids_list.append(room.id)
@@ -426,12 +427,12 @@ def p_casa5(token):
         for state in room.states:
             all_ids_list.append(state.id)
             state_ids.append(state.id)
+
+        check_trans_comb(room, sensor_count+global_sensor_count)
         
     check_corridor_conns(token[5], room_ids_list)
 
     check_trans_id(token[4], state_ids)
-
-    check_trans_comb(token[4], sensor_count)
 
     check_ids(all_ids_list)
 
@@ -474,12 +475,12 @@ def p_casa6(token):
         for state in room.states:
             all_ids_list.append(state.id)
             state_ids.append(state.id)
+
+        check_trans_comb(room, sensor_count)
         
     check_corridor_conns(token[5], room_ids_list)
 
     check_trans_id(token[4], state_ids)
-
-    check_trans_comb(token[4], sensor_count)
 
     check_ids(all_ids_list)
 
@@ -490,7 +491,6 @@ def p_casa7(token):
     '''
 	casa : HOUSE ID LBRACKET lh lsg lag RBRACKET SEMICOLON
 	'''
-    room_ids_list = []
     all_ids_list = []
     state_ids = []
     sensor_count = 0
@@ -539,7 +539,7 @@ def p_casa8(token):
     room_ids_list = []
     all_ids_list = []
     state_ids = []
-    sensor_count = 0
+    global_sensor_count = 0
 
     # House ids
     all_ids_list.append(token[2])
@@ -547,6 +547,7 @@ def p_casa8(token):
     # Global sensors
     for sensors in token[6]:
         all_ids_list.append(sensors.identifier)
+        global_sensor_count+=1
 
     # Global actuators
     for actuator in token[7]:
@@ -554,6 +555,7 @@ def p_casa8(token):
 
     token[4].extend(token[5])
     for room in token[4]:
+        sensor_count = 0
         # Room ids
         if(room.type == "H"):
             room_ids_list.append(room.id)
@@ -573,11 +575,11 @@ def p_casa8(token):
             all_ids_list.append(state.id)
             state_ids.append(state.id)
         
+        check_trans_comb(room, sensor_count + global_sensor_count)
+        
     check_corridor_conns(token[5], room_ids_list)
 
     check_trans_id(token[4], state_ids)
-
-    check_trans_comb(token[4], sensor_count)
 
     check_ids(all_ids_list)
 
@@ -620,14 +622,15 @@ def p_h1(token):
     '''
 	h : ROOM ID LBRACKET lsl RBRACKET
 	'''
-    presence, rain, smoke, gas, intruders, flood = False
-    light_intensity, temperature, wind = 0.0
+    # Asignar los valores de los sensores a las variables de la habitación
+    presence=rain=smoke=gas=intruders=flood = False
+    light_intensity=temperature=wind = 0.0
     time = "00:00"
     sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders, flood]
     for sensor in token[4]:
         check_sensor_type(sensor, sensors)
     automaton = Automaton('autom_'+token[2], False, [])
-    token[0] = Room(token[2], "H", [], automaton, sensor[0], sensor[1], sensor[2], sensor[3], sensor[4], sensor[5], sensor[6], sensor[7], sensor[8], sensor[9], [], token[4], [])
+    token[0] = Room(token[2], "H", [], automaton, sensors[0], sensors[1], sensors[2], sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[9], [], token[4], [])
 
 def p_h2(token):
     '''
@@ -647,27 +650,29 @@ def p_h4(token):
     '''
 	h : ROOM ID LBRACKET lsl lal RBRACKET
 	'''
-    presence, rain, smoke, gas, intruders, flood = False
-    light_intensity, temperature, wind = 0.0
+    # Asignar los valores de los sensores a las variables de la habitación
+    presence=rain=smoke=gas=intruders=flood = False
+    light_intensity=temperature=wind = 0.0
     time = "00:00"
     sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders, flood]
     for sensor in token[4]:
         check_sensor_type(sensor, sensors)
     automaton = Automaton('autom_'+token[2], False, [])
-    token[0] = Room(token[2], "H", [], automaton, sensor[0], sensor[1], sensor[2], sensor[3], sensor[4], sensor[5], sensor[6], sensor[7], sensor[8], sensor[9], token[4], token[5], [])
+    token[0] = Room(token[2], "H", [], automaton, sensors[0], sensors[1], sensors[2], sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[9], token[4], token[5], [])
 
 def p_h5(token):
     '''
 	h : ROOM ID LBRACKET lsl c RBRACKET
 	'''
-    presence, rain, smoke, gas, intruders, flood = False
-    light_intensity, temperature, wind = 0.0
+    # Asignar los valores de los sensores a las variables de la habitación
+    presence=rain=smoke=gas=intruders=flood = False
+    light_intensity=temperature=wind = 0.0
     time = "00:00"
     sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders, flood]
     for sensor in token[4]:
         check_sensor_type(sensor, sensors)
     automaton = Automaton('autom_'+token[2], token[5].initial_state, token[5].transitions)
-    token[0] = Room(token[2], "H", token[5].states_list, automaton, sensor[0], sensor[1], sensor[2], sensor[3], sensor[4], sensor[5], sensor[6], sensor[7], sensor[8], sensor[9], token[4], [], [])
+    token[0] = Room(token[2], "H", token[5].states_list, automaton, sensors[0], sensors[1], sensors[2], sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[9], token[4], [], [])
 
 def p_h6(token):
     '''
@@ -1233,13 +1238,12 @@ def check_trans_id(room_list, state_ids):
                 exit(1)
 
 # Check if transition combinations have the same number of digits as sensors in the room    
-def check_trans_comb(room_list, sensor_count):
-    for room in room_list:
-        transitions = room.automaton.transitions
-        for transition in transitions: 
-            if(sensor_count != len(transition.combination)):
-                print("Error: la combinación de transición no tiene la misma longitud que el número de sensores.")
-                exit(1)
+def check_trans_comb(room, sensor_count):
+    transitions = room.automaton.transitions
+    for transition in transitions:
+        if(sensor_count != len(transition.combination)):
+            print("Error: la combinación de transición no tiene la misma longitud que el número de sensores.")
+            exit(1)
 
 # Main
 def main(file_name):
