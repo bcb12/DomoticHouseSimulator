@@ -1,6 +1,6 @@
 house hg12 {
 	room H412zL {
-		sensor_flood s643f := false , sensor_wind low 100.0 s732w := 90.0 ;
+		sensor_flood s90m := false , sensor_wind low 100.0 s732w := 90.0 ;
 		actuator_heat a943h ;
 	} ,
 	room H712lC {
