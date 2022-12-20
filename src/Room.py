@@ -2,10 +2,11 @@ import sensors
 
 
 class Room:
-    def __init__(self, id, room_type, automaton, presence, rain, light_intensity, time, temperature,
-        smoke, wind, gas, intruders, flood, sensors, actuators, connection_list = []):
+    def __init__(self, id, room_type, states, automaton, presence, rain, light_intensity, 
+    time, temperature, smoke, wind, gas, intruders, flood, sensors, actuators, connection_list = []):
         self.id = id
         self.type = room_type
+        self.states = states
         self.automaton = automaton
 
         self.presence = presence
@@ -24,6 +25,21 @@ class Room:
 
         self.connection_list = connection_list
 
+        self.reset_variables()
+
+
+    def reset_variables(self):
+        '''Reset variable values to 0'''
+
+        self.rain = False
+        self.light_intensity = 0.0
+        self.time = '00:00'
+        self.temperature = 0.0
+        self.smoke = False
+        self.wind = 0.0
+        self.gas = False
+        self.intruders = False
+        self.flood = False
 
     def update_sensors(self):
         '''Updates the values in the sensors acording to the variables'''
@@ -80,15 +96,19 @@ class Room:
         transition_index = self.transition_exists(automaton.transitions, combination)
         if transition_index != -1:
             transition = automaton.transitions[transition_index]
-            if transition.source_state.id == automaton.current_state.id:
+            if transition.source_state == automaton.current_state:
+                print("\nExecuting transition from state " + transition.source_state + " to state " + transition.target_state + " in room " + self.id + ".")
                 target_state = transition.target_state
 
                 # Realiza el cambio de estado
                 automaton.current_state = target_state
 
+                # Find state
+                state = self.get_state(target_state)
+
                 # Ejecutar acciones
                 result = target_state
-                actions = target_state.actions
+                actions = state.actions
                 
                 # Mostrar acciones ejecutadas
                 for action in actions:
@@ -105,3 +125,13 @@ class Room:
             else:
                 combination += "0"
         return(combination)
+
+
+    def get_state(self, id):
+        found_state = False
+        for state in self.states:
+            if(state.id == id):
+                found_state = state
+                break
+
+        return found_state

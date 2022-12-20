@@ -101,6 +101,13 @@ class Simulation(object):
                     if mouse_presses[0]:
                         # Getting room coordinates after left click
                         rows, columns = self.get_row_col()
+
+                        if columns == 0:
+                            columns = 1
+
+                        if rows == 0:
+                            rows = 1
+
                         position = pygame.mouse.get_pos()
                         actual_x = (position[0] - ROOM_OFFSET) \
                             / ((IMG_SIZE - MARGIN_DISPLAY + DEVIATION_FACTOR)/rows)
@@ -243,6 +250,9 @@ class Simulation(object):
                                     self.end_index_actuators -= self.end_index_actuators % 10 + 1
 
                             self.print_info(display_surface)
+                        
+                        # Presence variable
+                        
 
                         # Rain variable
                         if position[0] >= 625 and \
@@ -368,22 +378,22 @@ class Simulation(object):
                     if event.key == pygame.K_BACKSPACE:
                         if active_light:
                             self.name_room[room_to_change].light_intensity = \
-                                self.name_room[room_to_change].light_intensity[:-1]
+                                str(self.name_room[room_to_change].light_intensity)[:-1]
                             self.print_info(display_surface)
 
                         if active_time:
                             self.name_room[room_to_change].time = \
-                                self.name_room[room_to_change].time[:-1]
+                                str(self.name_room[room_to_change].time)[:-1]
                             self.print_info(display_surface)
 
                         if active_temp:
                             self.name_room[room_to_change].temperature = \
-                                self.name_room[room_to_change].temperature[:-1]
+                                str(self.name_room[room_to_change].temperature)[:-1]
                             self.print_info(display_surface)
 
                         if active_wind:
                             self.name_room[room_to_change].wind = \
-                                self.name_room[room_to_change].wind[:-1]
+                                str(self.name_room[room_to_change].wind)[:-1]
                             self.print_info(display_surface)
 
                     # Other key
@@ -427,6 +437,12 @@ class Simulation(object):
         '''Adds an image in the center of each node'''
 
         rows, columns = self.get_row_col()
+        if columns == 0:
+            columns = 1
+
+        if rows == 0:
+            rows = 1
+
         for name, coords in self.node_coords.items():
             first_coord = ROOM_OFFSET + \
                 ((IMG_SIZE - MARGIN_DISPLAY + DEVIATION_FACTOR)/rows) * coords[0]
@@ -443,6 +459,12 @@ class Simulation(object):
 
         rows, columns = self.get_row_col()
 
+        if columns == 0:
+            columns = 1
+
+        if rows == 0:
+            rows = 1
+            
         for name, coords in self.node_coords.items():
 
             # Type labels
@@ -709,17 +731,17 @@ class Simulation(object):
 
         message_log = ''
 
-        if room.light_intensity == '':
+        if str(room.light_intensity) == '':
             message_log += '¡La intensidad luminosa no puede estar vacía!\n'
         else:
-            if room.light_intensity[0] == '.' or \
-                room.light_intensity[len(room.light_intensity)-1] == '.':
+            if str(room.light_intensity)[0] == '.' or \
+                str(room.light_intensity)[len(str(room.light_intensity))-1] == '.':
                 message_log += '¡El valor para la intensidad luminosa es incorrecto!\n'
 
-        if room.time == '':
+        if str(room.time) == '':
             message_log += '¡La hora no puede estar vacía!\n'
         else:
-            time_split = room.time.split(':')
+            time_split = str(room.time).split(':')
             if len(time_split) != 2:
                 message_log += '¡El formato de la hora o minutos es incorrecto! (Formato: HH:MM)\n'
             else:
@@ -731,18 +753,18 @@ class Simulation(object):
                         message_log += '¡Los valores de la hora o minutos son incorrectos! \
                             (Hora: de 00 a 23 | Minutos: de 00 a 59)\n'
 
-        if room.temperature == '':
+        if str(room.temperature) == '':
             message_log += '¡La temperatura no puede estar vacía!\n'
         else:
-            if room.temperature[0] == '.' or \
-                room.temperature[len(room.temperature)-1] == '.':
+            if str(room.temperature)[0] == '.' or \
+                str(room.temperature)[len(str(room.temperature))-1] == '.':
                 message_log += '¡El valor para la temperatura es incorrecto!\n'
 
-        if room.wind == '':
+        if str(room.wind) == '':
             message_log += '¡El valor para el viento no puede estar vacío!\n'
         else:
-            if room.wind[0] == '.' or \
-                room.wind[len(room.wind)-1] == '.':
+            if str(room.wind)[0] == '.' or \
+                str(room.wind)[len(str(room.wind))-1] == '.':
                 message_log += '¡El valor para el viento es incorrecto!\n'
 
         if message_log != '':

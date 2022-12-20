@@ -38,6 +38,7 @@ class SensorLight:
 
     def __init__(self, identifier, compare_value, real_value, operator):
         ''' CONSTRUCTOR METHOD '''
+        self.value = False
         self.operator = operator
         self.compare_value = compare_value
         self.identifier = identifier
@@ -69,11 +70,11 @@ class SensorTemperature:
 
     def __init__(self, identifier, compare_value, real_value, operator):
         ''' CONSTRUCTOR METHOD '''
+        self.value = False
         self.operator = operator
         self.compare_value = compare_value
         self.identifier = identifier
         self.real_value = real_value
-        self.set_value()
 
     def set_value(self):
         if self.operator == 'eq':
@@ -83,6 +84,7 @@ class SensorTemperature:
         elif self.operator == 'up':
             self.value = self.real_value > self.compare_value
         elif self.operator == 'eqlow':
+            
             self.value = self.real_value <= self.compare_value
         elif self.operator == 'equp':
             self.value = self.real_value >= self.compare_value
@@ -100,6 +102,7 @@ class SensorTime:
 
     def __init__(self, identifier, compare_value, real_value, operator):
         ''' CONSTRUCTOR METHOD '''
+        self.value = False
         self.operator = operator
         self.compare_value = compare_value
         self.identifier = identifier
@@ -109,11 +112,11 @@ class SensorTime:
     def set_value(self):
         compare_hour = str(self.compare_value).split(':')[0]
         compare_minutes = str(self.compare_value).split(':')[1]
-        self.compare_value = datetime.time(int(compare_hour), int(compare_minutes))
+        self.compare_value = datetime.time(int(compare_hour), int(compare_minutes)).strftime('%H:%M')
 
-        real_hour = self.real_value.split(':')[0]
-        real_minutes = self.real_value.split(':')[1]
-        self.real_value = datetime.time(int(real_hour), int(real_minutes))
+        real_hour = str(self.real_value).split(':')[0]
+        real_minutes = str(self.real_value).split(':')[1]
+        self.real_value = datetime.time(int(real_hour), int(real_minutes)).strftime('%H:%M')
 
         if self.operator == 'eq':
             self.value = self.real_value == self.compare_value
@@ -155,6 +158,7 @@ class SensorWind:
 
     def __init__(self, identifier, compare_value, real_value, operator):
         ''' CONSTRUCTOR METHOD '''
+        self.value = False
         self.operator = operator
         self.compare_value = compare_value
         self.identifier = identifier

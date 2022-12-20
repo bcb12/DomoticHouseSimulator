@@ -1,0 +1,17 @@
+house hg12 {
+	room H412zL {
+		sensor_flood s643f := false , sensor_wind low 100.0 s732w := 90.0 ;
+		actuator_heat a943h ;
+	} ,
+	room H712lC {
+		sensor_smoke s90m := false , sensor_time equp 20:00 s24h := 23:43 ;
+		actuator_door a523d ;
+	} ,
+	room H428uO {
+		sensor_presence s412 := false , sensor_rain s189 := false ; 
+		actuator_wblind a82b ; { state q001 { a82b := false ; } , 
+		state q002 { a82b := true ; } ; init q001 ; q001 , q002 , 00 ; q002 , q001 , 11 ; } ;
+	} ;
+	corridor p84ty { H412zL , H428uO , H712lC ; } ;
+	global { actuator_wblind a232b } ;
+} ;
