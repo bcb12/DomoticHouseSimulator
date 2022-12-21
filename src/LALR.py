@@ -695,7 +695,7 @@ def p_h6(token):
                 actuator.value = action.value
 
     automaton = Automaton('autom_'+token[2], token[5].initial_state, token[5].transitions)
-    token[0] = Room(token[2], "H", token[5].states_list, automaton, False, False, 0.0, "00:00", 0.0, False, False, False, False, [], [], token[4])
+    token[0] = Room(token[2], "H", token[5].states_list, automaton, False, False, 0.0, "00:00", 0.0, False, False, False, False, [], token[4], [])
 
 def p_h7(token):
     '''
@@ -739,8 +739,15 @@ def p_p1(token):
     '''
 	p : CORRIDOR ID LBRACKET l2id lsl RBRACKET
 	'''
+    # Asignar los valores de los sensores a las variables de la habitación
+    presence=rain=smoke=gas=intruders=flood = False
+    light_intensity=temperature=wind = 0.0
+    time = "00:00"
+    sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders, flood]
+    for sensor in token[5]:
+        check_sensor_type(sensor, sensors)
     automaton = Automaton('autom_'+token[2], False, [])
-    token[0] = Room(token[2], "P", [], automaton, False, False, 0.0, "00:00", 0.0, False, False, False, False, False, token[5], [], token[4])
+    token[0] = Room(token[2], "P", [], automaton, sensors[0], sensors[1], sensors[2], sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[9], token[5], [], token[4])
 
 def p_p2(token):
     '''
@@ -750,26 +757,40 @@ def p_p2(token):
     automaton = Automaton('autom_'+token[2], False, [])
     token[0] = Room(token[2], "P", [], automaton, False, False, 0.0, "00:00", 0.0, False, False, False, False, False, [], token[5], token[4])
 
-def p_p3(token):
+#def p_p3(token):
     '''
 	p : CORRIDOR ID LBRACKET l2id c RBRACKET
 	'''
-    automaton = Automaton('autom_'+token[2], token[5].initial_state, token[5].transitions)
-    token[0] = Room(token[2], "P", token[6].states_list, automaton, False, False, 0.0, "00:00", 0.0, False, False, False, False, False, [], [], token[4])
+#    automaton = Automaton('autom_'+token[2], token[5].initial_state, token[5].transitions)
+#    token[0] = Room(token[2], "P", token[6].states_list, automaton, False, False, 0.0, "00:00", 0.0, False, False, False, False, False, [], [], token[4])
 
 def p_p4(token):
     '''
 	p : CORRIDOR ID LBRACKET l2id lsl lal RBRACKET
 	'''
+    # Asignar los valores de los sensores a las variables de la habitación
+    presence=rain=smoke=gas=intruders=flood = False
+    light_intensity=temperature=wind = 0.0
+    time = "00:00"
+    sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders, flood]
+    for sensor in token[5]:
+        check_sensor_type(sensor, sensors)
     automaton = Automaton('autom_'+token[2], False, [])
-    token[0] = Room(token[2], "P", [], automaton, False, False, False, False, False, False, False, False, False, False, token[5], token[6], token[4])
+    token[0] = Room(token[2], "P", [], automaton, sensors[0], sensors[1], sensors[2], sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[9], token[5], token[6], token[4])
 
 def p_p5(token):
     '''
 	p : CORRIDOR ID LBRACKET l2id lsl c RBRACKET
 	'''
+    # Asignar los valores de los sensores a las variables de la habitación
+    presence=rain=smoke=gas=intruders=flood = False
+    light_intensity=temperature=wind = 0.0
+    time = "00:00"
+    sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders, flood]
+    for sensor in token[5]:
+        check_sensor_type(sensor, sensors)
     automaton = Automaton('autom_'+token[2], token[6].initial_state, token[6].transitions)
-    token[0] = Room(token[2], "P", token[6].states_list, automaton, False, False, False, False, False, False, False, False, False, False, token[5], [], token[4])
+    token[0] = Room(token[2], "P", token[6].states_list, automaton, sensors[0], sensors[1], sensors[2], sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[9], token[5], [], token[4])
 
 def p_p6(token):
     '''
@@ -780,21 +801,51 @@ def p_p6(token):
             for actuator in token[5]:
                 if(action.actuator == actuator.identifier):
                     action.actuator = actuator
+    
+    initial_state = ""
+    for state in token[6].states_list:
+        if(state.id == token[6].initial_state):
+            initial_state = state
+    
+    for actuator in token[5]:
+        for action in initial_state.actions:
+            if(action.actuator == actuator):
+                actuator.value = action.value
+
     automaton = Automaton('autom_'+token[2], token[6].initial_state, token[6].transitions)
-    token[0] = Room(token[2], "P", token[6].states_list, automaton, False, False, False, False, False, False, False, False, False, False, [], token[5], token[4])
+    token[0] = Room(token[2], "P", token[6].states_list, automaton, False, False, 0.0, "00:00", 0.0, False, False, False, False, False, [], token[5], token[4])
 
 def p_p7(token):
     '''
 	p : CORRIDOR ID LBRACKET l2id lsl lal c RBRACKET
 	'''
+    # En la clase Action, sustituir el ID del actuador por el objeto actuador
+    initial_state = ""
     for state in token[7].states_list:
+        if(state.id == token[7].initial_state):
+            initial_state = state
         for action in state.actions:
             for actuator in token[6]:
                 if(action.actuator == actuator.identifier):
                     action.actuator = actuator
-    automaton = Automaton('autom_'+token[2], token[7].initial_state, token[7].transitions)
-    token[0] = Room(token[2], "P", token[7].states_list, automaton, False, False, False, False, False, False, False, False, False, False, token[5], token[6], token[4])
 
+    # Asignar los valores de los sensores a las variables de la habitación
+    presence=rain=smoke=gas=intruders=flood = False
+    light_intensity=temperature=wind = 0.0
+    time = "00:00"
+    sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders, flood]
+    for sensor in token[5]:
+        check_sensor_type(sensor, sensors)
+
+    # Asignar valores del estado inicial a los actuadores
+    for actuator in token[6]:
+        for action in initial_state.actions:
+            if(action.actuator == actuator):
+                actuator.value = action.value
+
+    automaton = Automaton('autom_'+token[2], token[7].initial_state, token[7].transitions)
+    token[0] = Room(token[2], "P", token[7].states_list, automaton, sensors[0], sensors[1], sensors[2], sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[9], token[5], token[6], token[4])
+ 
 def p_p8(token):
     '''
 	p : CORRIDOR ID LBRACKET l2id RBRACKET
@@ -973,7 +1024,7 @@ def p_lest2(token):
     '''
 	lest :  STATE ID LBRACKET RBRACKET COMMA lest
 	'''
-    token[6].append(State(token[2]))
+    token[6].append(State(token[2], None))
     token[0] = token[6]
 
 def p_lest3(token):
@@ -989,7 +1040,7 @@ def p_lest4(token):
 	lest :  STATE ID LBRACKET RBRACKET
 	'''
     states_list = []
-    states_list.append(State(token[2]))
+    states_list.append(State(token[2], None))
     token[0] = states_list
 
 def p_lactions1(token):
@@ -1267,9 +1318,10 @@ def main(file_name):
             for state in room.states:
                 print("\t\tID: " + str(state.id))
                 print("\t\tActuators:")
-                for action in state.actions:
-                    print("\t\t\tActuator: " + str(action.actuator))
-                    print("\t\t\tValue: " + str(action.value))
+                if(state.actions != None):
+                    for action in state.actions:
+                        print("\t\t\tActuator: " + str(action.actuator))
+                        print("\t\t\tValue: " + str(action.value))
             print("\tAutomaton:")
             print("\t\tID: " + str(room.automaton.id))
             print("\t\tTransitions:")
