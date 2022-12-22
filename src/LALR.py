@@ -683,7 +683,10 @@ def p_h6(token):
             for actuator in token[4]:
                 if(action.actuator == actuator.identifier):
                     action.actuator = actuator
-    
+            if(not isinstance(action.actuator, Actuator)):
+                print("Error: Actuador " + action.actuator + " no encontrado en la habitación " + token[2] + " para el estado " + state.id)
+                exit(1)
+
     initial_state = ""
     for state in token[5].states_list:
         if(state.id == token[5].initial_state):
@@ -710,6 +713,9 @@ def p_h7(token):
             for actuator in token[5]:
                 if(action.actuator == actuator.identifier):
                     action.actuator = actuator
+            if(not isinstance(action.actuator, Actuator)):
+                print("Error: Actuador " + action.actuator + " no encontrado en la habitación " + token[2] + " para el estado " + state.id)
+                exit(1)
 
     # Asignar los valores de los sensores a las variables de la habitación
     presence=rain=smoke=gas=intruders=flood = False
@@ -801,7 +807,10 @@ def p_p6(token):
             for actuator in token[5]:
                 if(action.actuator == actuator.identifier):
                     action.actuator = actuator
-    
+            if(not isinstance(action.actuator, Actuator)):
+                print("Error: Actuador " + action.actuator + " no encontrado en el pasillo " + token[2] + " para el estado " + state.id)
+                exit(1)
+
     initial_state = ""
     for state in token[6].states_list:
         if(state.id == token[6].initial_state):
@@ -828,6 +837,9 @@ def p_p7(token):
             for actuator in token[6]:
                 if(action.actuator == actuator.identifier):
                     action.actuator = actuator
+            if(not isinstance(action.actuator, Actuator)):
+                print("Error: Actuador " + action.actuator + " no encontrado en el pasillo " + token[2] + " para el estado " + state.id)
+                exit(1)
 
     # Asignar los valores de los sensores a las variables de la habitación
     presence=rain=smoke=gas=intruders=flood = False
@@ -1266,7 +1278,7 @@ def check_ids(id_list):
     aux_list = []
     for id in id_list:
         if(id in aux_list):
-            print("Error: id duplicado.")
+            print("Error: id " + id + " duplicado.")
             exit(1)
         aux_list.append(id)
 
@@ -1276,7 +1288,7 @@ def check_corridor_conns(corridor_list, room_ids_list):
         connections = corridor.connection_list
         for connection in connections:
             if(connection not in room_ids_list):
-                print("Error: Los ids de las conexiones no son ids de habitaciones.")
+                print("Error: El id " + connection + " de la conexión del pasillo " + corridor.id + " no es el id de una habitación.")
                 exit(1)
 
 # Check if transition ids are actually state ids
@@ -1284,8 +1296,13 @@ def check_trans_id(room_list, state_ids):
     for room in room_list:
         transitions = room.automaton.transitions
         for transition in transitions:
-            if(transition.source_state not in state_ids or transition.target_state not in state_ids):
+            if(transition.source_state not in state_ids):
                 print("Error: los ids de estados no corresponden a estados.")
+                print("Error: el id " + transition.source_state + " de la lista de transiciones de la habitación/pasillo " + room.id + " no corresponde a un estado.")
+                exit(1)
+            if(transition.target_state not in state_ids):
+                print("Error: los ids de estados no corresponden a estados.")
+                print("Error: el id " + transition.target_state + " de la lista de transiciones de la habitación/pasillo " + room.id + " no corresponde a un estado.")
                 exit(1)
 
 # Check if transition combinations have the same number of digits as sensors in the room    
@@ -1293,7 +1310,7 @@ def check_trans_comb(room, sensor_count):
     transitions = room.automaton.transitions
     for transition in transitions:
         if(sensor_count != len(transition.combination)):
-            print("Error: la combinación de transición no tiene la misma longitud que el número de sensores.")
+            print("Error: la combinación de transición de la habitación/pasillo " + room.id + " no tiene la misma longitud que el número de sensores.")
             exit(1)
 
 # Main
