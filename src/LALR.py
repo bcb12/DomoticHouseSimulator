@@ -757,12 +757,12 @@ def p_p2(token):
     automaton = Automaton('autom_'+token[2], False, [])
     token[0] = Room(token[2], "P", [], automaton, False, False, 0.0, "00:00", 0.0, False, False, False, False, False, [], token[5], token[4])
 
-#def p_p3(token):
+def p_p3(token):
     '''
 	p : CORRIDOR ID LBRACKET l2id c RBRACKET
 	'''
-#    automaton = Automaton('autom_'+token[2], token[5].initial_state, token[5].transitions)
-#    token[0] = Room(token[2], "P", token[6].states_list, automaton, False, False, 0.0, "00:00", 0.0, False, False, False, False, False, [], [], token[4])
+    automaton = Automaton('autom_'+token[2], token[5].initial_state, token[5].transitions)
+    token[0] = Room(token[2], "P", token[5].states_list, automaton, False, False, 0.0, "00:00", 0.0, False, False, False, False, False, [], [], token[4])
 
 def p_p4(token):
     '''
