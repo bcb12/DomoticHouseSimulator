@@ -11,6 +11,7 @@ from Transition import Transition
 from behaviour import Behaviour
 from State import State
 from House import House
+from Room import Room
 
 
 # This class defines a complete listener for a parse tree produced by DHSemanticGrammarParser.

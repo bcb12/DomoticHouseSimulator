@@ -15,6 +15,7 @@ from Transition import Transition
 from behaviour import Behaviour
 from State import State
 from House import House
+from Room import Room
 
 def serializedATN():
     return [
@@ -501,7 +502,11 @@ class DHSemanticGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
             self.data = None
+            self._ROOM = None # Token
             self._ID = None # Token
+            self.lsl1 = None # LslContext
+            self.lal1 = None # LalContext
+            self.c1 = None # CContext
 
         def ROOM(self):
             return self.getToken(DHSemanticGrammarParser.ROOM, 0)
@@ -549,7 +554,7 @@ class DHSemanticGrammarParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 107
-            self.match(DHSemanticGrammarParser.ROOM)
+            localctx._ROOM = self.match(DHSemanticGrammarParser.ROOM)
             self.state = 108
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
             self.state = 109
@@ -559,7 +564,7 @@ class DHSemanticGrammarParser ( Parser ):
             _la = self._input.LA(1)
             if ((_la) & ~0x3f) == 0 and ((1 << _la) & 2046) != 0:
                 self.state = 110
-                self.lsl()
+                localctx.lsl1 = self.lsl()
 
 
             self.state = 114
@@ -567,7 +572,7 @@ class DHSemanticGrammarParser ( Parser ):
             _la = self._input.LA(1)
             if ((_la) & ~0x3f) == 0 and ((1 << _la) & 2095104) != 0:
                 self.state = 113
-                self.lal()
+                localctx.lal1 = self.lal()
 
 
             self.state = 117
@@ -575,12 +580,14 @@ class DHSemanticGrammarParser ( Parser ):
             _la = self._input.LA(1)
             if _la==35:
                 self.state = 116
-                self.c()
+                localctx.c1 = self.c()
 
 
             self.state = 119
             self.match(DHSemanticGrammarParser.RBRACKET)
-            localctx.data = (None if localctx._ID is None else localctx._ID.text)
+            localctx.data = Room((None if localctx._ID is None else localctx._ID.text), (None if localctx._ROOM is None else localctx._ROOM.text), (None if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), '', False, False, 0.0, 
+              '00:00', 0.0, False, False, False, False, False, 
+              (None if (None if localctx.lsl1 is None else self._input.getText(localctx.lsl1.start,localctx.lsl1.stop)) is None else localctx.lsl1.list_sensors), (None if (None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is None else localctx.lal1.list_actuators), []) 
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -673,7 +680,9 @@ class DHSemanticGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
             self.data = None
+            self._CORRIDOR = None # Token
             self._ID = None # Token
+            self._l2id = None # L2idContext
             self.lsl1 = None # LslContext
             self.lal1 = None # LalContext
             self.c1 = None # CContext
@@ -728,13 +737,13 @@ class DHSemanticGrammarParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 133
-            self.match(DHSemanticGrammarParser.CORRIDOR)
+            localctx._CORRIDOR = self.match(DHSemanticGrammarParser.CORRIDOR)
             self.state = 134
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
             self.state = 135
             self.match(DHSemanticGrammarParser.LBRACKET)
             self.state = 136
-            self.l2id()
+            localctx._l2id = self.l2id()
             self.state = 138
             self._errHandler.sync(self)
             _la = self._input.LA(1)
@@ -761,7 +770,9 @@ class DHSemanticGrammarParser ( Parser ):
 
             self.state = 146
             self.match(DHSemanticGrammarParser.RBRACKET)
-            localctx.data = (None if localctx._ID is None else localctx._ID.text)
+            localctx.data = Room((None if localctx._ID is None else localctx._ID.text), (None if localctx._CORRIDOR is None else localctx._CORRIDOR.text), (None if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), '', False, False, 0.0, 
+              '00:00', 0.0, False, False, False, False, False, 
+              (None if (None if localctx.lsl1 is None else self._input.getText(localctx.lsl1.start,localctx.lsl1.stop)) is None else localctx.lsl1.list_sensors), (None if (None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is None else localctx.lal1.list_actuators), localctx._l2id.list_l2id) 
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)

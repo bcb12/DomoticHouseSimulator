@@ -2,7 +2,7 @@ import sensors
 
 
 class Room:
-    def __init__(self, id, room_type, states, automaton, presence, rain, light_intensity, 
+    def __init__(self, id, room_type, states, automaton, presence, rain, light_intensity,
     time, temperature, smoke, wind, gas, intruders, flood, sensors, actuators, connection_list = []):
         self.id = id
         self.type = room_type
@@ -70,7 +70,6 @@ class Room:
             elif isinstance(sensor, sensors.SensorFlood):
                 sensor.value = self.flood
 
-
     def call_automaton(self):
         '''Calls the automaton to change state if possible'''
 
@@ -85,7 +84,6 @@ class Room:
                 found = index
                 break
         return found
-
 
     def make_transition(self, automaton, combination):
         """
@@ -135,3 +133,10 @@ class Room:
                 break
 
         return found_state
+
+    def __str__(self):
+        '''To_string method for class Room'''
+        if self.type == 'room':
+            return f'Room {self.id} with the following: \n\t - Local sensors: {self.sensors} \n\t - Local actuators: {self.actuators}'
+        elif self.type == 'corridor':
+            return f'Corridor {self.id} with the following: \n\t - Local sensors: {self.sensors} \n\t - Local actuators: {self.actuators}\n\t - Connexions with: {self.connection_list}'

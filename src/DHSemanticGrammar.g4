@@ -8,6 +8,7 @@ from Transition import Transition
 from behaviour import Behaviour
 from State import State
 from House import House
+from Room import Room
 }
 
 casa returns [House data]
@@ -19,8 +20,11 @@ lh returns [List list_rooms]
   | h1=h SEMICOLON {$list_rooms = [$h1.data]} ;
 
 h returns [Room data]
-  : ROOM ID LBRACKET lsl? lal? c? RBRACKET 
-  {$data = $ID.text} ;
+  : ROOM ID LBRACKET lsl1=lsl? lal1=lal? c1=c? RBRACKET 
+  {$data = Room($ID.text, $ROOM.text, (None if $c1.text is None else $c1.comp.states_list), '', False, False, 0.0, 
+  '00:00', 0.0, False, False, False, False, False, 
+  (None if $lsl1.text is None else $lsl1.list_sensors), (None if $lal1.text is None else $lal1.list_actuators), []) }
+  ;
 
 lp returns [List list_corridors]
   : pas=p COMMA corLs=lp {$list_corridors = $corLs.list_corridors + [$pas.data]}
@@ -28,7 +32,9 @@ lp returns [List list_corridors]
 
 p returns [Corridor data]
   : CORRIDOR ID LBRACKET l2id lsl1=lsl? lal1=lal? c1=c? RBRACKET
-  {$data = $ID.text}
+  {$data = Room($ID.text, $CORRIDOR.text, (None if $c1.text is None else $c1.comp.states_list), '', False, False, 0.0, 
+  '00:00', 0.0, False, False, False, False, False, 
+  (None if $lsl1.text is None else $lsl1.list_sensors), (None if $lal1.text is None else $lal1.list_actuators), $l2id.list_l2id) }
   ;
 
 l2id returns [List list_l2id]

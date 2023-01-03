@@ -14,6 +14,7 @@ from Transition import Transition
 from behaviour import Behaviour
 from State import State
 from House import House
+from Room import Room
 
 
 def serializedATN():
