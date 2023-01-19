@@ -3,12 +3,14 @@ import DHLexerRules;
 
 @header {
 from sensors import SensorPresence, SensorRain, SensorLight, SensorTemperature, SensorTime, SensorSmoke, SensorWind, SensorIntruders, SensorFlood, SensorGas
+from actuators import ActuatorDoor, ActuatorHeat, ActuatorWindowBlind, ActuatorLight, ActuatorWindow, ActuatorCold, ActuatorGas, ActuatorSunBlind, ActuatorAlarm
 from Action import Action
 from Transition import Transition
 from behaviour import Behaviour
 from State import State
 from House import House
 from Room import Room
+from Automaton import Automaton
 }
 
 casa returns [House data]
@@ -21,21 +23,52 @@ lh returns [List list_rooms]
 
 h returns [Room data]
   : ROOM ID LBRACKET lsl1=lsl? lal1=lal? c1=c? RBRACKET 
-  {$data = Room($ID.text, $ROOM.text, (None if $c1.text is None else $c1.comp.states_list), '', False, False, 0.0, 
-  '00:00', 0.0, False, False, False, False, False, 
-  (None if $lsl1.text is None else $lsl1.list_sensors), (None if $lal1.text is None else $lal1.list_actuators), []) }
-  ;
+  {
+transitions = []
+initial_state = ""
+if($c1.text is not None):
+  transitions = $c1.comp.transitions
+
+  for state in $c1.comp.states_list:
+      if(state.id == $c1.comp.initial_state):
+          initial_state = state
+      for action in state.actions:
+          for actuator in $lal1.list_actuators:
+              if(action.actuator == actuator.identifier):
+                  action.actuator = actuator
+
+automaton = Automaton("autom_"+$ID.text, initial_state, transitions)
+$data = Room($ID.text, "H", (None if $c1.text is None else $c1.comp.states_list), automaton, False, False, 0.0, 
+'00:00', 0.0, False, False, False, False, False, 
+([] if $lsl1.text is None else $lsl1.list_sensors), ([] if $lal1.text is None else $lal1.list_actuators), [])
+  } ;
 
 lp returns [List list_corridors]
   : pas=p COMMA corLs=lp {$list_corridors = $corLs.list_corridors + [$pas.data]}
   | pas=p SEMICOLON {$list_corridors = [$pas.data]};
 
-p returns [Corridor data]
+p returns [Room data]
   : CORRIDOR ID LBRACKET l2id lsl1=lsl? lal1=lal? c1=c? RBRACKET
-  {$data = Room($ID.text, $CORRIDOR.text, (None if $c1.text is None else $c1.comp.states_list), '', False, False, 0.0, 
-  '00:00', 0.0, False, False, False, False, False, 
-  (None if $lsl1.text is None else $lsl1.list_sensors), (None if $lal1.text is None else $lal1.list_actuators), $l2id.list_l2id) }
-  ;
+  {
+print($l2id.list_l2id)
+transitions = []
+initial_state = ""
+if($c1.text is not None):
+  transitions = $c1.comp.transitions
+
+  for state in $c1.comp.states_list:
+      if(state.id == $c1.comp.initial_state):
+          initial_state = state
+      for action in state.actions:
+          for actuator in $lal1.list_actuators:
+              if(action.actuator == actuator.identifier):
+                  action.actuator = actuator
+
+automaton = Automaton("autom_"+$ID.text, initial_state, transitions)
+$data = Room($ID.text, "P", (None if $c1.text is None else $c1.comp.states_list), automaton, False, False, 0.0, 
+'00:00', 0.0, False, False, False, False, False, 
+(None if $lsl1.text is None else $lsl1.list_sensors), (None if $lal1.text is None else $lal1.list_actuators), $l2id.list_l2id)
+  } ;
 
 l2id returns [List list_l2id]
   : ID COMMA l2id1=l2id {$list_l2id = $l2id1.list_l2id + [$ID.text]}
@@ -61,7 +94,12 @@ lactions returns [List list_actions]
   ;
 
 action returns [Action act]
-  : ID SEQ BOOL {$act= Action($ID.text, $BOOL.text)} ;
+  : ID SEQ BOOL {
+value = False
+if $BOOL.text == 'true':
+    value = True
+$act= Action($ID.text, value)
+  } ;
 
 init returns [string state]
   : INIT ID {$state = $ID.text}
@@ -81,8 +119,8 @@ lsl returns [List list_sensors]
   ; 
 
 lal returns [List list_actuators]
-  : a1=a COMMA lal1=lal {$list_actuators = $lal1.list_actuators + [$a1.id]}
-  | a1=a SEMICOLON {$list_actuators = [$a1.id]}
+  : a1=a COMMA lal1=lal {$list_actuators = $lal1.list_actuators + [$a1.data]}
+  | a1=a SEMICOLON {$list_actuators = [$a1.data]}
   ;
 
 lsg returns [List list_sensors]
@@ -93,8 +131,8 @@ lsg returns [List list_sensors]
 
 lag returns [List list_actuators]
   : GLOBAL LBRACKET lag1=lag RBRACKET SEMICOLON {$list_actuators=$lag1.list_actuators}
-  | a1=a COMMA lag1=lag {$list_actuators = $lag1.list_actuators + [$a1.id]}
-  | a1=a {$list_actuators = [$a1.id]}
+  | a1=a COMMA lag1=lag {$list_actuators = $lag1.list_actuators + [$a1.data]}
+  | a1=a {$list_actuators = [$a1.data]}
   ;
 
 s returns [Sensor data]
@@ -110,17 +148,17 @@ s returns [Sensor data]
   | sinundacion   {$data = $sinundacion.data}
   ;
 
-a returns [string id]
-  : apuerta             {$id = $apuerta.id}
-  | acalefaccion        {$id = $acalefaccion.id}
-  | apersiana           {$id = $apersiana.id}
-  | aluz                {$id = $aluz.id}
-  | aventana            {$id = $aventana.id}
-  | afrio               {$id = $afrio.id}
-  | agas                {$id = $agas.id}
-  | atoldo              {$id = $atoldo.id}
-  | aalarma             {$id = $aalarma.id}
-  | aemergencia         {$id = $aemergencia.id}
+a returns [string data]
+  : apuerta             {$data = $apuerta.data}
+  | acalefaccion        {$data = $acalefaccion.data}
+  | apersiana           {$data = $apersiana.data}
+  | aluz                {$data = $aluz.data}
+  | aventana            {$data = $aventana.data}
+  | afrio               {$data = $afrio.data}
+  | agas                {$data = $agas.data}
+  | atoldo              {$data = $atoldo.data}
+  | aalarma             {$data = $aalarma.data}
+  | aemergencia         {$data = $aemergencia.data}
   ;
 
 spresencia returns [Sensor data]
@@ -211,33 +249,53 @@ comp_value = $t1.text
 $data = SensorTime(id, comp_value, real_value, operator)
   } ;
 
-apuerta returns [string id]
-  : APUERTA ID {$id = $ID.text}
-  ;
-acalefaccion returns [string id]
-  : ACALEFACCION ID {$id = $ID.text}
-  ;
-apersiana returns [string id]
-  : APERSIANA ID {$id = $ID.text}
-  ;
-aluz returns [string id]
-  : ALUZ ID {$id = $ID.text}
-  ;
-aventana returns [string id]
-  : AVENTANA ID {$id = $ID.text}
-  ;
-afrio returns [string id]
-  : AFRIO ID {$id = $ID.text}
-  ;
-agas returns [string id]
-  : AGAS ID {$id = $ID.text}
-  ;
-atoldo returns [string id]
-  : ATOLDO ID {$id = $ID.text}
-  ;
-aalarma returns [string id]
-  : AALARMA ID {$id = $ID.text}
-  ;
-aemergencia returns [string id]
-  : AEMERGENCIA ID {$id = $ID.text}
-  ;
+apuerta returns [Actuator data]
+  : APUERTA ID {
+id = $ID.text
+$data = ActuatorDoor(id, False)
+  } ;
+acalefaccion returns [Actuator data]
+  : ACALEFACCION ID {
+id = $ID.text
+$data = ActuatorHeat(id, False)
+  } ;
+apersiana returns [Actuator data]
+  : APERSIANA ID {
+id = $ID.text
+$data = ActuatorWindowBlind(id, False)
+  } ;
+aluz returns [Actuator data]
+  : ALUZ ID {
+id = $ID.text
+$data = ActuatorLight(id, False)
+  } ;
+aventana returns [Actuator data]
+  : AVENTANA ID {
+id = $ID.text
+$data = ActuatorWindow(id, False)
+  } ;
+afrio returns [Actuator data]
+  : AFRIO ID {
+id = $ID.text
+$data = ActuatorCold(id, False)
+  } ;
+agas returns [Actuator data]
+  : AGAS ID {
+id = $ID.text
+$data = ActuatorGas(id, False)
+  } ;
+atoldo returns [Actuator data]
+  : ATOLDO ID {
+id = $ID.text
+$data = ActuatorSunBlind(id, False)
+  } ;
+aalarma returns [Actuator data]
+  : AALARMA ID {
+id = $ID.text
+$data = ActuatorAlarm(id, False)
+  } ;
+aemergencia returns [Actuator data]
+  : AEMERGENCIA ID {
+id = $ID.text
+$data = ActuatorEmergency(id, False)
+  } ;

@@ -10,12 +10,14 @@ else:
 
 
 from sensors import SensorPresence, SensorRain, SensorLight, SensorTemperature, SensorTime, SensorSmoke, SensorWind, SensorIntruders, SensorFlood, SensorGas
+from actuators import ActuatorDoor, ActuatorHeat, ActuatorWindowBlind, ActuatorLight, ActuatorWindow, ActuatorCold, ActuatorGas, ActuatorSunBlind, ActuatorAlarm
 from Action import Action
 from Transition import Transition
 from behaviour import Behaviour
 from State import State
 from House import House
 from Room import Room
+from Automaton import Automaton
 
 def serializedATN():
     return [
@@ -502,7 +504,6 @@ class DHSemanticGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
             self.data = None
-            self._ROOM = None # Token
             self._ID = None # Token
             self.lsl1 = None # LslContext
             self.lal1 = None # LalContext
@@ -554,7 +555,7 @@ class DHSemanticGrammarParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 107
-            localctx._ROOM = self.match(DHSemanticGrammarParser.ROOM)
+            self.match(DHSemanticGrammarParser.ROOM)
             self.state = 108
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
             self.state = 109
@@ -585,9 +586,25 @@ class DHSemanticGrammarParser ( Parser ):
 
             self.state = 119
             self.match(DHSemanticGrammarParser.RBRACKET)
-            localctx.data = Room((None if localctx._ID is None else localctx._ID.text), (None if localctx._ROOM is None else localctx._ROOM.text), (None if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), '', False, False, 0.0, 
-              '00:00', 0.0, False, False, False, False, False, 
-              (None if (None if localctx.lsl1 is None else self._input.getText(localctx.lsl1.start,localctx.lsl1.stop)) is None else localctx.lsl1.list_sensors), (None if (None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is None else localctx.lal1.list_actuators), []) 
+
+            transitions = []
+            initial_state = ""
+            if((None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is not None):
+              transitions = localctx.c1.comp.transitions
+
+              for state in localctx.c1.comp.states_list:
+                  if(state.id == localctx.c1.comp.initial_state):
+                      initial_state = state
+                  for action in state.actions:
+                      for actuator in localctx.lal1.list_actuators:
+                          if(action.actuator == actuator.identifier):
+                              action.actuator = actuator
+
+            automaton = Automaton("autom_"+(None if localctx._ID is None else localctx._ID.text), initial_state, transitions)
+            localctx.data = Room((None if localctx._ID is None else localctx._ID.text), "H", (None if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), automaton, False, False, 0.0, 
+            '00:00', 0.0, False, False, False, False, False, 
+            ([] if (None if localctx.lsl1 is None else self._input.getText(localctx.lsl1.start,localctx.lsl1.stop)) is None else localctx.lsl1.list_sensors), ([] if (None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is None else localctx.lal1.list_actuators), [])
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -680,7 +697,6 @@ class DHSemanticGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
             self.data = None
-            self._CORRIDOR = None # Token
             self._ID = None # Token
             self._l2id = None # L2idContext
             self.lsl1 = None # LslContext
@@ -737,7 +753,7 @@ class DHSemanticGrammarParser ( Parser ):
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 133
-            localctx._CORRIDOR = self.match(DHSemanticGrammarParser.CORRIDOR)
+            self.match(DHSemanticGrammarParser.CORRIDOR)
             self.state = 134
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
             self.state = 135
@@ -770,9 +786,26 @@ class DHSemanticGrammarParser ( Parser ):
 
             self.state = 146
             self.match(DHSemanticGrammarParser.RBRACKET)
-            localctx.data = Room((None if localctx._ID is None else localctx._ID.text), (None if localctx._CORRIDOR is None else localctx._CORRIDOR.text), (None if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), '', False, False, 0.0, 
-              '00:00', 0.0, False, False, False, False, False, 
-              (None if (None if localctx.lsl1 is None else self._input.getText(localctx.lsl1.start,localctx.lsl1.stop)) is None else localctx.lsl1.list_sensors), (None if (None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is None else localctx.lal1.list_actuators), localctx._l2id.list_l2id) 
+
+            print(localctx._l2id.list_l2id)
+            transitions = []
+            initial_state = ""
+            if((None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is not None):
+              transitions = localctx.c1.comp.transitions
+
+              for state in localctx.c1.comp.states_list:
+                  if(state.id == localctx.c1.comp.initial_state):
+                      initial_state = state
+                  for action in state.actions:
+                      for actuator in localctx.lal1.list_actuators:
+                          if(action.actuator == actuator.identifier):
+                              action.actuator = actuator
+
+            automaton = Automaton("autom_"+(None if localctx._ID is None else localctx._ID.text), initial_state, transitions)
+            localctx.data = Room((None if localctx._ID is None else localctx._ID.text), "P", (None if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), automaton, False, False, 0.0, 
+            '00:00', 0.0, False, False, False, False, False, 
+            (None if (None if localctx.lsl1 is None else self._input.getText(localctx.lsl1.start,localctx.lsl1.stop)) is None else localctx.lsl1.list_sensors), (None if (None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is None else localctx.lal1.list_actuators), localctx._l2id.list_l2id)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1171,7 +1204,12 @@ class DHSemanticGrammarParser ( Parser ):
             self.match(DHSemanticGrammarParser.SEQ)
             self.state = 202
             localctx._BOOL = self.match(DHSemanticGrammarParser.BOOL)
-            localctx.act= Action((None if localctx._ID is None else localctx._ID.text), (None if localctx._BOOL is None else localctx._BOOL.text))
+
+            value = False
+            if (None if localctx._BOOL is None else localctx._BOOL.text) == 'true':
+                value = True
+            localctx.act= Action((None if localctx._ID is None else localctx._ID.text), value)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1497,7 +1535,7 @@ class DHSemanticGrammarParser ( Parser ):
                 self.match(DHSemanticGrammarParser.COMMA)
                 self.state = 239
                 localctx.lal1 = self.lal()
-                localctx.list_actuators = localctx.lal1.list_actuators + [localctx.a1.id_]
+                localctx.list_actuators = localctx.lal1.list_actuators + [localctx.a1.data]
                 pass
 
             elif la_ == 2:
@@ -1506,7 +1544,7 @@ class DHSemanticGrammarParser ( Parser ):
                 localctx.a1 = self.a()
                 self.state = 243
                 self.match(DHSemanticGrammarParser.SEMICOLON)
-                localctx.list_actuators = [localctx.a1.id_]
+                localctx.list_actuators = [localctx.a1.data]
                 pass
 
 
@@ -1695,14 +1733,14 @@ class DHSemanticGrammarParser ( Parser ):
                 self.match(DHSemanticGrammarParser.COMMA)
                 self.state = 274
                 localctx.lag1 = self.lag()
-                localctx.list_actuators = localctx.lag1.list_actuators + [localctx.a1.id_]
+                localctx.list_actuators = localctx.lag1.list_actuators + [localctx.a1.data]
                 pass
 
             elif la_ == 3:
                 self.enterOuterAlt(localctx, 3)
                 self.state = 277
                 localctx.a1 = self.a()
-                localctx.list_actuators = [localctx.a1.id_]
+                localctx.list_actuators = [localctx.a1.data]
                 pass
 
 
@@ -1873,7 +1911,7 @@ class DHSemanticGrammarParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-            self.id_ = None
+            self.data = None
             self._apuerta = None # ApuertaContext
             self._acalefaccion = None # AcalefaccionContext
             self._apersiana = None # ApersianaContext
@@ -1951,61 +1989,61 @@ class DHSemanticGrammarParser ( Parser ):
                 self.enterOuterAlt(localctx, 1)
                 self.state = 314
                 localctx._apuerta = self.apuerta()
-                localctx.id_ = localctx._apuerta.id_
+                localctx.data = localctx._apuerta.data
                 pass
             elif token in [12]:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 317
                 localctx._acalefaccion = self.acalefaccion()
-                localctx.id_ = localctx._acalefaccion.id_
+                localctx.data = localctx._acalefaccion.data
                 pass
             elif token in [13]:
                 self.enterOuterAlt(localctx, 3)
                 self.state = 320
                 localctx._apersiana = self.apersiana()
-                localctx.id_ = localctx._apersiana.id_
+                localctx.data = localctx._apersiana.data
                 pass
             elif token in [14]:
                 self.enterOuterAlt(localctx, 4)
                 self.state = 323
                 localctx._aluz = self.aluz()
-                localctx.id_ = localctx._aluz.id_
+                localctx.data = localctx._aluz.data
                 pass
             elif token in [15]:
                 self.enterOuterAlt(localctx, 5)
                 self.state = 326
                 localctx._aventana = self.aventana()
-                localctx.id_ = localctx._aventana.id_
+                localctx.data = localctx._aventana.data
                 pass
             elif token in [16]:
                 self.enterOuterAlt(localctx, 6)
                 self.state = 329
                 localctx._afrio = self.afrio()
-                localctx.id_ = localctx._afrio.id_
+                localctx.data = localctx._afrio.data
                 pass
             elif token in [17]:
                 self.enterOuterAlt(localctx, 7)
                 self.state = 332
                 localctx._agas = self.agas()
-                localctx.id_ = localctx._agas.id_
+                localctx.data = localctx._agas.data
                 pass
             elif token in [18]:
                 self.enterOuterAlt(localctx, 8)
                 self.state = 335
                 localctx._atoldo = self.atoldo()
-                localctx.id_ = localctx._atoldo.id_
+                localctx.data = localctx._atoldo.data
                 pass
             elif token in [19]:
                 self.enterOuterAlt(localctx, 9)
                 self.state = 338
                 localctx._aalarma = self.aalarma()
-                localctx.id_ = localctx._aalarma.id_
+                localctx.data = localctx._aalarma.data
                 pass
             elif token in [20]:
                 self.enterOuterAlt(localctx, 10)
                 self.state = 341
                 localctx._aemergencia = self.aemergencia()
-                localctx.id_ = localctx._aemergencia.id_
+                localctx.data = localctx._aemergencia.data
                 pass
             else:
                 raise NoViableAltException(self)
@@ -2721,7 +2759,7 @@ class DHSemanticGrammarParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-            self.id_ = None
+            self.data = None
             self._ID = None # Token
 
         def APUERTA(self):
@@ -2754,7 +2792,10 @@ class DHSemanticGrammarParser ( Parser ):
             self.match(DHSemanticGrammarParser.APUERTA)
             self.state = 415
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
-            localctx.id_ = (None if localctx._ID is None else localctx._ID.text)
+
+            id = (None if localctx._ID is None else localctx._ID.text)
+            localctx.data = ActuatorDoor(id, False)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -2770,7 +2811,7 @@ class DHSemanticGrammarParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-            self.id_ = None
+            self.data = None
             self._ID = None # Token
 
         def ACALEFACCION(self):
@@ -2803,7 +2844,10 @@ class DHSemanticGrammarParser ( Parser ):
             self.match(DHSemanticGrammarParser.ACALEFACCION)
             self.state = 419
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
-            localctx.id_ = (None if localctx._ID is None else localctx._ID.text)
+
+            id = (None if localctx._ID is None else localctx._ID.text)
+            localctx.data = ActuatorHeat(id, False)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -2819,7 +2863,7 @@ class DHSemanticGrammarParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-            self.id_ = None
+            self.data = None
             self._ID = None # Token
 
         def APERSIANA(self):
@@ -2852,7 +2896,10 @@ class DHSemanticGrammarParser ( Parser ):
             self.match(DHSemanticGrammarParser.APERSIANA)
             self.state = 423
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
-            localctx.id_ = (None if localctx._ID is None else localctx._ID.text)
+
+            id = (None if localctx._ID is None else localctx._ID.text)
+            localctx.data = ActuatorWindowBlind(id, False)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -2868,7 +2915,7 @@ class DHSemanticGrammarParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-            self.id_ = None
+            self.data = None
             self._ID = None # Token
 
         def ALUZ(self):
@@ -2901,7 +2948,10 @@ class DHSemanticGrammarParser ( Parser ):
             self.match(DHSemanticGrammarParser.ALUZ)
             self.state = 427
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
-            localctx.id_ = (None if localctx._ID is None else localctx._ID.text)
+
+            id = (None if localctx._ID is None else localctx._ID.text)
+            localctx.data = ActuatorLight(id, False)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -2917,7 +2967,7 @@ class DHSemanticGrammarParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-            self.id_ = None
+            self.data = None
             self._ID = None # Token
 
         def AVENTANA(self):
@@ -2950,7 +3000,10 @@ class DHSemanticGrammarParser ( Parser ):
             self.match(DHSemanticGrammarParser.AVENTANA)
             self.state = 431
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
-            localctx.id_ = (None if localctx._ID is None else localctx._ID.text)
+
+            id = (None if localctx._ID is None else localctx._ID.text)
+            localctx.data = ActuatorWindow(id, False)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -2966,7 +3019,7 @@ class DHSemanticGrammarParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-            self.id_ = None
+            self.data = None
             self._ID = None # Token
 
         def AFRIO(self):
@@ -2999,7 +3052,10 @@ class DHSemanticGrammarParser ( Parser ):
             self.match(DHSemanticGrammarParser.AFRIO)
             self.state = 435
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
-            localctx.id_ = (None if localctx._ID is None else localctx._ID.text)
+
+            id = (None if localctx._ID is None else localctx._ID.text)
+            localctx.data = ActuatorCold(id, False)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -3015,7 +3071,7 @@ class DHSemanticGrammarParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-            self.id_ = None
+            self.data = None
             self._ID = None # Token
 
         def AGAS(self):
@@ -3048,7 +3104,10 @@ class DHSemanticGrammarParser ( Parser ):
             self.match(DHSemanticGrammarParser.AGAS)
             self.state = 439
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
-            localctx.id_ = (None if localctx._ID is None else localctx._ID.text)
+
+            id = (None if localctx._ID is None else localctx._ID.text)
+            localctx.data = ActuatorGas(id, False)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -3064,7 +3123,7 @@ class DHSemanticGrammarParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-            self.id_ = None
+            self.data = None
             self._ID = None # Token
 
         def ATOLDO(self):
@@ -3097,7 +3156,10 @@ class DHSemanticGrammarParser ( Parser ):
             self.match(DHSemanticGrammarParser.ATOLDO)
             self.state = 443
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
-            localctx.id_ = (None if localctx._ID is None else localctx._ID.text)
+
+            id = (None if localctx._ID is None else localctx._ID.text)
+            localctx.data = ActuatorSunBlind(id, False)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -3113,7 +3175,7 @@ class DHSemanticGrammarParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-            self.id_ = None
+            self.data = None
             self._ID = None # Token
 
         def AALARMA(self):
@@ -3146,7 +3208,10 @@ class DHSemanticGrammarParser ( Parser ):
             self.match(DHSemanticGrammarParser.AALARMA)
             self.state = 447
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
-            localctx.id_ = (None if localctx._ID is None else localctx._ID.text)
+
+            id = (None if localctx._ID is None else localctx._ID.text)
+            localctx.data = ActuatorAlarm(id, False)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -3162,7 +3227,7 @@ class DHSemanticGrammarParser ( Parser ):
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-            self.id_ = None
+            self.data = None
             self._ID = None # Token
 
         def AEMERGENCIA(self):
@@ -3195,7 +3260,10 @@ class DHSemanticGrammarParser ( Parser ):
             self.match(DHSemanticGrammarParser.AEMERGENCIA)
             self.state = 451
             localctx._ID = self.match(DHSemanticGrammarParser.ID)
-            localctx.id_ = (None if localctx._ID is None else localctx._ID.text)
+
+            id = (None if localctx._ID is None else localctx._ID.text)
+            localctx.data = ActuatorEmergency(id, False)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)

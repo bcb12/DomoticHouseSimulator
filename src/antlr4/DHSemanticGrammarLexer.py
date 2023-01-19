@@ -9,12 +9,14 @@ else:
 
 
 from sensors import SensorPresence, SensorRain, SensorLight, SensorTemperature, SensorTime, SensorSmoke, SensorWind, SensorIntruders, SensorFlood, SensorGas
+from actuators import ActuatorDoor, ActuatorHeat, ActuatorWindowBlind, ActuatorLight, ActuatorWindow, ActuatorCold, ActuatorGas, ActuatorSunBlind, ActuatorAlarm
 from Action import Action
 from Transition import Transition
 from behaviour import Behaviour
 from State import State
 from House import House
 from Room import Room
+from Automaton import Automaton
 
 
 def serializedATN():
