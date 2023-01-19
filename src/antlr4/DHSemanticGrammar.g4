@@ -29,12 +29,13 @@ lh returns [List list_rooms]
 h returns [Room data]
   : ROOM ID LBRACKET lsl1=lsl? lal1=lal? c1=c? RBRACKET 
   {
-    presence=rain=smoke=gas=intruders=flood = False
-    light_intensity=temperature=wind = 0.0
-    time = '00:00'
-    sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders,  flood]
-    for sensor in $lsl1.list_sensors:
-      check_sensor_type(sensor, sensors)
+presence=rain=smoke=gas=intruders=flood = False
+light_intensity=temperature=wind = 0.0
+time = '00:00'
+sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders,  flood]
+if($lsl1.text is not None):
+  for sensor in $lsl1.list_sensors:
+    check_sensor_type(sensor, sensors)
 transitions = []
 initial_state = ""
 if($c1.text is not None):
@@ -48,15 +49,14 @@ if($c1.text is not None):
               if(action.actuator == actuator.identifier):
                   action.actuator = actuator
 
-if($lal1.text is not None):
-  for actuator in $lal1.list_actuators:
-      for action in initial_state.actions:
-          if(action.actuator == actuator):
-              actuator.value = action.value
-
+  if($lal1.text is not None):
+    for actuator in $lal1.list_actuators:
+        for action in initial_state.actions:
+            if(action.actuator == actuator):
+                actuator.value = action.value
 automaton = Automaton("autom_"+$ID.text, initial_state, transitions)
-$data = Room($ID.text, "H", (None if $c1.text is None else $c1.comp.states_list), automaton, False, False, 0.0, 
-'00:00', 0.0, False, False, False, False, False, 
+$data = Room($ID.text, "H", (None if $c1.text is None else $c1.comp.states_list), automaton, sensors[0], sensors[1], sensors[2], 
+sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[9], 
 ([] if $lsl1.text is None else $lsl1.list_sensors), ([] if $lal1.text is None else $lal1.list_actuators), [])
   } ;
 
@@ -67,12 +67,13 @@ lp returns [List list_corridors]
 p returns [Room data]
   : CORRIDOR ID LBRACKET l2id lsl1=lsl? lal1=lal? c1=c? RBRACKET
   {
-    presence=rain=smoke=gas=intruders=flood = False
-    light_intensity=temperature=wind = 0.0
-    time = '00:00'
-    sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders,  flood]
-    for sensor in $lsl1.list_sensors:
-      check_sensor_type(sensor, sensors)
+presence=rain=smoke=gas=intruders=flood = False
+light_intensity=temperature=wind = 0.0
+time = '00:00'
+sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders,  flood]
+if($lsl1.text is not None):
+  for sensor in $lsl1.list_sensors:
+    check_sensor_type(sensor, sensors)
 transitions = []
 initial_state = ""
 if($c1.text is not None):
@@ -86,15 +87,15 @@ if($c1.text is not None):
               if(action.actuator == actuator.identifier):
                   action.actuator = actuator
 
-if($lal1.text is not None):
-  for actuator in $lal1.list_actuators:
-      for action in initial_state.actions:
-          if(action.actuator == actuator):
-              actuator.value = action.value
+  if($lal1.text is not None):
+    for actuator in $lal1.list_actuators:
+        for action in initial_state.actions:
+            if(action.actuator == actuator):
+                actuator.value = action.value
 
 automaton = Automaton("autom_"+$ID.text, initial_state, transitions)
-$data = Room($ID.text, "P", ([] if $c1.text is None else $c1.comp.states_list), automaton, False, False, 0.0, 
-'00:00', 0.0, False, False, False, False, False, 
+$data = Room($ID.text, "P", ([] if $c1.text is None else $c1.comp.states_list), automaton, sensors[0], sensors[1], sensors[2], 
+sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[9], 
 ([] if $lsl1.text is None else $lsl1.list_sensors), ([] if $lal1.text is None else $lal1.list_actuators), $l2id.list_l2id)
   } ;
 
@@ -111,7 +112,7 @@ lest returns [List list_states]
   : STATE ID LBRACKET lac1=lactions RBRACKET COMMA lest1=lest 
   {state = State($ID.text, $lac1.list_actions)
 $list_states = $lest1.list_states + [state] }
-  | STATE id=ID LBRACKET lac1=lactions RBRACKET 
+  | STATE ID LBRACKET lac1=lactions RBRACKET 
   {state = State($ID.text, $lac1.list_actions)
 $list_states = [state] }
   ;

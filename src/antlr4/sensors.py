@@ -254,4 +254,3 @@ def check_sensor_type(sensor, list):
         list[8] = sensor.value
     elif isinstance(sensor, SensorFlood):
         list[9] = sensor.value
-    print(list)

@@ -592,6 +592,13 @@ class DHSemanticGrammarParser ( Parser ):
             self.state = 119
             self.match(DHSemanticGrammarParser.RBRACKET)
 
+            presence=rain=smoke=gas=intruders=flood = False
+            light_intensity=temperature=wind = 0.0
+            time = '00:00'
+            sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders,  flood]
+            if((None if localctx.lsl1 is None else self._input.getText(localctx.lsl1.start,localctx.lsl1.stop)) is not None):
+              for sensor in localctx.lsl1.list_sensors:
+                check_sensor_type(sensor, sensors)
             transitions = []
             initial_state = ""
             if((None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is not None):
@@ -605,15 +612,14 @@ class DHSemanticGrammarParser ( Parser ):
                           if(action.actuator == actuator.identifier):
                               action.actuator = actuator
 
-            if((None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is not None):
-              for actuator in localctx.lal1.list_actuators:
-                  for action in initial_state.actions:
-                      if(action.actuator == actuator):
-                          actuator.value = action.value
-
+              if((None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is not None):
+                for actuator in localctx.lal1.list_actuators:
+                    for action in initial_state.actions:
+                        if(action.actuator == actuator):
+                            actuator.value = action.value
             automaton = Automaton("autom_"+(None if localctx._ID is None else localctx._ID.text), initial_state, transitions)
-            localctx.data = Room((None if localctx._ID is None else localctx._ID.text), "H", (None if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), automaton, False, False, 0.0, 
-            '00:00', 0.0, False, False, False, False, False, 
+            localctx.data = Room((None if localctx._ID is None else localctx._ID.text), "H", (None if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), automaton, sensors[0], sensors[1], sensors[2], 
+            sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[9], 
             ([] if (None if localctx.lsl1 is None else self._input.getText(localctx.lsl1.start,localctx.lsl1.stop)) is None else localctx.lsl1.list_sensors), ([] if (None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is None else localctx.lal1.list_actuators), [])
               
         except RecognitionException as re:
@@ -798,6 +804,13 @@ class DHSemanticGrammarParser ( Parser ):
             self.state = 146
             self.match(DHSemanticGrammarParser.RBRACKET)
 
+            presence=rain=smoke=gas=intruders=flood = False
+            light_intensity=temperature=wind = 0.0
+            time = '00:00'
+            sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders,  flood]
+            if((None if localctx.lsl1 is None else self._input.getText(localctx.lsl1.start,localctx.lsl1.stop)) is not None):
+              for sensor in localctx.lsl1.list_sensors:
+                check_sensor_type(sensor, sensors)
             transitions = []
             initial_state = ""
             if((None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is not None):
@@ -811,15 +824,15 @@ class DHSemanticGrammarParser ( Parser ):
                           if(action.actuator == actuator.identifier):
                               action.actuator = actuator
 
-            if((None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is not None):
-              for actuator in localctx.lal1.list_actuators:
-                  for action in initial_state.actions:
-                      if(action.actuator == actuator):
-                          actuator.value = action.value
+              if((None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is not None):
+                for actuator in localctx.lal1.list_actuators:
+                    for action in initial_state.actions:
+                        if(action.actuator == actuator):
+                            actuator.value = action.value
 
             automaton = Automaton("autom_"+(None if localctx._ID is None else localctx._ID.text), initial_state, transitions)
-            localctx.data = Room((None if localctx._ID is None else localctx._ID.text), "P", ([] if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), automaton, False, False, 0.0, 
-            '00:00', 0.0, False, False, False, False, False, 
+            localctx.data = Room((None if localctx._ID is None else localctx._ID.text), "P", ([] if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), automaton, sensors[0], sensors[1], sensors[2], 
+            sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[9], 
             ([] if (None if localctx.lsl1 is None else self._input.getText(localctx.lsl1.start,localctx.lsl1.stop)) is None else localctx.lsl1.list_sensors), ([] if (None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is None else localctx.lal1.list_actuators), localctx._l2id.list_l2id)
               
         except RecognitionException as re:
@@ -1006,7 +1019,6 @@ class DHSemanticGrammarParser ( Parser ):
             self._ID = None # Token
             self.lac1 = None # LactionsContext
             self.lest1 = None # LestContext
-            self.id_ = None # Token
 
         def STATE(self):
             return self.getToken(DHSemanticGrammarParser.STATE, 0)
@@ -1078,7 +1090,7 @@ class DHSemanticGrammarParser ( Parser ):
                 self.state = 180
                 self.match(DHSemanticGrammarParser.STATE)
                 self.state = 181
-                localctx.id_ = self.match(DHSemanticGrammarParser.ID)
+                localctx._ID = self.match(DHSemanticGrammarParser.ID)
                 self.state = 182
                 self.match(DHSemanticGrammarParser.LBRACKET)
                 self.state = 183
