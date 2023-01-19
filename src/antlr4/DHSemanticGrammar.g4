@@ -15,7 +15,11 @@ from Automaton import Automaton
 
 casa returns [House data]
   : HOUSE ID LBRACKET lh1=lh lp1=lp? lsg1=lsg? lag1=lag? RBRACKET SEMICOLON EOF 
-  {$data = House($ID.text, $lh1.list_rooms, $lsg1.list_sensors, $lag1.list_actuators)};
+  {
+rooms = $lh1.list_rooms
+rooms.extend($lp1.list_corridors)
+$data = House($ID.text, rooms, $lsg1.list_sensors, $lag1.list_actuators)
+  };
 
 lh returns [List list_rooms]
   : h1=h COMMA lh1=lh {$list_rooms = $lh1.list_rooms + [$h1.data]}
@@ -50,7 +54,6 @@ lp returns [List list_corridors]
 p returns [Room data]
   : CORRIDOR ID LBRACKET l2id lsl1=lsl? lal1=lal? c1=c? RBRACKET
   {
-print($l2id.list_l2id)
 transitions = []
 initial_state = ""
 if($c1.text is not None):
@@ -65,9 +68,9 @@ if($c1.text is not None):
                   action.actuator = actuator
 
 automaton = Automaton("autom_"+$ID.text, initial_state, transitions)
-$data = Room($ID.text, "P", (None if $c1.text is None else $c1.comp.states_list), automaton, False, False, 0.0, 
+$data = Room($ID.text, "P", ([] if $c1.text is None else $c1.comp.states_list), automaton, False, False, 0.0, 
 '00:00', 0.0, False, False, False, False, False, 
-(None if $lsl1.text is None else $lsl1.list_sensors), (None if $lal1.text is None else $lal1.list_actuators), $l2id.list_l2id)
+([] if $lsl1.text is None else $lsl1.list_sensors), ([] if $lal1.text is None else $lal1.list_actuators), $l2id.list_l2id)
   } ;
 
 l2id returns [List list_l2id]

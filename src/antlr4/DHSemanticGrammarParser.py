@@ -411,7 +411,11 @@ class DHSemanticGrammarParser ( Parser ):
             self.match(DHSemanticGrammarParser.SEMICOLON)
             self.state = 93
             self.match(DHSemanticGrammarParser.EOF)
-            localctx.data = House((None if localctx._ID is None else localctx._ID.text), localctx.lh1.list_rooms, localctx.lsg1.list_sensors, localctx.lag1.list_actuators)
+
+            rooms = localctx.lh1.list_rooms
+            rooms.extend(localctx.lp1.list_corridors)
+            localctx.data = House((None if localctx._ID is None else localctx._ID.text), rooms, localctx.lsg1.list_sensors, localctx.lag1.list_actuators)
+              
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -802,9 +806,9 @@ class DHSemanticGrammarParser ( Parser ):
                               action.actuator = actuator
 
             automaton = Automaton("autom_"+(None if localctx._ID is None else localctx._ID.text), initial_state, transitions)
-            localctx.data = Room((None if localctx._ID is None else localctx._ID.text), "P", (None if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), automaton, False, False, 0.0, 
+            localctx.data = Room((None if localctx._ID is None else localctx._ID.text), "P", ([] if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), automaton, False, False, 0.0, 
             '00:00', 0.0, False, False, False, False, False, 
-            (None if (None if localctx.lsl1 is None else self._input.getText(localctx.lsl1.start,localctx.lsl1.stop)) is None else localctx.lsl1.list_sensors), (None if (None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is None else localctx.lal1.list_actuators), localctx._l2id.list_l2id)
+            ([] if (None if localctx.lsl1 is None else self._input.getText(localctx.lsl1.start,localctx.lsl1.stop)) is None else localctx.lsl1.list_sensors), ([] if (None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is None else localctx.lal1.list_actuators), localctx._l2id.list_l2id)
               
         except RecognitionException as re:
             localctx.exception = re
