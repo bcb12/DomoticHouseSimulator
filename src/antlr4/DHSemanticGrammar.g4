@@ -29,6 +29,12 @@ lh returns [List list_rooms]
 h returns [Room data]
   : ROOM ID LBRACKET lsl1=lsl? lal1=lal? c1=c? RBRACKET 
   {
+    presence=rain=smoke=gas=intruders=flood = False
+    light_intensity=temperature=wind = 0.0
+    time = '00:00'
+    sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders,  flood]
+    for sensor in $lsl1.list_sensors:
+      check_sensor_type(sensor, sensors)
 transitions = []
 initial_state = ""
 if($c1.text is not None):
@@ -61,6 +67,12 @@ lp returns [List list_corridors]
 p returns [Room data]
   : CORRIDOR ID LBRACKET l2id lsl1=lsl? lal1=lal? c1=c? RBRACKET
   {
+    presence=rain=smoke=gas=intruders=flood = False
+    light_intensity=temperature=wind = 0.0
+    time = '00:00'
+    sensors = [presence, rain, light_intensity, time, temperature, smoke, wind, gas, intruders,  flood]
+    for sensor in $lsl1.list_sensors:
+      check_sensor_type(sensor, sensors)
 transitions = []
 initial_state = ""
 if($c1.text is not None):
