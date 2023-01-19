@@ -1,7 +1,6 @@
 from simulation import Simulation
 from House import House
 
-import LALR
 import sys
 import logging
 from antlr4 import CommonTokenStream
