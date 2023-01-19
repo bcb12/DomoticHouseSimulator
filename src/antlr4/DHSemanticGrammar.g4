@@ -41,6 +41,12 @@ if($c1.text is not None):
               if(action.actuator == actuator.identifier):
                   action.actuator = actuator
 
+if($lal1.text is not None):
+  for actuator in $lal1.list_actuators:
+      for action in initial_state.actions:
+          if(action.actuator == actuator):
+              actuator.value = action.value
+
 automaton = Automaton("autom_"+$ID.text, initial_state, transitions)
 $data = Room($ID.text, "H", (None if $c1.text is None else $c1.comp.states_list), automaton, False, False, 0.0, 
 '00:00', 0.0, False, False, False, False, False, 
@@ -66,6 +72,12 @@ if($c1.text is not None):
           for actuator in $lal1.list_actuators:
               if(action.actuator == actuator.identifier):
                   action.actuator = actuator
+
+if($lal1.text is not None):
+  for actuator in $lal1.list_actuators:
+      for action in initial_state.actions:
+          if(action.actuator == actuator):
+              actuator.value = action.value
 
 automaton = Automaton("autom_"+$ID.text, initial_state, transitions)
 $data = Room($ID.text, "P", ([] if $c1.text is None else $c1.comp.states_list), automaton, False, False, 0.0, 
@@ -168,7 +180,9 @@ spresencia returns [Sensor data]
   : SPRESENCIA ID SEQ BOOL
   {
 id = $ID.text
-val = $BOOL.text
+val = False
+if($BOOL.text == "true"):
+  val = True
 $data = SensorPresence(id, val)
   } ;
 
@@ -176,7 +190,9 @@ slluvia returns [Sensor data]
   : SLLUVIA ID SEQ BOOL 
   {
 id = $ID.text
-val = $BOOL.text
+val = False
+if($BOOL.text == "true"):
+  val = True
 $data = SensorRain(id, val)
   } ;
 
@@ -184,7 +200,9 @@ shumo returns [Sensor data]
   : SHUMO ID SEQ BOOL 
   {
 id = $ID.text
-val = $BOOL.text
+val = False
+if($BOOL.text == "true"):
+  val = True
 $data = SensorSmoke(id, val)
   } ;
 
@@ -192,7 +210,9 @@ sintrusos returns [Sensor data]
   : SINTRUSOS ID SEQ BOOL 
   {
 id = $ID.text
-val = $BOOL.text
+val = False
+if($BOOL.text == "true"):
+  val = True
 $data = SensorIntruders(id, val)
   } ;
 
@@ -200,7 +220,9 @@ sinundacion returns [Sensor data]
   : SINUNDACION ID SEQ BOOL 
   {
 id = $ID.text
-val = $BOOL.text
+val = False
+if($BOOL.text == "true"):
+  val = True
 $data = SensorFlood(id, val)
   } ;
 
@@ -208,7 +230,9 @@ sgas returns [Sensor data]
   : SGAS ID SEQ BOOL 
   {
 id = $ID.text
-val = $BOOL.text
+val = False
+if($BOOL.text == "true"):
+  val = True
 $data = SensorGas(id, val)
   } ;
 

@@ -604,6 +604,12 @@ class DHSemanticGrammarParser ( Parser ):
                           if(action.actuator == actuator.identifier):
                               action.actuator = actuator
 
+            if((None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is not None):
+              for actuator in localctx.lal1.list_actuators:
+                  for action in initial_state.actions:
+                      if(action.actuator == actuator):
+                          actuator.value = action.value
+
             automaton = Automaton("autom_"+(None if localctx._ID is None else localctx._ID.text), initial_state, transitions)
             localctx.data = Room((None if localctx._ID is None else localctx._ID.text), "H", (None if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), automaton, False, False, 0.0, 
             '00:00', 0.0, False, False, False, False, False, 
@@ -803,6 +809,12 @@ class DHSemanticGrammarParser ( Parser ):
                       for actuator in localctx.lal1.list_actuators:
                           if(action.actuator == actuator.identifier):
                               action.actuator = actuator
+
+            if((None if localctx.lal1 is None else self._input.getText(localctx.lal1.start,localctx.lal1.stop)) is not None):
+              for actuator in localctx.lal1.list_actuators:
+                  for action in initial_state.actions:
+                      if(action.actuator == actuator):
+                          actuator.value = action.value
 
             automaton = Automaton("autom_"+(None if localctx._ID is None else localctx._ID.text), initial_state, transitions)
             localctx.data = Room((None if localctx._ID is None else localctx._ID.text), "P", ([] if (None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is None else localctx.c1.comp.states_list), automaton, False, False, 0.0, 
@@ -2112,7 +2124,9 @@ class DHSemanticGrammarParser ( Parser ):
             localctx._BOOL = self.match(DHSemanticGrammarParser.BOOL)
 
             id = (None if localctx._ID is None else localctx._ID.text)
-            val = (None if localctx._BOOL is None else localctx._BOOL.text)
+            val = False
+            if((None if localctx._BOOL is None else localctx._BOOL.text) == "true"):
+              val = True
             localctx.data = SensorPresence(id, val)
               
         except RecognitionException as re:
@@ -2176,7 +2190,9 @@ class DHSemanticGrammarParser ( Parser ):
             localctx._BOOL = self.match(DHSemanticGrammarParser.BOOL)
 
             id = (None if localctx._ID is None else localctx._ID.text)
-            val = (None if localctx._BOOL is None else localctx._BOOL.text)
+            val = False
+            if((None if localctx._BOOL is None else localctx._BOOL.text) == "true"):
+              val = True
             localctx.data = SensorRain(id, val)
               
         except RecognitionException as re:
@@ -2240,7 +2256,9 @@ class DHSemanticGrammarParser ( Parser ):
             localctx._BOOL = self.match(DHSemanticGrammarParser.BOOL)
 
             id = (None if localctx._ID is None else localctx._ID.text)
-            val = (None if localctx._BOOL is None else localctx._BOOL.text)
+            val = False
+            if((None if localctx._BOOL is None else localctx._BOOL.text) == "true"):
+              val = True
             localctx.data = SensorSmoke(id, val)
               
         except RecognitionException as re:
@@ -2304,7 +2322,9 @@ class DHSemanticGrammarParser ( Parser ):
             localctx._BOOL = self.match(DHSemanticGrammarParser.BOOL)
 
             id = (None if localctx._ID is None else localctx._ID.text)
-            val = (None if localctx._BOOL is None else localctx._BOOL.text)
+            val = False
+            if((None if localctx._BOOL is None else localctx._BOOL.text) == "true"):
+              val = True
             localctx.data = SensorIntruders(id, val)
               
         except RecognitionException as re:
@@ -2368,7 +2388,9 @@ class DHSemanticGrammarParser ( Parser ):
             localctx._BOOL = self.match(DHSemanticGrammarParser.BOOL)
 
             id = (None if localctx._ID is None else localctx._ID.text)
-            val = (None if localctx._BOOL is None else localctx._BOOL.text)
+            val = False
+            if((None if localctx._BOOL is None else localctx._BOOL.text) == "true"):
+              val = True
             localctx.data = SensorFlood(id, val)
               
         except RecognitionException as re:
@@ -2432,7 +2454,9 @@ class DHSemanticGrammarParser ( Parser ):
             localctx._BOOL = self.match(DHSemanticGrammarParser.BOOL)
 
             id = (None if localctx._ID is None else localctx._ID.text)
-            val = (None if localctx._BOOL is None else localctx._BOOL.text)
+            val = False
+            if((None if localctx._BOOL is None else localctx._BOOL.text) == "true"):
+              val = True
             localctx.data = SensorGas(id, val)
               
         except RecognitionException as re:
