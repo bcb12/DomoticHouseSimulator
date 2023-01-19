@@ -231,3 +231,27 @@ class SensorGas:
             return f'Sensor de gas {self.identifier}: 1'
         else:
             return f'Sensor de gas {self.identifier}: 0'
+
+
+def check_sensor_type(sensor, list):
+    if isinstance(sensor, SensorPresence):
+        list[0] = sensor.value
+    elif isinstance(sensor, SensorRain):
+        list[1] = sensor.value
+    elif isinstance(sensor, SensorLight):
+        list[2] = sensor.real_value
+    elif isinstance(sensor, SensorTime):
+        list[3] = sensor.real_value
+    elif isinstance(sensor, SensorTemperature):
+        list[4] = sensor.real_value
+    elif isinstance(sensor, SensorSmoke):
+        list[5] = sensor.value
+    elif isinstance(sensor, SensorWind):
+        list[6] = sensor.real_value
+    elif isinstance(sensor, SensorGas):
+        list[7] = sensor.value
+    elif isinstance(sensor, SensorIntruders):
+        list[8] = sensor.value
+    elif isinstance(sensor, SensorFlood):
+        list[9] = sensor.value
+    print(list)

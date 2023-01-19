@@ -14,6 +14,7 @@ from State import State
 from House import House
 from Room import Room
 from Automaton import Automaton
+from sensors import check_sensor_type
 
 
 # This class defines a complete listener for a parse tree produced by DHSemanticGrammarParser.
