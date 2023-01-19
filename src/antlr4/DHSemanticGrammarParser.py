@@ -10,7 +10,7 @@ else:
 
 
 from sensors import SensorPresence, SensorRain, SensorLight, SensorTemperature, SensorTime, SensorSmoke, SensorWind, SensorIntruders, SensorFlood, SensorGas
-from actuators import ActuatorDoor, ActuatorHeat, ActuatorWindowBlind, ActuatorLight, ActuatorWindow, ActuatorCold, ActuatorGas, ActuatorSunBlind, ActuatorAlarm
+from actuators import ActuatorDoor, ActuatorHeat, ActuatorWindowBlind, ActuatorLight, ActuatorWindow, ActuatorCold, ActuatorGas, ActuatorSunBlind, ActuatorAlarm, ActuatorEmergency
 from Action import Action
 from Transition import Transition
 from behaviour import Behaviour
@@ -414,7 +414,7 @@ class DHSemanticGrammarParser ( Parser ):
 
             rooms = localctx.lh1.list_rooms
             rooms.extend(localctx.lp1.list_corridors)
-            localctx.data = House((None if localctx._ID is None else localctx._ID.text), rooms, localctx.lsg1.list_sensors, localctx.lag1.list_actuators)
+            localctx.data = House((None if localctx._ID is None else localctx._ID.text), rooms, ([] if (None if localctx.lsg1 is None else self._input.getText(localctx.lsg1.start,localctx.lsg1.stop)) is None else localctx.lsg1.list_sensors), ([] if (None if localctx.lsg1 is None else self._input.getText(localctx.lsg1.start,localctx.lsg1.stop)) is None else localctx.lag1.list_actuators))
               
         except RecognitionException as re:
             localctx.exception = re
@@ -791,7 +791,6 @@ class DHSemanticGrammarParser ( Parser ):
             self.state = 146
             self.match(DHSemanticGrammarParser.RBRACKET)
 
-            print(localctx._l2id.list_l2id)
             transitions = []
             initial_state = ""
             if((None if localctx.c1 is None else self._input.getText(localctx.c1.start,localctx.c1.stop)) is not None):
@@ -2510,8 +2509,8 @@ class DHSemanticGrammarParser ( Parser ):
 
             operator = (None if localctx._OPL is None else localctx._OPL.text)
             id = (None if localctx._ID is None else localctx._ID.text)
-            real_value = (None if localctx.db2 is None else localctx.db2.text)
-            comp_value = (None if localctx.db1 is None else localctx.db1.text)
+            real_value = float((None if localctx.db2 is None else localctx.db2.text))
+            comp_value = float((None if localctx.db1 is None else localctx.db1.text))
             localctx.data = SensorLight(id, comp_value, real_value, operator)
               
         except RecognitionException as re:
@@ -2588,8 +2587,8 @@ class DHSemanticGrammarParser ( Parser ):
 
             operator = (None if localctx._OPL is None else localctx._OPL.text)
             id = (None if localctx._ID is None else localctx._ID.text)
-            real_value = (None if localctx.db2 is None else localctx.db2.text)
-            comp_value = (None if localctx.db1 is None else localctx.db1.text)
+            real_value = float((None if localctx.db2 is None else localctx.db2.text))
+            comp_value = float((None if localctx.db1 is None else localctx.db1.text))
             localctx.data = SensorTemperature(id, comp_value, real_value, operator)
               
         except RecognitionException as re:
@@ -2666,8 +2665,8 @@ class DHSemanticGrammarParser ( Parser ):
 
             operator = (None if localctx._OPL is None else localctx._OPL.text)
             id = (None if localctx._ID is None else localctx._ID.text)
-            real_value = (None if localctx.db2 is None else localctx.db2.text)
-            comp_value = (None if localctx.db1 is None else localctx.db1.text)
+            real_value = float((None if localctx.db2 is None else localctx.db2.text))
+            comp_value = float((None if localctx.db1 is None else localctx.db1.text))
             localctx.data = SensorWind(id, comp_value, real_value, operator)
               
         except RecognitionException as re:

@@ -3,7 +3,7 @@ import DHLexerRules;
 
 @header {
 from sensors import SensorPresence, SensorRain, SensorLight, SensorTemperature, SensorTime, SensorSmoke, SensorWind, SensorIntruders, SensorFlood, SensorGas
-from actuators import ActuatorDoor, ActuatorHeat, ActuatorWindowBlind, ActuatorLight, ActuatorWindow, ActuatorCold, ActuatorGas, ActuatorSunBlind, ActuatorAlarm
+from actuators import ActuatorDoor, ActuatorHeat, ActuatorWindowBlind, ActuatorLight, ActuatorWindow, ActuatorCold, ActuatorGas, ActuatorSunBlind, ActuatorAlarm, ActuatorEmergency
 from Action import Action
 from Transition import Transition
 from behaviour import Behaviour
@@ -18,7 +18,7 @@ casa returns [House data]
   {
 rooms = $lh1.list_rooms
 rooms.extend($lp1.list_corridors)
-$data = House($ID.text, rooms, $lsg1.list_sensors, $lag1.list_actuators)
+$data = House($ID.text, rooms, ([] if $lsg1.text is None else $lsg1.list_sensors), ([] if $lsg1.text is None else $lag1.list_actuators))
   };
 
 lh returns [List list_rooms]
@@ -217,8 +217,8 @@ siluminacion returns [Sensor data]
   {
 operator = $OPL.text
 id = $ID.text
-real_value = $db2.text
-comp_value = $db1.text
+real_value = float($db2.text)
+comp_value = float($db1.text)
 $data = SensorLight(id, comp_value, real_value, operator)
   } ;
 
@@ -227,8 +227,8 @@ stemperatura returns [Sensor data]
   {
 operator = $OPL.text
 id = $ID.text
-real_value = $db2.text
-comp_value = $db1.text
+real_value = float($db2.text)
+comp_value = float($db1.text)
 $data = SensorTemperature(id, comp_value, real_value, operator)
   } ;
 
@@ -237,8 +237,8 @@ sviento returns [Sensor data]
   {
 operator = $OPL.text
 id = $ID.text
-real_value = $db2.text
-comp_value = $db1.text
+real_value = float($db2.text)
+comp_value = float($db1.text)
 $data = SensorWind(id, comp_value, real_value, operator)
   } ;
 
