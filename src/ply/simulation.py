@@ -787,6 +787,13 @@ class Simulation(object):
         for room in self.name_room.values():
             room.time = hour_to_set
             room.update_sensors()
-            room.call_automaton()
+            global_combination = ""
+            for sensor in self.global_sensors:
+                if sensor.value:
+                    global_combination += "1"
+                else:
+                    global_combination += "0"
+                print(global_combination)
+            room.call_automaton(global_combination)
 
         self.print_info(display_surface)

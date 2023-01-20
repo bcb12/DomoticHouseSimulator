@@ -143,24 +143,24 @@ t returns [Transicion tran]
   : src=ID COMMA dest=ID COMMA comb=COMBINATION SEMICOLON {$tran=Transition($comb.text, $src.text, $dest.text)};
 
 lsl returns [List list_sensors]
-  : s1=s COMMA lsl1=lsl {$list_sensors = $lsl1.list_sensors + [$s1.data]}
+  : s1=s COMMA lsl1=lsl {$list_sensors = [$s1.data] + $lsl1.list_sensors}
   | s1=s SEMICOLON {$list_sensors = [$s1.data]}
   ; 
 
 lal returns [List list_actuators]
-  : a1=a COMMA lal1=lal {$list_actuators = $lal1.list_actuators + [$a1.data]}
+  : a1=a COMMA lal1=lal {$list_actuators = [$a1.data] + $lal1.list_actuators}
   | a1=a SEMICOLON {$list_actuators = [$a1.data]}
   ;
 
 lsg returns [List list_sensors]
   : GLOBAL LBRACKET lsg1=lsg RBRACKET SEMICOLON {$list_sensors = $lsg1.list_sensors}
-  | s1=s COMMA lsg1=lsg {$list_sensors = $lsg1.list_sensors + [$s1.data]}
+  | s1=s COMMA lsg1=lsg {$list_sensors = [$s1.data] + $lsg1.list_sensors}
   | s1=s {$list_sensors = [$s1.data]}
   ;
 
 lag returns [List list_actuators]
   : GLOBAL LBRACKET lag1=lag RBRACKET SEMICOLON {$list_actuators=$lag1.list_actuators}
-  | a1=a COMMA lag1=lag {$list_actuators = $lag1.list_actuators + [$a1.data]}
+  | a1=a COMMA lag1=lag {$list_actuators = [$a1.data] + $lag1.list_actuators}
   | a1=a {$list_actuators = [$a1.data]}
   ;
 

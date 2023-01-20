@@ -262,13 +262,13 @@ def p_casa2(token):
     room_ids_list = []
     all_ids_list = []
     state_ids = []
-    sensor_count = 0
 
     # House ids
     all_ids_list.append(token[2])
 
     token[4].extend(token[5])
     for room in token[4]:
+        sensor_count = 0
         # Room ids
         if(room.type == "H"):
             room_ids_list.append(room.id)
@@ -885,8 +885,8 @@ def p_lsl1(token):
     '''
 	lsl : s COMMA lsl
 	'''
-    token[3].append(token[1])
-    token[0] = token[3]
+    sensor_list = [token[1]] + token[3]
+    token[0] = sensor_list
 
 def p_lsl2(token):
     '''
@@ -900,8 +900,8 @@ def p_lal1(token):
     '''
 	lal : a COMMA lal
 	'''
-    token[3].append(token[1])
-    token[0] = token[3]
+    sensor_list = [token[1]] + token[3]
+    token[0] = sensor_list
 
 def p_lal2(token):
     '''
@@ -921,8 +921,8 @@ def p_lsg2(token):
     '''
 	lsg1 : s COMMA lsg1
 	'''
-    token[3].append(token[1])
-    token[0] = token[3]
+    sensor_list = [token[1]] + token[3]
+    token[0] = sensor_list
 
 def p_lsg3(token):
     '''
@@ -942,8 +942,8 @@ def p_lag2(token):
     '''
 	lag1 : a COMMA lag1
 	'''
-    token[3].append(token[1])
-    token[0] = token[3]
+    sensor_list = [token[1]] + token[3]
+    token[0] = sensor_list
 
 def p_lag3(token):
     '''

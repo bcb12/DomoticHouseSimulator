@@ -70,11 +70,11 @@ class Room:
             elif isinstance(sensor, sensors.SensorFlood):
                 sensor.value = self.flood
 
-    def call_automaton(self):
+    def call_automaton(self, global_combination):
         '''Calls the automaton to change state if possible'''
 
         self.update_sensors()
-        self.make_transition(self.automaton, self.get_combination(self.sensors))
+        self.make_transition(self.automaton, global_combination+self.get_combination(self.sensors))
 
 
     def transition_exists(self, transitions, combination):
@@ -90,6 +90,11 @@ class Room:
         TRANSITION METHOD DECLARATION
         """
         result = automaton.current_state
+
+        print("\nRoom: " + self.id)
+        print("State: " + str(automaton.current_state))
+        print("Combination: " + str(combination) + "\n")
+        print(self.transition_exists(automaton.transitions, combination))
 
         transition_index = self.transition_exists(automaton.transitions, combination)
         if transition_index != -1:
