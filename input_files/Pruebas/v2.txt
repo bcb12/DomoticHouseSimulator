@@ -7,7 +7,7 @@ house hr34 {
     room Hr29 {
         sensor_temperature up 23.0 s2 := 24.4 , sensor_time eq 19:23 s24 := 23:43 ;
         actuator_heat a178 ;
-        { state q001 { a178 := false ; } ; init q001 ; q001 , q001 , 11 ; } ;
+        { state q003 { a178 := false ; } ; init q003 ; q003 , q003 , 11 ; } ;
     } ;
     corridor p3d4 {  He34 , Hr29 ; } ;
 } ;

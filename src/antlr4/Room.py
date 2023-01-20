@@ -2,7 +2,7 @@ import sensors
 
 
 class Room:
-    def __init__(self, id, room_type, states, automaton, presence, rain, light_intensity, 
+    def __init__(self, id, room_type, states, automaton, presence, rain, light_intensity,
     time, temperature, smoke, wind, gas, intruders, flood, sensors, actuators, connection_list = []):
         self.id = id
         self.type = room_type
@@ -70,12 +70,11 @@ class Room:
             elif isinstance(sensor, sensors.SensorFlood):
                 sensor.value = self.flood
 
-
-    def call_automaton(self):
+    def call_automaton(self, global_combination):
         '''Calls the automaton to change state if possible'''
 
         self.update_sensors()
-        self.make_transition(self.automaton, self.get_combination(self.sensors))
+        self.make_transition(self.automaton, global_combination+self.get_combination(self.sensors))
 
 
     def transition_exists(self, transitions, combination):
@@ -85,7 +84,6 @@ class Room:
                 found = index
                 break
         return found
-
 
     def make_transition(self, automaton, combination):
         """
@@ -135,3 +133,14 @@ class Room:
                 break
 
         return found_state
+
+    def __str__(self):
+        '''To_string method for class Room'''
+        sensor_list_str = []
+        actuator_list_str = []
+        if self.sensors: sensor_list_str = '\n\t'.join([str(sensor) for sensor in self.sensors])
+        if self.actuators: actuator_list_str = '\n\t'.join([str(act) for act in self.actuators])
+        if self.type == 'H':
+            return f'Room {self.id} with the following: \n\t - Local sensors: {sensor_list_str} \n\t - Local actuators: {actuator_list_str}'
+        elif self.type == 'P':
+            return f'Corridor {self.id} with the following: \n\t - Local sensors: {sensor_list_str} \n\t - Local actuators: {actuator_list_str}\n\t - Connexions with: {self.connection_list}'

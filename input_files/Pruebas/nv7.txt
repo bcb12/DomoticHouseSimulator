@@ -5,7 +5,7 @@ house hg12 {
 	room H428uO {
 		sensor_presence s412 := false , sensor_rain s189 := false ; 
 		actuator_wblind a82b ; { state q001 { a82b := false ; } , 
-		state q002 { a82b := true ; } ; init q001 ; q001 , q002 , 010 ; q002 , q001 , 111 ; } ;
+		state q002 { a82b := true ; } ; init q001 ; q001 , q002 , 00 ; q002 , q001 , 11 ; } ;
 	} ;
 	corridor p92lk { 
 		H895jF , H712lC ; 
