@@ -1,0 +1,19 @@
+house hg12 {
+	room H412zL {} ,
+	room H895jF {} ,
+	room H712lC {} ,
+	room H428uO {
+		sensor_presence s412 := false , sensor_rain s189 := false ; 
+		actuator_wblind a82b ; { state q001 { a82C := false ; } , 
+		state q002 { a82b := true ; } ; init q001 ; q001 , q002 , 010 ; q002 , q001 , 101 ; } ;
+	} ;
+	corridor p92lk { 
+		H895jF , H712lC ; 
+		sensor_light eq 4.0 s987 := 4.1 , sensor_rain s751 := true ; 
+		actuator_wblind a552 ; { state q003 { a552 := false ; } , 
+		state q004 { a552 := true ; } ; init q003 ; q003 , q004 , 100 ; q004 , q003 , 111 ; } ;
+		} ,
+	corridor p84ty { H412zL , H428uO , H712lC ; } ;
+	global { sensor_smoke s143a := false } ;
+	global { actuator_wblind a232b } ;
+} ;

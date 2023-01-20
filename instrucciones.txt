@@ -1,0 +1,56 @@
+El fichero desde el cual se ejecuta el analizador semántico ascendente (con PLY) es execute_asc_simulation.sh (en este mismo directorio).
+Para poder ejecutarlo puede ser necesario cambiar sus permisos de ejecución con uno de los siguientes comandos:
+
+    chmod 766 execute_asc_simulation.sh
+
+o
+
+    chmod +x execute_asc_simulation.sh
+
+Una vez hecho esto ya se puede ejecutar.
+
+    ./execute_asc_simulation.sh
+
+Este script instala las dependencias desde el fichero requirements.txt y ejecuta el analizador automáticamente.
+
+
+Por otra parte, además de implementar el analizador semántico ascendente con ply, hemos implementado el descendente con antlr4 (aunque en este caso no
+se comprueban errores, cosa que sí hacemos en ply). Para ejecutar la versión en antlr es necesario generar los ficheros de antlr
+con el siguiente comando:
+
+    antlr4 -Dlanguage=Python3 src/antlr4/DHSemanticGrammar.g4
+
+Para los dos comandos anteriores es necesario tener instalado en el sistema antlr4. En caso de no tenerlo instalado, podemos
+ejecutarlo con el siguiente comando:
+
+    java -Xmx500M -cp exe/antlr-4.11.1-complete.jar org.antlr.v4.Tool -Dlanguage=Python3 src/antlr4/DHSemanticGrammar.g4
+
+Hecho esto ya se podrá ejecutar el analizador semántico con antlr con el siguiente comando:
+
+    ./execute_desc_simulation.sh
+
+
+También es posible ejecutar la simulación con otros ficheros de prueba (sustituyendo en el script anterior el
+fichero de ejemplo cambiando Full_Simulation.txt por cualquier otro fichero del directorio input_files/Pruebas).
+
+Finalmente, para ejecutar el analizador sintáctico descendente con antlr4 es necesario generar los ficheros de antlr con el
+siguiente comando:
+
+    antlr4 -Dlanguage=Python3 src/antlr4/DHGrammar.g4
+
+Para comando anterior es necesario tener instalado en el sistema antlr4. En caso de no tenerlo instalado, podemos
+ejecutarlo con el siguiente comando alternativo:
+
+    java -Xmx500M -cp exe/antlr-4.11.1-complete.jar org.antlr.v4.Tool -Dlanguage=Python3 src/antlr4/DHGrammar.g4
+
+
+Hecho esto ya se podrá ejecutar el tanto la visualización del árbol como el analizador sintáctico con antl4 (se puede
+sustituir el fichero de ejemplo cambiando v1.txt por cualquier otro fichero del directorio test).
+
+La visualización del árbol se ejecuta con el siguiente comando:
+
+    antlr4-parse src/antlr4/DHGrammar.g4 src/antlr4/DHLexerRules.g4 casa -gui input_files/Pruebas/v1.txt
+
+Para ejecutar el analizador sintáctico descendente, se hace con el siguiente comando:
+
+    python src/antlr4/antlr_main.py input_files/Pruebas/v1.txt
