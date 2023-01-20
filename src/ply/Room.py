@@ -91,11 +91,6 @@ class Room:
         """
         result = automaton.current_state
 
-        print("\nRoom: " + self.id)
-        print("State: " + str(automaton.current_state))
-        print("Combination: " + str(combination) + "\n")
-        print(self.transition_exists(automaton.transitions, combination))
-
         transition_index = self.transition_exists(automaton.transitions, combination)
         if transition_index != -1:
             transition = automaton.transitions[transition_index]
