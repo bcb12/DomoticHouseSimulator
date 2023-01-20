@@ -140,7 +140,7 @@ class Room:
         actuator_list_str = []
         if self.sensors: sensor_list_str = '\n\t'.join([str(sensor) for sensor in self.sensors])
         if self.actuators: actuator_list_str = '\n\t'.join([str(act) for act in self.actuators])
-        if self.type == 'room':
+        if self.type == 'H':
             return f'Room {self.id} with the following: \n\t - Local sensors: {sensor_list_str} \n\t - Local actuators: {actuator_list_str}'
-        elif self.type == 'corridor':
+        elif self.type == 'P':
             return f'Corridor {self.id} with the following: \n\t - Local sensors: {sensor_list_str} \n\t - Local actuators: {actuator_list_str}\n\t - Connexions with: {self.connection_list}'

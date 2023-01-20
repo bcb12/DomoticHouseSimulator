@@ -65,6 +65,9 @@ def main():
         parser = DHSemanticGrammarParser(stream)
         tree = parser.casa()
         house = tree.data
+
+        print(house)
+
         simulate_house(house)
 
 

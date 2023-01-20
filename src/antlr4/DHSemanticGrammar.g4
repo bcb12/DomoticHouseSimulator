@@ -101,7 +101,7 @@ sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[
 
 l2id returns [List list_l2id]
   : ID COMMA l2id1=l2id {$list_l2id = $l2id1.list_l2id + [$ID.text]}
-  | id1=ID COMMA id2=ID SEMICOLON {$list_l2id = [$id2.text, $id1.text]}
+  | id1=ID COMMA id2=ID SEMICOLON {$list_l2id = [$id1.text, $id2.text]}
   ;
 
 c returns [Comportamiento comp]
@@ -201,11 +201,11 @@ $data = SensorPresence(id, val)
   } ;
 
 slluvia returns [Sensor data]
-  : SLLUVIA ID SEQ BOOL 
+  : SLLUVIA id1=ID SEQ t1=BOOL 
   {
-id = $ID.text
+id = $id1.text
 val = False
-if($BOOL.text == "true"):
+if($t1.text == "true"):
   val = True
 $data = SensorRain(id, val)
   } ;

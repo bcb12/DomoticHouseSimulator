@@ -915,7 +915,7 @@ class DHSemanticGrammarParser ( Parser ):
                 localctx.id2 = self.match(DHSemanticGrammarParser.ID)
                 self.state = 157
                 self.match(DHSemanticGrammarParser.SEMICOLON)
-                localctx.list_l2id = [(None if localctx.id2 is None else localctx.id2.text), (None if localctx.id1 is None else localctx.id1.text)]
+                localctx.list_l2id = [(None if localctx.id1 is None else localctx.id1.text), (None if localctx.id2 is None else localctx.id2.text)]
                 pass
 
 
@@ -2158,17 +2158,17 @@ class DHSemanticGrammarParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
             self.data = None
-            self._ID = None # Token
-            self._BOOL = None # Token
+            self.id1 = None # Token
+            self.t1 = None # Token
 
         def SLLUVIA(self):
             return self.getToken(DHSemanticGrammarParser.SLLUVIA, 0)
 
-        def ID(self):
-            return self.getToken(DHSemanticGrammarParser.ID, 0)
-
         def SEQ(self):
             return self.getToken(DHSemanticGrammarParser.SEQ, 0)
+
+        def ID(self):
+            return self.getToken(DHSemanticGrammarParser.ID, 0)
 
         def BOOL(self):
             return self.getToken(DHSemanticGrammarParser.BOOL, 0)
@@ -2196,15 +2196,15 @@ class DHSemanticGrammarParser ( Parser ):
             self.state = 352
             self.match(DHSemanticGrammarParser.SLLUVIA)
             self.state = 353
-            localctx._ID = self.match(DHSemanticGrammarParser.ID)
+            localctx.id1 = self.match(DHSemanticGrammarParser.ID)
             self.state = 354
             self.match(DHSemanticGrammarParser.SEQ)
             self.state = 355
-            localctx._BOOL = self.match(DHSemanticGrammarParser.BOOL)
+            localctx.t1 = self.match(DHSemanticGrammarParser.BOOL)
 
-            id = (None if localctx._ID is None else localctx._ID.text)
+            id = (None if localctx.id1 is None else localctx.id1.text)
             val = False
-            if((None if localctx._BOOL is None else localctx._BOOL.text) == "true"):
+            if((None if localctx.t1 is None else localctx.t1.text) == "true"):
               val = True
             localctx.data = SensorRain(id, val)
               
