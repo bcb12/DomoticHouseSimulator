@@ -54,7 +54,7 @@ if($c1.text is not None):
         for action in initial_state.actions:
             if(action.actuator == actuator):
                 actuator.value = action.value
-automaton = Automaton("autom_"+$ID.text, initial_state, transitions)
+automaton = Automaton("autom_"+$ID.text, (None if $c1.text is None else $c1.comp.initial_state), transitions)
 $data = Room($ID.text, "H", (None if $c1.text is None else $c1.comp.states_list), automaton, sensors[0], sensors[1], sensors[2], 
 sensors[3], sensors[4], sensors[5], sensors[6], sensors[7], sensors[8], sensors[9], 
 ([] if $lsl1.text is None else $lsl1.list_sensors), ([] if $lal1.text is None else $lal1.list_actuators), [])
