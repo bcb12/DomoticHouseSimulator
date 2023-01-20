@@ -48,7 +48,6 @@ class Simulation(object):
         '''Runs the simulation'''
 
         pygame.init()
-
         display_surface = pygame.display.set_mode((WIDTH_DISPLAY, HEIGHT_DISPLAY))
         display_surface.fill(WHITE_COLOR)
         pygame.display.set_caption(CAPTION)
@@ -71,7 +70,7 @@ class Simulation(object):
 
         # Preprocess display
         self.name_room[self.names[0]].presence = True
-        self.update_rooms(display_surface)
+        #self.update_rooms(display_surface)
         self.mark_centers(display_surface, center_img)
         self.add_labels(display_surface)
         self.print_info(display_surface)

@@ -71,7 +71,7 @@ class Simulation(object):
 
         # Preprocess display
         self.name_room[self.names[0]].presence = True
-        self.update_rooms(display_surface)
+        #self.update_rooms(display_surface)
         self.mark_centers(display_surface, center_img)
         self.add_labels(display_surface)
         self.print_info(display_surface)

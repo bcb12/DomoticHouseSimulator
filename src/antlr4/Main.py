@@ -36,6 +36,8 @@ def start_simulation(room_list, global_sensors, global_actuators):
     types_used = [room.type for room in room_list]
     names_used = [room.id for room in room_list]
 
+
+
     sim = Simulation(num_vert, edges, types_used, names_used, room_list, global_sensors,\
         global_actuators)
     sim.run()
